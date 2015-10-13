@@ -1,0 +1,28 @@
+
+【コーディングルール】
+
+・フィールド、メソッド名定義について
+
+フィールド名はキャメルケースで統一
+例	int chamelCase;
+	int nowGameState;
+
+最初の単語は小文字、後の単語は頭だけ大文字
+
+メソッド名（関数名）はアッパーキャメルケースで統一
+例	void Update();
+	void UnitySaikoDayone();
+
+
+・デフォルトメソッドについて
+
+void Start();
+void Update();
+は極力使わないこと
+Startは代わりにvoid Awake();を使用
+Updateは毎フレーム呼ばれるので処理が重くなる。出来る限り呼び出し用の関数を作成する
+
+・Manager系クラス、オブジェクトについて
+
+Manager系クラス、オブジェクトはワンシーンに一個しかないのでSingletonMonobehaviourを継承すること
+つってもわからん人多いと思うのでなんかあったら聞いてください。
