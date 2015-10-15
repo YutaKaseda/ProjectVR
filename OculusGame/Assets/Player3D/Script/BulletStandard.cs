@@ -16,7 +16,7 @@ public class BulletStandard : MonoBehaviour {
 
 	//弾が前に動く
 	void ShotBullet(){
-		direction = gameObject.transform.forward * bulletSpeed;
-		gameObject.GetComponent<Rigidbody> ().AddForce (direction);
+		direction = transform.forward * bulletSpeed;
+		GetComponent<Rigidbody> ().AddForce (direction);
 	}
 }
