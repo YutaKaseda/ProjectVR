@@ -3,12 +3,18 @@ using System.Collections;
 
 public class Player2D : MonoBehaviour {
 	
-	private float speed = 8.0f;//自機の移動の速さ
-	private float bulletSpeed = 5.0f;//弾の速さ
-	public GameObject bulletPrefab;
+	float speed;//自機の移動の速さ
+	Vector3 movePlayer;
+	GameObject bulletPrefab;
+	float vectorX,vectorY;
 
 	// Use this for initialization
 	void Awake () {
+
+		speed = 8.0f;
+
+		bulletPrefab = Resources.Load ("Prefab/Bullet") as GameObject;
+		//bulletPrefab.AddComponent<Bullet> ();
 	}
 	
 	// Update is called once per frame
@@ -18,17 +24,17 @@ public class Player2D : MonoBehaviour {
 	}
 	
 	void Move(){
-		GetComponent<Rigidbody>().velocity = new Vector3(Input.GetAxisRaw("Horizontal") * speed, Input.GetAxisRaw("Vertical") * speed, 0);
+		vectorX = Input.GetAxisRaw ("Horizontal");
+		vectorY = Input.GetAxisRaw ("Vertical");
+		movePlayer = new Vector3(vectorX * speed, vectorY * speed, 0);
+		GetComponent<Rigidbody> ().velocity = movePlayer;
 	}
 
 	void BulletShot(){
 
 		if (Input.GetKey(KeyCode.Space)) {
-			GameObject Shot = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+			Instantiate(bulletPrefab, transform.position, transform.rotation);
 
-			Bullet b = Shot.AddComponent<Bullet>();
-
-			b.ShotMove(bulletSpeed);//弾を管理するスクリプトの関数を実行
 		}
 	}
 }

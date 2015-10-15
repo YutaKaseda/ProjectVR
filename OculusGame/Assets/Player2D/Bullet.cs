@@ -2,10 +2,16 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
+	Vector3 direction;
+	float bulletSpeed;//弾の速さ
 
-	public float ShotMove(float bulletSpeed){
-
-		GetComponent<Rigidbody>().velocity += new Vector3(bulletSpeed,0,0);
-		return 0;
+	void Awake () {
+		bulletSpeed = 800.0f;//弾の速さ
+		ShotMove ();
+	}
+	
+	void ShotMove(){
+		direction = transform.right * bulletSpeed;
+		GetComponent<Rigidbody> ().AddForce(direction);
 	}
 }
