@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class ScoreView2D : MonoBehaviour {
 
-    private Text scoreText;
-    private float score;
+    Text scoreText;
+    int score;
     GameObject dataManager;
 
     public void Awake()
@@ -18,6 +18,5 @@ public class ScoreView2D : MonoBehaviour {
     {
         score = dataManager.GetComponent<ScoreManager>().score;
         scoreText.text = score.ToString();
-        Debug.Log("ScoreUpdate");
     }
 }
