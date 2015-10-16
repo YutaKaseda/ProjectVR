@@ -7,7 +7,7 @@ public class Player3dMove: MonoBehaviour {
 	float speed;
 
 	void Awake(){
-		speed = 0.1f;
+		speed = 1f;
 	}
 	void Update(){
 		PlayerStateMove ();
@@ -15,8 +15,8 @@ public class Player3dMove: MonoBehaviour {
 
 	void PlayerStateMove(){
 		//入力処理
-		float Vertical = Input.GetAxis ("vertical");
-		float Side = Input.GetAxis ("side");
+		float Vertical = Input.GetAxis ("Vertical");
+		float Side = Input.GetAxis ("Horizontal");
 
 		//上下
 		if (Vertical > 0.1) {
@@ -38,28 +38,28 @@ public class Player3dMove: MonoBehaviour {
 		switch (Move){
 
 		case playerState.UP:
-			move = transform.TransformDirection(0, 1f, 0);
+			move = transform.TransformDirection(0, 0.1f, 0);
 			move *= speed;
 			move.z *= 0;
 			transform.localPosition += move;
 			break;
 			
 		case playerState.DOWN:
-			move = transform.TransformDirection(0, -1f, 0);
+			move = transform.TransformDirection(0, -0.1f, 0);
 			move *= speed;
 			move.z *= 0;
 			transform.localPosition += move;
 			break;
 			
 		case playerState.RIGHT:
-			move = transform.TransformDirection(1f, 0, 0);
+			move = transform.TransformDirection(0.1f, 0, 0);
 			move *= speed;
 			move.z *= 0;
 			transform.localPosition += move;
 			break;
 			
 		case playerState.LEFT:
-			move = transform.TransformDirection(-1f, 0, 0);
+			move = transform.TransformDirection(-0.1f, 0, 0);
 			move *= speed;
 			move.z *= 0;
 			transform.localPosition += move;
