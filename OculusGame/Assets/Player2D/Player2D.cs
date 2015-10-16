@@ -4,15 +4,17 @@ using System.Collections;
 public class Player2D : MonoBehaviour {
 	
 	float speed;//自機の移動の速さ
-	Vector3 movePlayer;
+	Vector3 movePlayer;//自機の移動
+	Vector3 laneMovePlayer;//レーンの変更
+	int laneFlg;//今、どのレーンにいるか
 	GameObject bulletPrefab;
-	float vectorX,vectorY;
+	float vectorX,vectorY,vectorZ;
 
 	// Use this for initialization
 	void Awake () {
 
 		speed = 8.0f;
-
+		laneFlg = 0;
 		bulletPrefab = Resources.Load ("Prefab/Bullet") as GameObject;
 		//bulletPrefab.AddComponent<Bullet> ();
 	}
@@ -21,13 +23,15 @@ public class Player2D : MonoBehaviour {
 	void Update () {
 		Move ();
 		BulletShot ();
+		StartCoroutine("LaneMove");//コルーチンの呼び出し
 	}
 	
 	void Move(){
 		vectorX = Input.GetAxisRaw ("Horizontal");
 		vectorY = Input.GetAxisRaw ("Vertical");
-		movePlayer = new Vector3(vectorX * speed, vectorY * speed, 0);
+		movePlayer = new Vector3(vectorX * speed, vectorY * speed, vectorZ);
 		GetComponent<Rigidbody> ().velocity = movePlayer;
+		
 	}
 
 	void BulletShot(){
@@ -35,6 +39,22 @@ public class Player2D : MonoBehaviour {
 		if (Input.GetKey(KeyCode.Space)) {
 			Instantiate(bulletPrefab, transform.position, transform.rotation);
 
+		}
+	}
+	IEnumerator LaneMove(){
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			if (laneFlg < 1) {
+				laneFlg++;
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.C)) {
+			if (laneFlg > -1) {
+				laneFlg--;
+			}
+		}
+		while(transform.position.z != laneFlg * 5f){
+			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (transform.position.x, transform.position.y, laneFlg * 5), 0.5f);
+			yield return null;
 		}
 	}
 }
