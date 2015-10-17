@@ -8,7 +8,7 @@ public class Player2D : MonoBehaviour {
 	Vector3 laneMovePlayer;//レーンの変更
 	int laneFlg;//今、どのレーンにいるか
 	GameObject bulletPrefab;
-	float vectorX,vectorY,vectorZ;
+	float vectorX,vectorY;
 
 	// Use this for initialization
 	void Awake () {
@@ -23,15 +23,27 @@ public class Player2D : MonoBehaviour {
 	void Update () {
 		Move ();
 		BulletShot ();
-		StartCoroutine("LaneMove");//コルーチンの呼び出し
+
 	}
 	
 	void Move(){
 		vectorX = Input.GetAxisRaw ("Horizontal");
 		vectorY = Input.GetAxisRaw ("Vertical");
-		movePlayer = new Vector3(vectorX * speed, vectorY * speed, vectorZ);
+		movePlayer = new Vector3(vectorX * speed, vectorY * speed, 0);
 		GetComponent<Rigidbody> ().velocity = movePlayer;
-		
+		//レーン移動
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			if (laneFlg < 1) {
+				laneFlg++;
+				StartCoroutine("LaneMove");//コルーチンの呼び出し
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.C)) {
+			if (laneFlg > -1) {
+				laneFlg--;
+				StartCoroutine("LaneMove");//コルーチンの呼び出し
+			}
+		}
 	}
 
 	void BulletShot(){
@@ -42,18 +54,9 @@ public class Player2D : MonoBehaviour {
 		}
 	}
 	IEnumerator LaneMove(){
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			if (laneFlg < 1) {
-				laneFlg++;
-			}
-		}
-		if (Input.GetKeyDown (KeyCode.C)) {
-			if (laneFlg > -1) {
-				laneFlg--;
-			}
-		}
 		while(transform.position.z != laneFlg * 5f){
-			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (transform.position.x, transform.position.y, laneFlg * 5), 0.5f);
+			laneMovePlayer = new Vector3 (transform.position.x, transform.position.y, laneFlg * 5);
+			transform.position = Vector3.MoveTowards (transform.position, laneMovePlayer, 0.5f);
 			yield return null;
 		}
 	}
