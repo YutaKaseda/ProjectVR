@@ -9,8 +9,8 @@ public class EnemyTypeShot : MonoBehaviour {
 	float enemyBulletRapid;//敵のたまの連射間隔
 	Transform player2DPosition;//
 	Vector3 targetPlayerVec;
-	GameObject targetPlayerGO;
-	EnemyBullet target;
+	GameObject targetPlayerObject;
+
 
 	void Awake () {
 		enemyBulletPrefab = Resources.Load ("Prefab/EnemyBullet") as GameObject;
@@ -35,9 +35,8 @@ public class EnemyTypeShot : MonoBehaviour {
 			stopTime -= 1;
 
 			targetPlayerVec = player2DPosition.transform.position;
-			targetPlayerGO = Instantiate(enemyBulletPrefab, transform.position, transform.rotation) as GameObject;
-			target = targetPlayerGO.GetComponent<EnemyBullet>();
-			target.EnemyShotMove(targetPlayerVec);
+			targetPlayerObject = Instantiate(enemyBulletPrefab, transform.position, transform.rotation) as GameObject;
+			targetPlayerObject.GetComponent<EnemyBullet>().EnemyShotMove(targetPlayerVec);
 			//この一連の流れで、EnemyBullet側にPlayerの位置を与えてる
 			yield return new WaitForSeconds(enemyBulletRapid);
 		}
