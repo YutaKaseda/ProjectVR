@@ -1,47 +1,86 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Serialize;
 
 public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
+	
+	GameObject[] resourcesStuck;
 
-	[SerializeField]
-	Dictionary<string,GameObject> resourcesDictionary = new Dictionary<string, GameObject>();
+	Dictionary<string,ResourceInfo> allSceneResources;
+	Dictionary<string,ResourceInfo> sceneResources;
 
-	[SerializeField]
-	GameObject prefabResources;
-	[SerializeField]
-	GameObject textureResources;
-	[SerializeField]
-	GameObject materialResources;
+	class ResourceInfo{
+		public string resourcesName;
+		public GameObject resource;
 
+		public ResourceInfo(string name,GameObject resource){
+			resourcesName = name;
+			this.resource = resource;
+		}
+	}
+	
 	void Awake(){
-		resourcesDictionary.Add("Prefab",prefabResources);
-		resourcesDictionary.Add("Texture",textureResources);
-		resourcesDictionary.Add("Material",materialResources);
-
-		var obj = Instantiate(prefabResources);
-		obj.transform.parent = transform;
-
-		obj = Instantiate(textureResources);
-		obj.transform.parent = transform;
-
-		obj = Instantiate(materialResources);
-		obj.transform.parent = transform;
+		allSceneResources = new Dictionary<string, ResourceInfo>();
+		sceneResources = new Dictionary<string, ResourceInfo>();
 	}
 
-	public GameObject GetResource(string resourceStuckName,string resourceName){
+	void ResourcesLoadAllScene(){
+		Debug.Log ("ResourcesLoadAllScene");
 
-		switch(resourceStuckName){
-		case "Prefab":
+		resourcesStuck = Resources.LoadAll<GameObject>("prefabs/AllScene");
 
-			return resourcesDictionary[resourceStuckName].GetComponent<PrefabResources>().IResourcesList(resourceName);
+		foreach(var obj in resourcesStuck){
 
-			break;
-		default:
-			break;
+			allSceneResources.Add (obj.name,new ResourceInfo(obj.name,obj));
+
+			Debug.Log ("Progress : AllScene.Resource->" + obj.name + " is Complete");
+
+		}
+		resourcesStuck = null;
+	}
+
+	public void ResourcesLoadScene(string sceneName){
+
+		sceneResources.Clear();
+
+		Debug.Log ("resourcesloadscene");
+
+		if(allSceneResources.Count == 0)
+			ResourcesLoadAllScene ();
+
+		resourcesStuck = Resources.LoadAll<GameObject>(sceneName);
+		foreach(var obj in resourcesStuck){
+			sceneResources.Add (obj.name,new ResourceInfo("prefabs/" + obj.name,obj));
+			Debug.Log ("Progress : " + sceneName +".Resource->" + obj.name + " is Complete");
 		}
 
+		resourcesStuck = null;
+	}
+
+	public GameObject GetResourceAllScene(string key){
+		if(allSceneResources.ContainsKey(key))
+			return allSceneResources[key].resource;
+		else
+			Debug.LogError(key + " is nothing");
+
 		return null;
+
+	}
+
+	public GameObject GetResourceScene(string key){
+		if(sceneResources.ContainsKey(key))
+			return allSceneResources[key].resource;
+		else
+			Debug.LogError(key + " is nothing");
+
+		return null;
+
+	}
+
+	public void ResourcesUnLoadAll(){
+		sceneResources = null;
+		allSceneResources = null;
+		resourcesStuck = null;
+		Destroy (gameObject);
 	}
 }
