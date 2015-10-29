@@ -69,7 +69,7 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 
 	public GameObject GetResourceScene(string key){
 		if(sceneResources.ContainsKey(key))
-			return allSceneResources[key].resource;
+			return sceneResources[key].resource;
 		else
 			Debug.LogError(key + " is nothing");
 
