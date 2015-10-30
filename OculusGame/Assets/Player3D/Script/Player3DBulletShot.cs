@@ -16,7 +16,8 @@ public class Player3DBulletShot : MonoBehaviour {
 	}
 
 	//弾を発射（弾を呼び出す）
-	void ShotBullet(){
+    public void ShotBullet()
+    {
 		Instantiate(player3DBullet,transform.position,transform.rotation);
 	}
 }
