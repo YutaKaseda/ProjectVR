@@ -9,8 +9,9 @@ public class Bullet : MonoBehaviour {
 		bulletSpeed = 800.0f;//弾の速さ
 		ShotMove ();
 	}
-	
-	void ShotMove(){
+
+    public void ShotMove()
+    {
 		direction = transform.right * bulletSpeed;
 		GetComponent<Rigidbody> ().AddForce(direction);
 	}
