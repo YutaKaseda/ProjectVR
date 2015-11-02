@@ -12,6 +12,8 @@ public class Player3DBulletShot : MonoBehaviour {
 
 	//弾を発射（弾を呼び出す）
 	public void ShotBullet(){
-		Instantiate(player3DBullet,transform.position,transform.rotation);
+		if(Input.GetButton("MaruP1")){
+			Instantiate(player3DBullet,transform.position,transform.rotation);
+		}
 	}
 }

@@ -21,7 +21,9 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		player3dMove.GetComponent<Player3dMove> ().Player3DMove ();
+		player3dMove.GetComponent<Player3DBulletShot> ().ShotBullet ();
 		player2dMove.GetComponent<Player2D> ().Move ();
+		player2dMove.GetComponent<Player2D> ().BulletShot ();
 
 
 
