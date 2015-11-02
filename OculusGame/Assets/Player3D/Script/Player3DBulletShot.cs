@@ -10,14 +10,8 @@ public class Player3DBulletShot : MonoBehaviour {
 		player3DBullet = Resources.Load ("Prefab/bullet") as GameObject;
 	}
 
-	//ここはShotBulletを呼び出せばいつでも弾がだせるよという意味で
-	void Update () {
-		ShotBullet ();
-	}
-
 	//弾を発射（弾を呼び出す）
-    public void ShotBullet()
-    {
+	public void ShotBullet(){
 		Instantiate(player3DBullet,transform.position,transform.rotation);
 	}
 }

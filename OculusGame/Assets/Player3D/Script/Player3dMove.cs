@@ -2,22 +2,18 @@ using UnityEngine;
 using System.Collections;
 
 public class Player3dMove: MonoBehaviour {
-
-    PlayerData3D playerData;
-
-	void Awake(){
-        playerData = GetComponent<PlayerData3D>();
-        playerData.speed = 3f;
-	}
-
-	void Update(){
-		Player3DMove ();
-	}
+	float speed;
+	float vectorX, vectorY;	
+	Vector3 playerMove;
 	
+	void Awake(){
+		speed = 3f;
+	}
+
 	public void Player3DMove(){
-        playerData.vectorX = Input.GetAxisRaw("Horizontal");
-        playerData.vectorY = Input.GetAxisRaw("Vertical");
-        playerData.movePlayer = new Vector3(playerData.vectorX * playerData.speed, playerData.vectorY * playerData.speed, 0);
-        GetComponent<Rigidbody>().velocity = playerData.movePlayer;
+		float vectorX = Input.GetAxisRaw ("HorizontalP1");
+		float vectorY = Input.GetAxisRaw ("VerticalP1");
+		playerMove = new Vector3 (vectorX * speed, vectorY * speed, 0);
+		GetComponent<Rigidbody> ().velocity = playerMove;
 	}
 }
