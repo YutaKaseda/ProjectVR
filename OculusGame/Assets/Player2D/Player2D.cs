@@ -18,37 +18,32 @@ public class Player2D : MonoBehaviour {
 		bulletPrefab = Resources.Load ("Prefab/Bullet") as GameObject;
 		//bulletPrefab.AddComponent<Bullet> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		Move ();
-		BulletShot ();
-
-	}
-	
-	void Move(){
-		vectorX = Input.GetAxisRaw ("Horizontal");
-		vectorY = Input.GetAxisRaw ("Vertical");
+		
+	public void Move(){
+		vectorX = Input.GetAxisRaw ("HorizontalP2");
+		vectorY = Input.GetAxisRaw ("VerticalP2");
 		movePlayer = new Vector3(vectorX * speed, vectorY * speed, 0);
 		GetComponent<Rigidbody> ().velocity = movePlayer;
 		//レーン移動
-		if (Input.GetKeyDown (KeyCode.Z)) {
+		if (Input.GetButtonDown ("L1P2")) {
 			if (laneFlg < 1) {
 				laneFlg++;
 				StartCoroutine("LaneMove");//コルーチンの呼び出し
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.C)) {
+		if (Input.GetButtonDown ("R1P2")) {
 			if (laneFlg > -1) {
 				laneFlg--;
 				StartCoroutine("LaneMove");//コルーチンの呼び出し
 			}
 		}
+		BulletShot ();
+
 	}
 
 	void BulletShot(){
 
-		if (Input.GetKey(KeyCode.Space)) {
+		if (Input.GetButton("MaruP2")) {
 			Instantiate(bulletPrefab, transform.position, transform.rotation);
 
 		}
