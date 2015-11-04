@@ -25,23 +25,25 @@ public class Player2D : MonoBehaviour {
 		movePlayer = new Vector3(vectorX * speed, vectorY * speed, 0);
 		GetComponent<Rigidbody> ().velocity = movePlayer;
 		//レーン移動
-		if (Input.GetKeyDown (KeyCode.Z)) {
+		if (Input.GetButtonDown ("L1P2")) {
 			if (laneFlg < 1) {
 				laneFlg++;
 				StartCoroutine("LaneMove");//コルーチンの呼び出し
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.C)) {
+		if (Input.GetButtonDown ("R1P2")) {
 			if (laneFlg > -1) {
 				laneFlg--;
 				StartCoroutine("LaneMove");//コルーチンの呼び出し
 			}
 		}
+		BulletShot ();
+
 	}
 
-	public void BulletShot(){
+	void BulletShot(){
 
-		if (Input.GetKey("maruP2")) {
+		if (Input.GetButton("MaruP2")) {
 			Instantiate(bulletPrefab, transform.position, transform.rotation);
 
 		}
