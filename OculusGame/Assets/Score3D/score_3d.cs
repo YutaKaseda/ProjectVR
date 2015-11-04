@@ -2,24 +2,24 @@
 using System.Collections;
 using UnityEngine.UI;	//UI用
 
-public class score_3d : MonoBehaviour 
+public class score3d : MonoBehaviour 
 {
 	public int score { get; private set; }
 	int scoreYard;
-	GameObject scoreView2D;
+	GameObject scoreView3D;
 	
 	// Use this for initialization
-	void Awake () {
-		score = 0;
-		scoreYard = 0;
-		scoreView2D = GameObject.Find("ScorePoint");
+	void Awake () 
+	{
+		      score = 0;
+		  scoreYard = 0;
+		scoreView3D = GameObject.Find("ScorePoint");
 	}
 	
-	public void plusScore(int plus){
-		
+	public void plusScore(int plus)
+	{	
 		scoreYard += plus;
-		StartCoroutine(Coroutine());
-		
+		StartCoroutine(Coroutine());	
 	}
 	
 	IEnumerator Coroutine()
@@ -28,7 +28,7 @@ public class score_3d : MonoBehaviour
 		{
 			score += 100;
 			scoreYard -= 100;
-			scoreView2D.GetComponent<ScoreView2D>().DrawScore();
+			scoreView3D.GetComponent<ScoreView2D>().DrawScore();
 			yield return null;
 		}
 	}
