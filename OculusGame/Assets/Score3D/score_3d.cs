@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;	//UI用
 
-public class score3d : MonoBehaviour 
+public class score_3d : MonoBehaviour 
 {
 	public int score { get; private set; }
 	int scoreYard;
