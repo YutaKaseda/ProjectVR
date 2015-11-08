@@ -10,8 +10,8 @@ public class WaveUpdate : MonoBehaviour {
 
 	[SerializeField]
 	TextAsset waveText;
-	string[] wave01Info;
-	string[] eachInfo;
+	[SerializeField]
+	GameObject enemyFactory;
 
 
 	class EnemyDate{
@@ -31,21 +31,21 @@ public class WaveUpdate : MonoBehaviour {
 	int ArrayPosition;
 	float stratTime;
 	float rapTime;
+	
+	string[] wave01Info;
+	string[] eachInfo;
 
 	void Awake () {
-		// 配列などの初期化
-		DataInit ();
 
+		enemyFactory = GameObject.Find ("EnemyFactory");
 		waveState = 0;
 
-
+		// 配列などの初期化
+		DataInit ();
 		// Textの読込
 		LoadText ();
-
 		// タイマーの初期化
 		timeInit ();
-
-	
 	}
 	
 	// Update is called once per frame
@@ -61,7 +61,7 @@ public class WaveUpdate : MonoBehaviour {
 		if (waveData01[ArrayPosition].GetName () != DATANULL &&waveData01 [ArrayPosition].GetName () != ENEMY_DATAEND) {
 			if (waveData01 [ArrayPosition].GetDelayTime () <= (Time.realtimeSinceStartup - stratTime)) {
 			
-				Debug.Log ("data" + ArrayPosition + "時間だよ！");
+				enemyFactory.GetComponent<EnemyFactory>().Create(waveData01[ArrayPosition].GetName());
 				ArrayPosition++;
 			}
 
