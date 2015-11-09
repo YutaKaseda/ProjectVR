@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour {
 
     void ShotMove()
     {
-		direction = transform.right * bulletSpeed;
+		direction = transform.forward * bulletSpeed;
 		GetComponent<Rigidbody> ().AddForce(direction);
 	}
 }

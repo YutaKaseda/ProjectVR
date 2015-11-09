@@ -2,27 +2,32 @@ using UnityEngine;
 using System.Collections;
 
 public class Player3dMove: MonoBehaviour {
-	float speed;
-	float vectorX, vectorY;	
-	Vector3 playerMove;
-	GameObject player3DBullet;
-	
+
+    PlayerData3D playerData;
+
 	void Awake(){
-		player3DBullet = Resources.Load ("Prefab/bullet") as GameObject;
-		speed = 3f;
+        playerData = GetComponent<PlayerData3D>();
+        playerData.speed = 3f;
+        playerData.bulletPrefab = Resources.Load("Prefab/Bullet3D") as GameObject;
+        playerData.oculusCamera = GameObject.Find("OculusCamera");
 	}
-
+	
 	public void Player3DMove(){
-		float vectorX = Input.GetAxisRaw ("HorizontalP1");
-		float vectorY = Input.GetAxisRaw ("VerticalP1");
-		playerMove = new Vector3 (vectorX * speed, vectorY * speed, 0);
-		GetComponent<Rigidbody> ().velocity = playerMove;
-		ShotBullet ();
+        playerData.vectorX = Input.GetAxisRaw("HorizontalP1");
+        playerData.vectorY = Input.GetAxisRaw("VerticalP1");
+        playerData.movePlayer = new Vector3(playerData.vectorX * playerData.speed, playerData.vectorY * playerData.speed, 0);
+        GetComponent<Rigidbody>().velocity = playerData.movePlayer;
+
+        BulletShot();
 	}
 
-	void ShotBullet(){
-		if(Input.GetButton("MaruP1")){
-			Instantiate(player3DBullet,transform.position,transform.rotation);
-		}
-	}
+    void BulletShot()
+    {
+
+        if (Input.GetButton("MaruP1"))
+        {
+            playerData.bulletPosition = new Vector3(transform.position.x, transform.position.y-0.5f, transform.position.z);
+            Instantiate(playerData.bulletPrefab, playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+        }
+    }
 }

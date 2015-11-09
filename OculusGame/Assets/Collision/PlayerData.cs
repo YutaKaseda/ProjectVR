@@ -8,6 +8,8 @@ public class PlayerData : MonoBehaviour {
     public Vector3 movePlayer { get; set; }             //自機の移動
     public float vectorX { get; set; }
     public float vectorY { get; set; }
+    public float vectorZ { get; set; }
+    public GameObject bulletPrefab { get; set; }
 
     public void Awake(){
         playerHP = 100;
