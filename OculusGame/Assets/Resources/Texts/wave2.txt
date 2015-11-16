@@ -28,4 +28,4 @@ enemy02,20.5
 enemy02,20.6
 enemy02,20.7
 enemy02,20.8
-end,9999
+END,9999

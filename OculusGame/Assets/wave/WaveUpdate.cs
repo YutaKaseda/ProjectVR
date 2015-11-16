@@ -4,8 +4,8 @@ using System.Collections;
 
 public class WaveUpdate : MonoBehaviour {
 
-	public static readonly string ENEMY_DATAEND = "end";
-	public static readonly string DATANULL = "DataNull";
+	public static readonly string ENEMY_DATAEND = "END";
+	public static readonly string DATANULL = "NULL";
 
 
 	[SerializeField]
@@ -15,24 +15,22 @@ public class WaveUpdate : MonoBehaviour {
 
 
 	class EnemyDate{
-		string enemyName;		// 呼び出す敵の名前	
-		float delayTime;		// 次までの待機時間
+		public string enemyName{ get; set; }		// 呼び出す敵の名前	
+		public float delayTime{ get; set; }		// 次までの待機時間
 		
 		public EnemyDate(string en , float dt){enemyName = en;delayTime = dt;}
-		public void SetName(string en){enemyName = en;}
-		public void SetDelayTime(float dt){delayTime = dt;}
-		public string GetName(){return enemyName;}
-		public float GetDelayTime(){return delayTime;}
-
 	}
 	EnemyDate[] waveData01;
 
+	[SerializeField]
+	int arrayBox;
 	int waveState;
-	int ArrayPosition;
-	float stratTime;
+	int arrayPosition;
+	float startTime;
 	float rapTime;
+
 	
-	string[] wave01Info;
+	string[] waveInfo;
 	string[] eachInfo;
 
 	void Awake () {
@@ -50,19 +48,18 @@ public class WaveUpdate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (waveText != null) {
 			Wave ();
-		}
-
 	}
 
 	void Wave(){
 
-		if (waveData01[ArrayPosition].GetName () != DATANULL &&waveData01 [ArrayPosition].GetName () != ENEMY_DATAEND) {
-			if (waveData01 [ArrayPosition].GetDelayTime () <= (Time.realtimeSinceStartup - stratTime)) {
+		if (waveData01[arrayPosition].enemyName != DATANULL &&
+		    waveData01 [arrayPosition].enemyName != ENEMY_DATAEND) {
+
+			if (waveData01 [arrayPosition].delayTime <= (Time.realtimeSinceStartup - startTime)) {
 			
-				enemyFactory.GetComponent<EnemyFactory>().Create(waveData01[ArrayPosition].GetName());
-				ArrayPosition++;
+				enemyFactory.GetComponent<EnemyFactory>().Create(waveData01[arrayPosition].enemyName);
+				arrayPosition++;
 			}
 
 		} else {
@@ -75,7 +72,6 @@ public class WaveUpdate : MonoBehaviour {
 			LoadText();
 			// タイマーのリセット
 			timeInit();
-
 		}
 	}
 
@@ -93,36 +89,30 @@ public class WaveUpdate : MonoBehaviour {
 			return;
 		}
 
-		wave01Info = waveText.text.Split('\r','\n');
+		waveInfo = waveText.text.Split('\r','\n');
 
 		int nn = 0;
-		for (int i = 0; i < wave01Info.Length; i++) {
+		for (int i = 0; i < waveInfo.Length; i++) {
 
-			eachInfo = wave01Info [i].Split ("," [0]);
-			if(wave01Info[i] != "/"){
-				waveData01[i-nn].SetName(eachInfo[0]);
-				waveData01[i-nn].SetDelayTime(float.Parse(eachInfo[1]));
+			eachInfo = waveInfo [i].Split ("," [0]);
+			if(waveInfo[i] != "/"){
+				waveData01[i-nn].enemyName = (eachInfo[0]);
+				waveData01[i-nn].delayTime = (float.Parse(eachInfo[1]));
 			}
 			else{
 				nn++;
 			}
-			if(waveData01[i-nn].GetName() == ENEMY_DATAEND){
+			if(waveData01[i-nn].enemyName == ENEMY_DATAEND){
 				System.Array.Resize(ref waveData01,(i - nn + 1));
-				/*
-				for(int j=0;j<(i-nn+1);j++){
-					Debug.Log ("waveData["+j+"] Name :"+waveData01[j].GetName()+"  Time :"+waveData01[j].GetDelayTime());
-				}
-				*/
 				break;
 			}
 		}
-
 	}
 	
 	void DataInit(){
 
 		// 配列の作成
-		waveData01 = new EnemyDate[100];
+		waveData01 = new EnemyDate[arrayBox];
 
 		// クラスの初期化
 		for (int i = 0; i < 100; i++) {
@@ -130,11 +120,11 @@ public class WaveUpdate : MonoBehaviour {
 		}
 
 		// 配列の位置
-		ArrayPosition = 0;
+		arrayPosition = 0;
 	}
 	
 	void timeInit(){
-		stratTime = Time.realtimeSinceStartup;
+		startTime = Time.realtimeSinceStartup;
 	}
 
 }
