@@ -10,13 +10,27 @@ public class EnemyFactory : MonoBehaviour {
 		enemyTypeAttackPrefab = Resources.Load ("Prefab/EnemyTypeAttack") as GameObject;
 		enemyTypeShotPrefab = Resources.Load ("Prefab/EnemyTypeShot") as GameObject;
 	}
-	
-	void Update () {
-		Create ();
-	}
 
-	void Create(){
+	public void Create(string enemyType){
 
+		switch(enemyType){
+
+		case "enemy01":
+			Instantiate(enemyTypeAttackPrefab, transform.position, transform.rotation);
+			break;
+
+		case "enemy02":
+			enemyTypeShotPos = new Vector3 (Random.Range (-5, 6), Random.Range (0, 10), 20);
+			Instantiate(enemyTypeShotPrefab, enemyTypeShotPos, transform.rotation);
+			break;
+
+		case "":
+			Debug.Log("EnemyType NULL");
+			break;
+
+		}
+
+		/*
 		if (Input.GetKeyDown(KeyCode.Z)) {
 			Instantiate(enemyTypeAttackPrefab, transform.position, transform.rotation);
 		}
@@ -24,5 +38,6 @@ public class EnemyFactory : MonoBehaviour {
 			enemyTypeShotPos = new Vector3 (Random.Range (-5, 6), Random.Range (0, 10), 20);
 			Instantiate(enemyTypeShotPrefab, enemyTypeShotPos, transform.rotation);
 		}
+		*/
 	}
 }
