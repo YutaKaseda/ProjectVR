@@ -3,56 +3,70 @@ using System.Collections;
 
 public class Player2D : MonoBehaviour {
 	
-	float speed;//自機の移動の速さ
-	Vector3 movePlayer;//自機の移動
-	Vector3 laneMovePlayer;//レーンの変更
-	int laneFlg;//今、どのレーンにいるか
-	GameObject bulletPrefab;
-	float vectorX,vectorY;
+    PlayerData2D playerData;
 
 	// Use this for initialization
 	void Awake () {
-
-		speed = 8.0f;
-		laneFlg = 0;
-		bulletPrefab = Resources.Load ("Prefab/Bullet") as GameObject;
-		//bulletPrefab.AddComponent<Bullet> ();
+        playerData = GetComponent<PlayerData2D>();
+        playerData.speed = 8.0f;
+        playerData.laneFlg = 0;
+        playerData.bulletPrefab = Resources.Load("Prefab/Bullet2D") as GameObject;
+        playerData.zero = transform.position.x;
+        playerData.inputFlg = true;
 	}
-		
-	public void Move(){
-		vectorX = Input.GetAxisRaw ("HorizontalP2");
-		vectorY = Input.GetAxisRaw ("VerticalP2");
-		movePlayer = new Vector3(vectorX * speed, vectorY * speed, 0);
-		GetComponent<Rigidbody> ().velocity = movePlayer;
-		//レーン移動
-		if (Input.GetButtonDown ("L1P2")) {
-			if (laneFlg < 1) {
-				laneFlg++;
-				StartCoroutine("LaneMove");//コルーチンの呼び出し
-			}
-		}
-		if (Input.GetButtonDown ("R1P2")) {
-			if (laneFlg > -1) {
-				laneFlg--;
-				StartCoroutine("LaneMove");//コルーチンの呼び出し
-			}
-		}
-		BulletShot ();
-
+    public void Move()
+    {
+        playerData.vectorZ = Input.GetAxisRaw("HorizontalP2");
+        playerData.vectorY = Input.GetAxisRaw("VerticalP2");
+        playerData.movePlayer = new Vector3(0, playerData.vectorY * playerData.speed, playerData.vectorZ * playerData.speed);
+        GetComponent<Rigidbody>().velocity = playerData.movePlayer;
+        if (playerData.inputFlg == true)
+        {
+            //レーン移動
+            if (Input.GetButtonDown("R1P2"))
+            {
+                if (playerData.laneFlg < 1)
+                {
+                    playerData.laneFlg++;
+                    if (playerData.laneFlg == 0)
+                        playerData.moveEX = playerData.zero;
+                    else
+                        playerData.moveEX = transform.position.x + playerData.laneFlg * 5;
+                    StartCoroutine("LaneMove");//コルーチンの呼び出し
+                }
+            }
+            if (Input.GetButtonDown("L1P2"))
+            {
+                if (playerData.laneFlg > -1)
+                {
+                    playerData.laneFlg--;
+                    if (playerData.laneFlg == 0)
+                        playerData.moveEX = playerData.zero;
+                    else
+                        playerData.moveEX = transform.position.x + playerData.laneFlg * 5;
+                    StartCoroutine("LaneMove");//コルーチンの呼び出し
+                }
+            }
+        }
+        BulletShot();
 	}
 
-	void BulletShot(){
+    void BulletShot()
+    {
 
 		if (Input.GetButton("MaruP2")) {
-			Instantiate(bulletPrefab, transform.position, transform.rotation);
+            Instantiate(playerData.bulletPrefab, transform.position, transform.rotation);
 
 		}
 	}
 	IEnumerator LaneMove(){
-		while(transform.position.z != laneFlg * 5f){
-			laneMovePlayer = new Vector3 (transform.position.x, transform.position.y, laneFlg * 5);
-			transform.position = Vector3.MoveTowards (transform.position, laneMovePlayer, 0.5f);
+        playerData.inputFlg = false;
+        while (transform.position.x != playerData.moveEX)
+        {
+            playerData.laneMovePlayer = new Vector3(playerData.moveEX, transform.position.y, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, playerData.laneMovePlayer, 0.5f);
 			yield return null;
 		}
+        playerData.inputFlg = true;
 	}
 }
