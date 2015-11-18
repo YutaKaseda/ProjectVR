@@ -48,7 +48,7 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 		if(allSceneResources.Count == 0)
 			ResourcesLoadAllScene ();
 
-		resourcesStuck = Resources.LoadAll<GameObject>(sceneName);
+		resourcesStuck = Resources.LoadAll<GameObject>("prefabs/" + sceneName);
 		foreach(var obj in resourcesStuck){
 			sceneResources.Add (obj.name,new ResourceInfo("prefabs/" + obj.name,obj));
 			Debug.Log ("Progress : " + sceneName +".Resource->" + obj.name + " is Complete");
