@@ -15,9 +15,14 @@ public class PlayerData : MonoBehaviour {
         playerHP = 100;
     }
 
+	public void InitHP(){
+		playerHP = 100;
+	}
+
     //ダメージ処理
     public virtual void Damege(int gensyo)
     {
+
         playerHP -= gensyo;
     }
 }

@@ -15,9 +15,9 @@ public class CollisionPlayer : MonoBehaviour {
         switch (other.gameObject.tag)
         {
             //敵の弾に当たったら
-            case "enemybullet":
+            case "EnemyBullet":
                 //HPを減らすとか
-                playerData.Damege(1);
+                playerData.Damege(10);
                 break;
 
             //敵に当たったら
