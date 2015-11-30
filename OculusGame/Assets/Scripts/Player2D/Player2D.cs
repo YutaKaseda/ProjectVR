@@ -33,6 +33,7 @@ public class Player2D : MonoBehaviour {
         BulletShot();
         playerBeacon.BeaconPut();
         playerBeaconUI.BeaconPutUI();
+        playerBeaconUI.BarrierOpen();
 	}
 
     void BulletShot()
