@@ -9,8 +9,9 @@ public class BeaconUI : MonoBehaviour
     Slider ber;
     Image clearBer;
     float time;
-    enum barrierState { OPEN,DALETE,STAY }; //　barrierステータス、展開中、破壊、待機中
+    enum barrierState { OPEN,DELETE,STAY,IDLE }; //　barrierステータス、展開中、破壊、待機中
     barrierState barrierFlg;
+    GameObject barrier;
 
     void Awake()
     {
@@ -20,7 +21,7 @@ public class BeaconUI : MonoBehaviour
         clearBer = GameObject.Find("Background").GetComponent<Image>();
         time = 0;
         clearBer.enabled = false;
-        barrierFlg = barrierState.STAY;
+        barrierFlg = barrierState.IDLE;
     }
 
     public void BeaconPutUI()
@@ -30,13 +31,16 @@ public class BeaconUI : MonoBehaviour
             clearBer.enabled = true;
             time += Time.deltaTime;
             ber.value += Time.deltaTime;
+            if (barrierFlg == barrierState.IDLE) {
+                barrierFlg = barrierState.OPEN;
+            }
 
             if (time >= playerBeacon.waitTime)   //時間を超えたとき設置
             {
                 clearBer.enabled = false;
                 ber.value = 0;
                 time = 0;
-                barrierFlg = barrierState.DALETE;
+                barrierFlg = barrierState.DELETE;
             }
         }
 
@@ -45,17 +49,28 @@ public class BeaconUI : MonoBehaviour
             clearBer.enabled = false;
             ber.value = 0;
             time = 0;
-            barrierFlg = barrierState.DALETE;
+            barrierFlg = barrierState.DELETE;
         }
 
     }
 
     public void BarrierOpen()
     {
-        if (barrierFlg == barrierState.STAY)
+        switch (barrierFlg)
         {
-            Instantiate(ResourcesManager.Instance.GetResourceScene("barrier"), transform.position, transform.rotation);
-            barrierFlg = barrierState.OPEN;
+            case barrierState.DELETE:
+                if (GameObject.Find("barrier") != null)
+                    Destroy(barrier);
+                break;
+            case barrierState.OPEN:
+                Instantiate(ResourcesManager.Instance.GetResourceScene("barrier"), transform.position, transform.rotation);
+                barrierFlg = barrierState.STAY;
+                break;
+            case barrierState.STAY:
+                
+                break;
+            default:
+                break;
         }
     }
 }
