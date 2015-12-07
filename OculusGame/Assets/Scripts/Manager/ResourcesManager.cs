@@ -22,6 +22,9 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 	void Awake(){
 		allSceneResources = new Dictionary<string, ResourceInfo>();
 		sceneResources = new Dictionary<string, ResourceInfo>();
+
+        ResourcesLoadAllScene();
+
 	}
 
 	void ResourcesLoadAllScene(){
@@ -78,9 +81,18 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 	}
 
 	public void ResourcesUnLoadAll(){
-		sceneResources = null;
-		allSceneResources = null;
-		resourcesStuck = null;
+
+        StartCoroutine(UnLoadScene());
+
 		Destroy (gameObject);
 	}
+
+    IEnumerator UnLoadScene()
+    {
+        foreach(KeyValuePair<string,ResourceInfo> pair in sceneResources){
+            Resources.UnloadAsset(pair.Value.resource);
+            yield return null;
+        }
+    }
+
 }
