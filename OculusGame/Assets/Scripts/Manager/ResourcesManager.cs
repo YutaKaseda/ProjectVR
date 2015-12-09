@@ -20,23 +20,20 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 	}
 	
 	void Awake(){
+
+        DontDestroyOnLoad(gameObject);
+
 		allSceneResources = new Dictionary<string, ResourceInfo>();
 		sceneResources = new Dictionary<string, ResourceInfo>();
-
-        ResourcesLoadAllScene();
-
 	}
 
-	void ResourcesLoadAllScene(){
-		Debug.Log ("ResourcesLoadAllScene");
-
+	public void ResourcesLoadAllScene(){
+		
 		resourcesStuck = Resources.LoadAll<GameObject>("prefabs/AllScene");
 
 		foreach(var obj in resourcesStuck){
 
 			allSceneResources.Add (obj.name,new ResourceInfo(obj.name,obj));
-
-			Debug.Log ("Progress : AllScene.Resource->" + obj.name + " is Complete");
 
 		}
 		resourcesStuck = null;
@@ -46,15 +43,12 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 
 		sceneResources.Clear();
 
-		Debug.Log ("resourcesloadscene");
-
 		if(allSceneResources.Count == 0)
 			ResourcesLoadAllScene ();
 
 		resourcesStuck = Resources.LoadAll<GameObject>("prefabs/" + sceneName);
 		foreach(var obj in resourcesStuck){
 			sceneResources.Add (obj.name,new ResourceInfo("prefabs/" + obj.name,obj));
-			Debug.Log ("Progress : " + sceneName +".Resource->" + obj.name + " is Complete");
 		}
 
 		resourcesStuck = null;
@@ -80,19 +74,36 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 
 	}
 
-	public void ResourcesUnLoadAll(){
+    public void ResourcesUnLoadAll(){
+
+        StartCoroutine(UnLoadSceneAll());
+
+    }
+
+	public void ResourcesUnLoadScene(){
 
         StartCoroutine(UnLoadScene());
 
-		Destroy (gameObject);
 	}
 
+    //シーン特有のリソースの削除
     IEnumerator UnLoadScene()
     {
         foreach(KeyValuePair<string,ResourceInfo> pair in sceneResources){
             Resources.UnloadAsset(pair.Value.resource);
             yield return null;
         }
+    }
+
+    //ゲーム全体で使用するリソースの削除、主にゲーム終了時に使うからシーンリソースも削除
+    IEnumerator UnLoadSceneAll()
+    {
+        foreach (KeyValuePair<string, ResourceInfo> pair in allSceneResources)
+        {
+            Resources.UnloadAsset(pair.Value.resource);
+            yield return null;
+        }
+        StartCoroutine(UnLoadScene());
     }
 
 }
