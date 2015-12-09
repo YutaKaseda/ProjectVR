@@ -8,6 +8,8 @@ public class Beacon : MonoBehaviour {
     public float time { get; private set; }
     public float interval { get; private set; }
     public float waitTime { get; private set; }
+    enum barrierState { OPEN, DELETE, STAY, IDLE }; //　barrierステータス、展開中、破壊、待機中
+    barrierState barrierFlg;
 
     void Awake()
     {
@@ -17,16 +19,23 @@ public class Beacon : MonoBehaviour {
         waitTime = 3;
         interval = 10;
         moveFlg = false;
+        barrierFlg = barrierState.IDLE;
     }
 
     public void BeaconPut()
     {
+        BarrierOpen();
+
         if (putFlg == false)
         {
             if (Input.GetButton("BatuP2"))  //ばつが押されている間
             {
                 time += Time.deltaTime;
                 moveFlg = true;
+                if (barrierFlg == barrierState.IDLE)
+                {
+                    barrierFlg = barrierState.OPEN;
+                }
 
                 if (time >= waitTime)   //時間を超えたとき設置
                 {
@@ -34,6 +43,7 @@ public class Beacon : MonoBehaviour {
                     putFlg = true;
                     moveFlg = false;
                     time = 0;
+                    barrierFlg = barrierState.DELETE;
                 }
             }
 
@@ -41,12 +51,14 @@ public class Beacon : MonoBehaviour {
             {
                 time = 0;  //ばつが離れたとき
                 moveFlg = false;
+                barrierFlg = barrierState.DELETE;
             }
 
         }
         else{
 
             time += Time.deltaTime;
+            barrierFlg = barrierState.IDLE;
 
             if (time >= interval)
             {
@@ -56,4 +68,25 @@ public class Beacon : MonoBehaviour {
             }
         }
     }
+
+    public void BarrierOpen()
+    {
+        switch (barrierFlg)
+        {
+            case barrierState.DELETE:
+                Destroy(GameObject.Find("barrier(Clone)"));
+                barrierFlg = barrierState.IDLE;
+                break;
+            case barrierState.OPEN:
+                Instantiate(ResourcesManager.Instance.GetResourceScene("barrier"), transform.position, transform.rotation);
+                barrierFlg = barrierState.STAY;
+                break;
+            case barrierState.STAY:
+
+                break;
+            default:
+                break;
+        }
+    }
+
 }
