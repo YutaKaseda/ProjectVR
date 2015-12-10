@@ -9,6 +9,7 @@ public class LevelManager : SingletonMonobehaviour<LevelManager> {
 
         DontDestroyOnLoad(gameObject);
 
+        VRSettings.enabled = false;
         ResourcesManager.Instance.ResourcesLoadAllScene();
 
     }
