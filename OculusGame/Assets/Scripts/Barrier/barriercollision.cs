@@ -3,9 +3,20 @@ using System.Collections;
 
 public class barriercollision : MonoBehaviour {
 
+    int barrierHP;
+
+    void Awake()
+    {
+        barrierHP = 2;
+    }
+
     public void BarrierDelete()
     {
-        Destroy(gameObject);
+        if (barrierHP <= 0)
+        {
+            Instantiate(ResourcesManager.Instance.GetResourceScene("Barrierbreak"), transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
     }
 
     //何かに当たったら消える
@@ -16,7 +27,16 @@ public class barriercollision : MonoBehaviour {
         switch (other.tag)
         {
             case "Enemy":
-                Destroy(gameObject);
+                barrierHP -= 2;
+                BarrierDelete();
+                break;
+            case "EnemyBullet":
+                barrierHP -= 1;
+                BarrierDelete();
+                break;
+            case "EnemyLaser":
+                barrierHP -= 2;
+                BarrierDelete();
                 break;
             default:
                 break;

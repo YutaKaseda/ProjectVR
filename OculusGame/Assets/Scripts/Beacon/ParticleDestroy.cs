@@ -3,8 +3,11 @@ using System.Collections;
 
 public class ParticleDestroy : MonoBehaviour {
 
+    [SerializeField]
+    int destroyCnt;
+
     void Awake()
     {
-        Destroy(gameObject, 2);
+        Destroy(gameObject, destroyCnt);
     }
 }
