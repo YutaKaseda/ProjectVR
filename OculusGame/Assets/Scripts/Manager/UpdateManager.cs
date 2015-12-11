@@ -22,10 +22,5 @@ public class UpdateManager : MonoBehaviour {
 	void Update () {
 		player3dMove.GetComponent<Player3dMove> ().Player3DMove ();
 		player2dMove.GetComponent<Player2D> ().Move ();
-
-
-
-
-	
 	}
 }

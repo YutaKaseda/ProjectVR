@@ -9,7 +9,7 @@ public class Player3dMove: MonoBehaviour {
         playerData = GetComponent<PlayerData3D>();
         playerData.speed = 3f;
         playerData.bulletPrefab = Resources.Load("Prefab/Bullet3D") as GameObject;
-        playerData.oculusCamera = GameObject.Find("OculusCamera");
+        playerData.oculusCamera = GetComponent<Camera>();
 	}
 	
 	public void Player3DMove(){
