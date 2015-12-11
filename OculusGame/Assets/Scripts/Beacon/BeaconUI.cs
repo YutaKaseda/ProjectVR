@@ -5,15 +5,15 @@ using UnityEngine.UI;
 public class BeaconUI : MonoBehaviour
 {
 
-    Beacon playerBeacon;
+    PlayerData2D playerdata;
     Slider ber;
     Image clearBer;
     float time;
 
     void Awake()
     {
+        playerdata = GetComponent<PlayerData2D>();
         ResourcesManager.Instance.ResourcesLoadScene("Play");
-        playerBeacon = GetComponent<Beacon>();
         ber = GameObject.Find("WaitBer").GetComponent<Slider>();
         clearBer = GameObject.Find("Background").GetComponent<Image>();
         time = 0;
@@ -22,13 +22,13 @@ public class BeaconUI : MonoBehaviour
 
     public void BeaconPutUI()
     {
-        if (playerBeacon.moveFlg == true)  //ばつが押されている間
+        if (playerdata.moveFlg == true)  //ばつが押されている間
         {
             clearBer.enabled = true;
             time += Time.deltaTime;
             ber.value += Time.deltaTime;
 
-            if (time >= playerBeacon.waitTime)   //時間を超えたとき設置
+            if (time >= playerdata.waitTime)   //時間を超えたとき設置
             {
                 clearBer.enabled = false;
                 ber.value = 0;
@@ -36,7 +36,7 @@ public class BeaconUI : MonoBehaviour
             }
         }
 
-        else if (playerBeacon.moveFlg == false) //ばつが離れたとき
+        else if (playerdata.moveFlg == false) //ばつが離れたとき
         {
             clearBer.enabled = false;
             ber.value = 0;

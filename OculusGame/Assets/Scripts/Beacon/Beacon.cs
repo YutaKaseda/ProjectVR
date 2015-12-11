@@ -1,100 +1,104 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BarrierStatus;
 
 public class Beacon : MonoBehaviour {
 
-    public bool putFlg { get; private set; }
-    public bool moveFlg { get; private set; }
-    public bool penaltyFlg { get; private set; }
-    public float time { get; private set; }
-    public float interval { get; private set; } //ビーコンを置いた後のインターバル
-    public float waitTime { get; private set; } //ビーコンを置くのに必要な時間
-    public float penaltyTime { get; private set; } //ビーコンを置いているときにボタンを離した時のペナルティタイム
-    enum barrierState { OPEN, DELETE, STAY, IDLE }; //　barrierステータス　展開、破壊、展開中、待機中
-    barrierState barrierFlg;
+	/*//new  newは石田の作り途中なんで今は無視で
+	public GameObject babel;
+	public int number = 1;
+	*/
+
+    PlayerData2D playerData;
 
     void Awake()
     {
+        playerData = GetComponent<PlayerData2D>();
         ResourcesManager.Instance.ResourcesLoadScene("Play");
-        putFlg = false;
-        time = 0;
-        waitTime = 3;
-        interval = 5;
-        penaltyTime = 2;
-        moveFlg = false;
-        penaltyFlg = false;
-        barrierFlg = barrierState.IDLE;
+        playerData.putFlg = false;
+        playerData.time = 0;
+        playerData.waitTime = 3;
+        playerData.interval = 5;
+        playerData.penaltyTime = 2;
+        playerData.moveFlg = false;
+        playerData.penaltyFlg = false;
+        playerData.barrierFlg = BarrierState.E_IDLE;
     }
 
     public void BeaconPut()
     {
         BarrierOpen();
 
-        if (putFlg == false)
+        if (playerData.putFlg == false)
         {
             if (Input.GetButton("BatuP2"))  //ばつが押されている間
             {
-                time += Time.deltaTime;
-                moveFlg = true;
-                if (barrierFlg == barrierState.IDLE)
+                playerData.time += Time.deltaTime;
+                playerData.moveFlg = true;
+                if (playerData.barrierFlg == BarrierState.E_IDLE)
                 {
-                    barrierFlg = barrierState.OPEN;
+                    playerData.barrierFlg = BarrierState.E_OPEN;
                 }
 
-                if (time >= waitTime)   //時間を超えたとき設置
+                if (playerData.time >= playerData.waitTime)   //時間を超えたとき設置
                 {
+					/*//new
+					ResourcesManager.Instance.GetResourceScene("babel").name = "Babel" + number;
+					babel = (GameObject)Instantiate(ResourcesManager.Instance.GetResourceScene("babel"), transform.position, transform.rotation);
+					babel.name = ResourcesManager.Instance.GetResourceScene("babel").name;
+					number++;
+					*/
 					Instantiate(ResourcesManager.Instance.GetResourceScene("babel"), transform.position, transform.rotation);
-					putFlg = true;
-                    moveFlg = false;
-                    time = 0;
-                    barrierFlg = barrierState.DELETE;
+                    playerData.putFlg = true;
+                    playerData.moveFlg = false;
+                    playerData.time = 0;
+                    playerData.barrierFlg = BarrierState.E_DELETE;
                 }
             }
 
             else if (Input.GetButtonUp("BatuP2"))  //ばつが離れたとき
             {
-                time = 0;
-                moveFlg = false;
-                putFlg = true;
-                penaltyFlg = true;
-                barrierFlg = barrierState.DELETE;
+                playerData.time = 0;
+                playerData.moveFlg = false;
+                playerData.putFlg = true;
+                playerData.penaltyFlg = true;
+                playerData.barrierFlg = BarrierState.E_DELETE;
             }
 
         }
         else{
 
-            time += Time.deltaTime;
-            barrierFlg = barrierState.IDLE;
+            playerData.time += Time.deltaTime;
+            playerData.barrierFlg = BarrierState.E_IDLE;
 
-            if (time >= interval) //インターバル時間を超えたら
+            if (playerData.time >= playerData.interval) //インターバル時間を超えたら
             {
-                putFlg = false;
-                time = 0;
+                playerData.putFlg = false;
+                playerData.time = 0;
             }
-            if (time >= penaltyTime && penaltyFlg == true) //ペナルティ時間を超えたら
+            if (playerData.time >= playerData.penaltyTime && playerData.penaltyFlg == true) //ペナルティ時間を超えたら
             {
-                putFlg = false;
-                penaltyFlg = false;
-                time = 0;
+                playerData.putFlg = false;
+                playerData.penaltyFlg = false;
+                playerData.time = 0;
             }
         }
     }
 
     public void BarrierOpen()
     {
-        switch (barrierFlg)
+        switch (playerData.barrierFlg)
         {
-            case barrierState.DELETE:
+            case BarrierState.E_DELETE:
                 Destroy(GameObject.Find("barrier(Clone)"));
                 Instantiate(ResourcesManager.Instance.GetResourceScene("Barrierbreak"), transform.position, transform.rotation);
-                barrierFlg = barrierState.IDLE;
+                playerData.barrierFlg = BarrierState.E_IDLE;
                 break;
-            case barrierState.OPEN:
+            case BarrierState.E_OPEN:
                 Instantiate(ResourcesManager.Instance.GetResourceScene("barrier"), transform.position, transform.rotation);
-                barrierFlg = barrierState.STAY;
+                playerData.barrierFlg = BarrierState.E_STAY;
                 break;
-            case barrierState.STAY:
-
+            case BarrierState.E_STAY:
                 break;
             default:
                 break;

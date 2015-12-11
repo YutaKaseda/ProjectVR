@@ -9,23 +9,24 @@ public class Player2D : MonoBehaviour {
     Beacon playerBeacon;
     BeaconUI playerBeaconUI;
 
-	// Use this for initialization
 	void Awake () {
         playerData = GetComponent<PlayerData2D>();
 		player3D = GameObject.FindWithTag("Player3D");
 		ren = gameObject.GetComponent<Renderer> ();
-        playerData = GetComponent<PlayerData2D>();
         playerBeacon = GetComponent<Beacon>();
         playerBeaconUI = GetComponent<BeaconUI>();
         playerData.speed = 8.0f;
-        playerData.bulletPrefab = Resources.Load("Prefab/Bullet2D") as GameObject;
+        //弾のプレハブを呼ぶ
+        //playerData.bulletPrefab = Resources.Load("Prefab/Bullet2D") as GameObject;
        
 		playerData.resurrectionTime = 3.0f;
 		playerData.resurrectionPenalty = 3.0f;
 	}
+
+    //移動、メイン
     public void Move()
     {
-		if ((playerData.playerHP > 0 && ren.enabled == true) || (playerBeacon.moveFlg == false)) {
+		if ((playerData.playerHP > 0 && ren.enabled == true) || (playerData.moveFlg == false)) {
 			playerData.vectorZ = Input.GetAxisRaw("HorizontalP2");
 			playerData.vectorY = Input.GetAxisRaw("VerticalP2");
 		}
@@ -33,7 +34,7 @@ public class Player2D : MonoBehaviour {
 			StartCoroutine ("Resurrection");
 		}
 
-         if (playerBeacon.moveFlg == true)
+        if (playerData.moveFlg == true)
         {
             playerData.vectorY = 0;
             playerData.vectorZ = 0;
@@ -48,6 +49,7 @@ public class Player2D : MonoBehaviour {
 
 	}
 
+    //弾発射
     void BulletShot()
     {
 		if (Input.GetButtonDown("MaruP2")) {
@@ -55,6 +57,7 @@ public class Player2D : MonoBehaviour {
 		}
 	}
 
+    //死んだときの処理、復活
 	public IEnumerator Resurrection(){
 		ren.enabled = false;
 		playerData.vectorY = 0;
