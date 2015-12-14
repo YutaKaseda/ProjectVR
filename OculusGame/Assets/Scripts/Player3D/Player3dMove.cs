@@ -8,9 +8,14 @@ public class Player3dMove: MonoBehaviour {
 	void Awake(){
         playerData = GetComponent<PlayerData3D>();
         playerData.speed = 3f;
-        playerData.bulletPrefab = Resources.Load("Prefab/Bullet3D") as GameObject;
-        playerData.oculusCamera = GetComponent<Camera>();
+        ResourcesManager.Instance.ResourcesLoadScene("Play");
+       // playerData.oculusCamera = GetComponent<Camera>();
 	}
+
+    void Update()
+    {
+        Player3DMove();
+    }
 	
 	public void Player3DMove(){
         playerData.vectorX = Input.GetAxisRaw("HorizontalP1");
@@ -26,8 +31,8 @@ public class Player3dMove: MonoBehaviour {
 
         if (Input.GetButton("MaruP1"))
         {
-            playerData.bulletPosition = new Vector3(transform.position.x, transform.position.y-0.5f, transform.position.z);
-            Instantiate(playerData.bulletPrefab, playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+            playerData.bulletPosition = new Vector3(transform.position.x+0.15f, transform.position.y-0.5f, transform.position.z+0.6f);
+            Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
         }
     }
 }
