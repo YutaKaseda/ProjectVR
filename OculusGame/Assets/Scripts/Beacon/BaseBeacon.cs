@@ -4,11 +4,10 @@ using System.Collections;
 public class BaseBeacon : MonoBehaviour {
 	enum beaconState{ENEMYCHARACTER, ENEMYBULLET}; //ダメージを受ける条件：敵キャラ、弾に当たる、自爆
 	[SerializeField]
-	int baseBeaconLife;
+	int baseBeaconLife;		//ベースビーコンのHP
 	GameObject explosion; //爆発時のエフェクト
 	
 	void Awake () {	
-		baseBeaconLife = 30;	//ベースビーコンのHP
 		//explosion = Resources.Load ("Prefab/Explosion") as GameObject; 
 		//↓に変更
 		ResourcesManager.Instance.ResourcesLoadScene ("Play");
