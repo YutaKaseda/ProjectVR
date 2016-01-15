@@ -4,18 +4,23 @@ using System.Collections;
 public class Player3dMove: MonoBehaviour {
 
     PlayerData3D playerData;
+    RaycastHit hit;
+    GameObject playerCamera;
+    Marker marker;
 
 	void Awake(){
         playerData = GetComponent<PlayerData3D>();
         playerData.speed = 3f;
-        ResourcesManager.Instance.ResourcesLoadScene("Play");
-       // playerData.oculusCamera = GetComponent<Camera>();
+        //ResourcesManager.Instance.ResourcesLoadScene("Play");
+        //playerData.oculusCamera = GetComponent<Camera>();
+        playerCamera = GameObject.Find("PlayerCamera") as GameObject;
+        marker = GameObject.Find("PlayerCamera").GetComponent<Marker>();
 	}
 
-    void Update()
+    /*void Update()
     {
         Player3DMove();
-    }
+    }*/
 	
 	public void Player3DMove(){
         playerData.vectorX = Input.GetAxisRaw("HorizontalP1");
@@ -24,6 +29,7 @@ public class Player3dMove: MonoBehaviour {
         GetComponent<Rigidbody>().velocity = playerData.movePlayer;
 
         BulletShot();
+        Ray();
 	}
 
     void BulletShot()
@@ -33,6 +39,22 @@ public class Player3dMove: MonoBehaviour {
         {
             playerData.bulletPosition = new Vector3(transform.position.x+0.15f, transform.position.y-0.5f, transform.position.z+0.6f);
             Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+        }
+    }
+    
+    void Ray()
+    {
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit))
+        {
+            switch (hit.collider.tag)
+            {
+                case "CockpitGlass":
+                    //canvas.transform.position = hit.point;
+                    marker.TargetMarker(hit.point);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
