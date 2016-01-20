@@ -7,14 +7,18 @@ public class WaveUpdate : MonoBehaviour {
 
 	public static readonly string ENEMY_DATAEND = "END";
 	public static readonly string DATANULL = "NULL";
+	public static readonly string WAVEDATE_END = "END,-9999,-9999,-9999,-9999";
 
 	[SerializeField]
 	List<TextAsset> waveTextList = new List<TextAsset>();
 	EnemyFactory enemyFactory;
 
 	class EnemyDate{
-		public string enemyName{ get; set; }		// 呼び出す敵の名前	
+		public string enemyName{ get; set; }	// 呼び出す敵の名前	
 		public float delayTime{ get; set; }		// 次までの待機時間
+		public float pointX{ get; set; }		// 座標x
+		public float pointY{ get; set; }		// 座標y
+		public float pointZ{ get; set; }		// 座標z
 		
 		public EnemyDate(string en , float dt){enemyName = en;delayTime = dt;}
 	}
@@ -27,8 +31,9 @@ public class WaveUpdate : MonoBehaviour {
 	float startTime;
 	float rapTime;
 
+	string[] waveInfoArray;
 	[SerializeField]
-	string[] waveInfo;
+	List<string> waveInfo = new List<string>();
 
 	void Awake () {
 		enemyFactory = GameObject.Find ("EnemyFactory").GetComponent<EnemyFactory> ();
@@ -54,7 +59,11 @@ public class WaveUpdate : MonoBehaviour {
 
 			if (waveData [arrayPosition].delayTime <= (Time.realtimeSinceStartup - startTime)) {
 			
-				enemyFactory.Create(waveData[arrayPosition].enemyName);
+				enemyFactory.Create(waveData[arrayPosition].enemyName ,
+				                    new Vector3(waveData[arrayPosition].pointX ,
+				            					waveData[arrayPosition].pointY ,
+				            					waveData[arrayPosition].pointZ)
+				                    );
 				arrayPosition++;
 			}
 
@@ -83,17 +92,24 @@ public class WaveUpdate : MonoBehaviour {
 			Debug.LogError ("TextNull");
 			return;
 		}
-		waveInfo = waveTextList [waveState].text.Split ('\n');
-
-		int nn = 0;
+		waveInfoArray = waveTextList [waveState].text.Split ('\n');
+		int reSize = 0;
 		string[] eachInfo;
-		for (int i = 0; i < waveInfo.Length; i++) {
+		for (int i = 0; i < waveInfoArray.Length; i++) {
+			waveInfo.Add (waveInfoArray [i]);
+		}
+		StartCoroutine ("ArrayWhile");
+
+		for (int i = 0; i < waveInfo.Count; i++) {
 
 			eachInfo = waveInfo [i].Split ("," [0]);
-			waveData [i - nn].enemyName = (eachInfo [0]);
-			waveData [i - nn].delayTime = (float.Parse (eachInfo [1]));
-			if (waveData [i - nn].enemyName == ENEMY_DATAEND) {
-				System.Array.Resize (ref waveData, (i - nn + 1));
+			waveData [i - reSize].enemyName = (eachInfo [0]);
+			waveData [i - reSize].delayTime = (float.Parse (eachInfo [1]));
+			waveData [i - reSize].pointX = (float.Parse (eachInfo [2]));
+			waveData [i - reSize].pointY = (float.Parse (eachInfo [3]));
+			waveData [i - reSize].pointZ = (float.Parse (eachInfo [4]));
+			if (waveData [i - reSize].enemyName == ENEMY_DATAEND) {
+				System.Array.Resize (ref waveData, (i - reSize + 1));
 				break;
 			}
 		}
@@ -114,6 +130,23 @@ public class WaveUpdate : MonoBehaviour {
 	
 	void timeInit(){
 		startTime = Time.realtimeSinceStartup;
+	}
+
+	IEnumerator ArrayWhile(){
+		int arrayInt = 0;
+		while(waveInfo[arrayInt] != WAVEDATE_END) {
+			if (waveInfo [arrayInt].StartsWith ("#")) {
+				waveInfo.RemoveAt (arrayInt);
+				arrayInt = 0;
+			}else{
+				arrayInt++;
+			}
+			if(waveInfo[arrayInt] == WAVEDATE_END){
+				break;
+			}
+		}
+
+		yield return null;
 	}
 
 }

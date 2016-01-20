@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyTypeShot : MonoBehaviour
-{
+public class EnemyTypeShotUPDown : MonoBehaviour {
+
     Vector3 createPos;//生成された位置を記録
     Vector3 movePos;//移動先の位置
     int stopTime;//射撃停止秒数
@@ -17,24 +17,45 @@ public class EnemyTypeShot : MonoBehaviour
     {
         createPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         movePos = new Vector3(createPos.x, createPos.y, createPos.z - 10);
-        stopTime = 9;
+        stopTime = 20;
         enemyBulletRapid = 0.9f;
         //player2DPosition = GameObject.FindWithTag("Player2D").transform;
         player3DPosition = GameObject.FindWithTag("Player3D").transform;
-        StartCoroutine("EnemyTypeShotMove");
+        StartCoroutine("EnemyTypeShotMoveFoward");
         StartCoroutine("EnemyTypeShotFire");
     }
 
-    IEnumerator EnemyTypeShotMove()
+    IEnumerator EnemyTypeShotMoveFoward()       //前に動く
     {
         while (transform.position != movePos)
         {
             transform.position = Vector3.MoveTowards(transform.position, movePos, 0.2f);
             yield return null;
         }
+        if (createPos.y <= 0)
+        {
+            movePos = new Vector3(transform.position.x, transform.position.y+10, transform.position.z);
+            createPos.y += 10;
+        }
+        else
+        {
+            movePos = new Vector3(transform.position.x, transform.position.y-10, transform.position.z);
+            createPos.y -= 10;
+        }
+        StartCoroutine("EnemyTypeShotMoveVertical");
     }
 
-    IEnumerator EnemyTypeShotFire()
+    IEnumerator EnemyTypeShotMoveVertical()     //上下どちらかに動く
+    {
+        while (transform.position != movePos)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, movePos, 0.3f);
+            yield return null;
+        }
+        StartCoroutine("EnemyTypeShotReturn");
+    }
+
+    IEnumerator EnemyTypeShotFire()     //弾を撃つ
     {
         while (stopTime > 0)
         {
@@ -45,10 +66,9 @@ public class EnemyTypeShot : MonoBehaviour
             //この一連の流れで、EnemyBullet側にPlayerの位置を与えてる
             yield return new WaitForSeconds(enemyBulletRapid);
         }
-        StartCoroutine("EnemyTypeShotReturn");
     }
 
-    IEnumerator EnemyTypeShotReturn()
+    IEnumerator EnemyTypeShotReturn()       //帰ります
     {
         while (transform.position != createPos)
         {

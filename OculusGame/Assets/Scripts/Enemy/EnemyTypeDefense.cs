@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyTypeShot : MonoBehaviour
-{
+public class EnemyTypeDefense : MonoBehaviour {
+
     Vector3 createPos;//生成された位置を記録
     Vector3 movePos;//移動先の位置
     int stopTime;//射撃停止秒数
@@ -16,8 +16,8 @@ public class EnemyTypeShot : MonoBehaviour
     void Awake()
     {
         createPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        movePos = new Vector3(createPos.x, createPos.y, createPos.z - 10);
-        stopTime = 9;
+        movePos = new Vector3(createPos.x, createPos.y, createPos.z - 20);
+        stopTime = 20;
         enemyBulletRapid = 0.9f;
         //player2DPosition = GameObject.FindWithTag("Player2D").transform;
         player3DPosition = GameObject.FindWithTag("Player3D").transform;
@@ -29,7 +29,7 @@ public class EnemyTypeShot : MonoBehaviour
     {
         while (transform.position != movePos)
         {
-            transform.position = Vector3.MoveTowards(transform.position, movePos, 0.2f);
+            transform.position = Vector3.MoveTowards(transform.position, movePos, 0.1f);
             yield return null;
         }
     }
@@ -52,7 +52,7 @@ public class EnemyTypeShot : MonoBehaviour
     {
         while (transform.position != createPos)
         {
-            transform.position = Vector3.MoveTowards(transform.position, createPos, 0.2f);
+            transform.position = Vector3.MoveTowards(transform.position, createPos, 0.1f);
             yield return null;
         }
         Delete();//消去
