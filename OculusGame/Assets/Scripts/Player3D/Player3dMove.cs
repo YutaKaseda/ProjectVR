@@ -6,6 +6,7 @@ public class Player3dMove: MonoBehaviour {
     PlayerData3D playerData;
 
 	void Awake(){
+		GameObject.Find ("GameManager").GetComponent<UpdateManager> ().player3dMove = this.GetComponent<Player3dMove> ();
         playerData = GetComponent<PlayerData3D>();
         playerData.speed = 3f;
         ResourcesManager.Instance.ResourcesLoadScene("Play");

@@ -5,6 +5,7 @@ public class Beacon : MonoBehaviour {
 
     public bool putFlg { get; private set; }
     public bool moveFlg { get; private set; }
+	public bool baseBeacon { get; private set; }
     public float time { get; private set; }
     public float interval { get; private set; }
     public float waitTime { get; private set; }
@@ -17,6 +18,7 @@ public class Beacon : MonoBehaviour {
         waitTime = 3;
         interval = 10;
         moveFlg = false;
+		baseBeacon = false;
     }
 
     public void BeaconPut()
@@ -30,9 +32,15 @@ public class Beacon : MonoBehaviour {
 
                 if (time >= waitTime)   //時間を超えたとき設置
                 {
-                    Instantiate(ResourcesManager.Instance.GetResourceScene("babel"), transform.position, transform.rotation);
-                    putFlg = true;
-                    moveFlg = false;
+                    if(baseBeacon == true){
+						putFlg = true;
+						Instantiate(ResourcesManager.Instance.GetResourceScene("babel"), transform.position, transform.rotation);
+					}else{
+						Instantiate(ResourcesManager.Instance.GetResourceScene("Beacon"), transform.position, transform.rotation);
+						baseBeacon = true;
+						time = 0;
+					}
+					moveFlg = false;
                     time = 0;
                 }
             }
