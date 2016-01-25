@@ -12,7 +12,6 @@ public class Beacon : MonoBehaviour {
 
     void Awake()
     {
-        ResourcesManager.Instance.ResourcesLoadScene("Play");
         putFlg = false;
         time = 0;
         waitTime = 3;

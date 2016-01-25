@@ -10,6 +10,7 @@ public class UpdateManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		ResourcesManager.Instance.ResourcesLoadScene("Play");
 		player2dMove = GameObject.Find ("Player2D").GetComponent<Player2D> ();
 	}
 	
