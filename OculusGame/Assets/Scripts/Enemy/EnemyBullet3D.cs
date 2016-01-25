@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyBullet : MonoBehaviour
+public class EnemyBullet3D : MonoBehaviour
 {
     Vector3 enemyDirection;
     float enemyBulletSpeed;//弾の速さ
