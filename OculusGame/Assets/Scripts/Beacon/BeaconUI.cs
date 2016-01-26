@@ -13,9 +13,8 @@ public class BeaconUI : MonoBehaviour
     barrierState barrierFlg;
     GameObject barrier;
 
-    void Awake()
-    {
-        ResourcesManager.Instance.ResourcesLoadScene("Play");
+    void Awake(){
+
         playerBeacon = GetComponent<Beacon>();
         ber = GameObject.Find("WaitBer").GetComponent<Slider>();
         clearBer = GameObject.Find("Background").GetComponent<Image>();

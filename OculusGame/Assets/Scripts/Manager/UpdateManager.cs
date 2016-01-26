@@ -2,25 +2,24 @@
 using System.Collections;
 
 public class UpdateManager : MonoBehaviour {
+	public Player3dMove player3dMove;
 	[SerializeField]
-	GameObject player3dMove;
+	Player2D player2dMove;
 	[SerializeField]
-	GameObject player2dMove;
-
-
-
+	Beacon beacon;
 
 	// Use this for initialization
 	void Awake () {
-		player3dMove = GameObject.Find ("Player3D");
-		player2dMove = GameObject.Find ("Player2D");
-
-
+		ResourcesManager.Instance.ResourcesLoadScene("Play");
+		player2dMove = GameObject.Find ("Player2D").GetComponent<Player2D> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		player3dMove.GetComponent<Player3dMove> ().Player3DMove ();
-		player2dMove.GetComponent<Player2D> ().Move ();
+		if(beacon.baseBeacon == true)
+		player3dMove.Player3DMove ();
+
+		player2dMove.Move();
+
 	}
 }
