@@ -2,12 +2,15 @@
 {
     public enum E_OFFLINE_STATE
     {
-        TITLE,
+		NULL = -1,
+        TITLE = 0,
         MENU,
         RANKING,
         OPTION,
+		CUSTOMIZE,
         NETWORK_SETUP,
-        NETWORK_CONNECTING,
-        CUSTOMIZE,
+        NETWORK_CONNECTING
     }
+
+
 }

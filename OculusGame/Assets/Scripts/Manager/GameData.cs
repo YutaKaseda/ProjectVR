@@ -12,6 +12,7 @@ namespace GameMainData
 
         public static E_OFFLINE_STATE  offlineState { get; set; }
         public static E_ONLINE_STATE   onlineState { get; set; }
+		public static E_OFFLINE_STATE  nextState{ get; set;}
 
     }
 
