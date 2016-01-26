@@ -14,7 +14,7 @@ public class UpdateManager : MonoBehaviour {
 	void Awake () {
 		player3dMove = GameObject.Find ("Player3D");
 		player2dMove = GameObject.Find ("Player2D");
-
+        ResourcesManager.Instance.ResourcesLoadScene("Play");
 
 	}
 	
