@@ -1,55 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyTypeShotUPDown : MonoBehaviour {
+public class EnemyTypeShotUPDown : MonoBehaviour{
 
-    Vector3 createPos;//生成された位置を記録
-    Vector3 movePos;//移動先の位置
-    int stopTime;//射撃停止秒数
-    float enemyBulletRapid;//敵のたまの連射間隔
-    Transform player2DPosition;
-    Transform player3DPosition;
-    Vector3 targetPlayerVec;
-    GameObject targetPlayerObject;
-
+    EnemyData enemyData;
 
     void Awake()
     {
-        createPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        movePos = new Vector3(createPos.x, createPos.y, createPos.z - 10);
-        stopTime = 20;
-        enemyBulletRapid = 0.9f;
-        //player2DPosition = GameObject.FindWithTag("Player2D").transform;
-        player3DPosition = GameObject.FindWithTag("Player3D").transform;
+        enemyData = GetComponent<EnemyData>();
+        enemyData.createPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (this.tag == "3DEnemy")
+            enemyData.movePos = new Vector3(enemyData.createPos.x, enemyData.createPos.y, enemyData.createPos.z - 10);
+        if (this.tag == "2DEnemy")
+            enemyData.movePos = new Vector3(enemyData.createPos.x, enemyData.createPos.y, enemyData.createPos.z - 20);
+        enemyData.stopTime = 20;
+        enemyData.enemyBulletRapid = 0.9f;
+        //enemyData.player2DPosition = GameObject.FindWithTag("Player2D").transform;
+        enemyData.player3DPosition = GameObject.FindWithTag("Player3D").transform;
+        enemyData.InitHP(3);
         StartCoroutine("EnemyTypeShotMoveFoward");
         StartCoroutine("EnemyTypeShotFire");
     }
 
     IEnumerator EnemyTypeShotMoveFoward()       //前に動く
     {
-        while (transform.position != movePos)
+        while (transform.position != enemyData.movePos)
         {
-            transform.position = Vector3.MoveTowards(transform.position, movePos, 0.2f);
+            transform.position = Vector3.MoveTowards(transform.position, enemyData.movePos, 0.1f);
             yield return null;
         }
-        if (createPos.y <= 0)
+        if (enemyData.createPos.y <= 0)
         {
-            movePos = new Vector3(transform.position.x, transform.position.y+10, transform.position.z);
-            createPos.y += 10;
+            enemyData.movePos = new Vector3(transform.position.x, transform.position.y + 10, transform.position.z);
+            enemyData.createPos = new Vector3(enemyData.createPos.x, enemyData.createPos.y + 10, enemyData.createPos.z);
         }
         else
         {
-            movePos = new Vector3(transform.position.x, transform.position.y-10, transform.position.z);
-            createPos.y -= 10;
+            enemyData.movePos = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+            enemyData.createPos = new Vector3(enemyData.createPos.x, enemyData.createPos.y - 10, enemyData.createPos.z);
         }
         StartCoroutine("EnemyTypeShotMoveVertical");
     }
 
     IEnumerator EnemyTypeShotMoveVertical()     //上下どちらかに動く
     {
-        while (transform.position != movePos)
+        while (transform.position != enemyData.movePos)
         {
-            transform.position = Vector3.MoveTowards(transform.position, movePos, 0.3f);
+            transform.position = Vector3.MoveTowards(transform.position, enemyData.movePos, 0.1f);
             yield return null;
         }
         StartCoroutine("EnemyTypeShotReturn");
@@ -57,22 +54,32 @@ public class EnemyTypeShotUPDown : MonoBehaviour {
 
     IEnumerator EnemyTypeShotFire()     //弾を撃つ
     {
-        while (stopTime > 0)
+        while (enemyData.stopTime > 0)
         {
-            stopTime -= 1;
-            targetPlayerVec = player3DPosition.transform.position; // 後でランダム処理にする
-            targetPlayerObject = Instantiate(ResourcesManager.Instance.GetResourceScene("EnemyBullet"), transform.position, transform.rotation) as GameObject;
-            targetPlayerObject.GetComponent<EnemyBullet>().EnemyShotMove(targetPlayerVec);
+            enemyData.stopTime -= 1;
+            enemyData.targetPlayerVec = enemyData.player3DPosition.transform.position; // 後でランダム処理にする
+            if (this.tag == "3DEnemy")
+            {
+                //3Dの敵なら3D用の弾を
+                enemyData.targetPlayerObject = Instantiate(ResourcesManager.Instance.GetResourceScene("3DEnemyBullet"), transform.position, transform.rotation) as GameObject;
+                enemyData.targetPlayerObject.GetComponent<EnemyBullet3D>().EnemyShotMove(enemyData.targetPlayerVec);   //3は次元、そう3D
+            }
+            else
+            {
+                //2Dの敵なら2D用の弾を
+                enemyData.targetPlayerObject = Instantiate(ResourcesManager.Instance.GetResourceScene("2DEnemyBullet"), transform.position, transform.rotation) as GameObject;
+                enemyData.targetPlayerObject.GetComponent<EnemyBullet2D>().EnemyShotMove(enemyData.targetPlayerVec);   //2は次元、そう2D
+            }
             //この一連の流れで、EnemyBullet側にPlayerの位置を与えてる
-            yield return new WaitForSeconds(enemyBulletRapid);
+            yield return new WaitForSeconds(enemyData.enemyBulletRapid);
         }
     }
 
     IEnumerator EnemyTypeShotReturn()       //帰ります
     {
-        while (transform.position != createPos)
+        while (transform.position != enemyData.createPos)
         {
-            transform.position = Vector3.MoveTowards(transform.position, createPos, 0.2f);
+            transform.position = Vector3.MoveTowards(transform.position, enemyData.createPos, 0.1f);
             yield return null;
         }
         Delete();//消去
