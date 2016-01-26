@@ -2,10 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class BeaconUI : MonoBehaviour
-{
+public class BeaconUI : MonoBehaviour{
 
-    Beacon playerBeacon;
+	Beacon playerBeacon;
     Slider ber;
     Image clearBer;
     float time;
@@ -13,27 +12,26 @@ public class BeaconUI : MonoBehaviour
     barrierState barrierFlg;
     GameObject barrier;
 
-    void Awake()
-    {
-        ResourcesManager.Instance.ResourcesLoadScene("Play");
+    void Awake(){
         playerBeacon = GetComponent<Beacon>();
-        ber = GameObject.Find("WaitBer").GetComponent<Slider>();
+        ber = GameObject.Find("BeaconWaitBer").GetComponent<Slider>();
         clearBer = GameObject.Find("Background").GetComponent<Image>();
         time = 0;
         clearBer.enabled = false;
         barrierFlg = barrierState.IDLE;
     }
 
-    public void BeaconPutUI()
-    {
+    public void BeaconPutUI(){
         if (playerBeacon.moveFlg == true)  //ばつが押されている間
         {
-            clearBer.enabled = true;
-            time += Time.deltaTime;
-            ber.value += Time.deltaTime;
-            if (barrierFlg == barrierState.IDLE) {
-                barrierFlg = barrierState.OPEN;
-            }
+			if(playerBeacon.OverHeatFlg == true){
+            	clearBer.enabled = true;
+            	time += Time.deltaTime;
+           		ber.value += Time.deltaTime;
+            	if (barrierFlg == barrierState.IDLE) {
+					barrierFlg = barrierState.OPEN;
+            	}
+			}
 
             if (time >= playerBeacon.waitTime)   //時間を超えたとき設置
             {
