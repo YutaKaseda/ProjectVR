@@ -39,7 +39,7 @@ public class EnemyFactory : MonoBehaviour {
 			Instantiate (ResourcesManager.Instance.GetResourceScene("EnemyTypeMedium"), enemyPos, transform.rotation);
 			break;
 		case "boss1": //大ボス
-			Instantiate (ResourcesManager.Instance.GetResourceScene("EnemyTypeBoss"), enemyPos, transform.rotation);
+			Instantiate (ResourcesManager.Instance.GetResourceScene("largeboss"), enemyPos, transform.rotation);
 			break;
 		}
 	}

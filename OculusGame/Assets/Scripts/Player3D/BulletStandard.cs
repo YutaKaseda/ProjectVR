@@ -15,11 +15,13 @@ public class BulletStandard : MonoBehaviour {
     
 	void OnTriggrEnter(Collision collision){
 		if (gameObject.CompareTag("Bucn")) {
-			Debug.Log("BulletChangeTest");
-			if(gameObject.layer == LayerMask.NameToLayer("Main")){
-				gameObject.layer = LayerMask.NameToLayer("Sabu");
-			}else if(gameObject.layer == LayerMask.NameToLayer("Sabu")){
-				gameObject.layer = LayerMask.NameToLayer("Main");
+			//Debug.Log("BulletChangeTest");
+			if(gameObject.layer == LayerMask.NameToLayer("2DLayer")){
+                gameObject.layer = LayerMask.NameToLayer("3DLayer");
+            }
+            else if (gameObject.layer == LayerMask.NameToLayer("3DLayer"))
+            {
+                gameObject.layer = LayerMask.NameToLayer("2DLayer");
 			}
 		}
 	}

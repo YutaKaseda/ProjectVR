@@ -19,7 +19,8 @@ public class Player3dMove: MonoBehaviour {
         playerCamera = GameObject.Find("PlayerCamera") as GameObject;
         lockonCanvas = GameObject.Find("LockonCanvas") as GameObject;
         markerCanvas = GameObject.Find("MarkerCanvas") as GameObject;
-        markerCanvas.SetActive(false);
+        //markerCanvas.SetActive(false);
+        GameObject.Find("UpdateManager").GetComponent<UpdateManager>().player3dMove = this.GetComponent<Player3dMove>();
 	}
 	
 	public void Player3DMove(){
@@ -39,7 +40,7 @@ public class Player3dMove: MonoBehaviour {
         if (Input.GetButton("MaruP1"))
         {
             playerData.bulletPosition = new Vector3(transform.position.x+0.15f, transform.position.y-0.5f, transform.position.z+0.6f);
-            Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+            Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet3D"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
         }
     }
 

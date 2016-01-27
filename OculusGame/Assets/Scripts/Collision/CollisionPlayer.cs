@@ -24,6 +24,10 @@ public class CollisionPlayer : MonoBehaviour {
             case "enemy":
                 playerData.Damege(3);
                 break;
+
+            case "Railgun":
+                playerData.Damege(50);
+                break;
                 
             default:
                 break;

@@ -12,6 +12,7 @@ public class Player2D : MonoBehaviour {
 	Renderer ren;
     Beacon playerBeacon;
     BeaconUI playerBeaconUI;
+
 	int i;
 	float SliderVol;
 	bool OverHeatFlg;
@@ -26,20 +27,20 @@ public class Player2D : MonoBehaviour {
         playerBeacon = GetComponent<Beacon>();
         playerBeaconUI = GetComponent<BeaconUI>();
         playerData.speed = 8.0f;
-		playerData.bulletPrefab = Resources.Load("Prefabs/Play/Player/Bullet") as GameObject;
+		//playerData.bulletPrefab = Resources.Load("Prefabs/Play/Player/Bullet") as GameObject;
 
 
 
 		SliderVol = BulletSlider.value;
 		OverHeatFlg = true;
-		overHeat2D = GameObject.Find("overheat").GetComponent<OverHeat2D>();
+		//overHeat2D = GameObject.Find("overheat").GetComponent<OverHeat2D>();
        
 		playerData.resurrectionTime = 3.0f;
 		playerData.resurrectionPenalty = 3.0f;
 	}
     public void Move()
     {
-		if ((playerData.playerHP > 0 && ren.enabled == true) || (playerBeacon.moveFlg == false)) {
+		if ((playerData.playerHP > 0 /*&& ren.enabled == true*/) || (playerBeacon.moveFlg == false)) {
 			playerData.vectorZ = Input.GetAxisRaw("HorizontalP2");
 			playerData.vectorY = Input.GetAxisRaw("VerticalP2");
 		}
@@ -59,6 +60,7 @@ public class Player2D : MonoBehaviour {
         BulletShot();
         playerBeacon.BeaconPut();
         playerBeaconUI.BeaconPutUI();
+        //overHeat2D.BulletCoolTime();
 
 	}
 
@@ -74,8 +76,9 @@ public class Player2D : MonoBehaviour {
 			if(OverHeatFlg == true){	
 				i++;
 				if (i / 2 != 0 || i / 5 != 0) {
-					overHeat2D.OverHeat(0);
-						Instantiate (playerData.bulletPrefab, transform.position, transform.rotation);
+					//overHeat2D.OverHeat(0);
+						//Instantiate (playerData.bulletPrefab, transform.position, transform.rotation);
+                    Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet2D"), transform.position, transform.rotation);
 				}
 			}
 		}
