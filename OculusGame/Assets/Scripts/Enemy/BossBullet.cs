@@ -7,8 +7,8 @@ public class BossBullet : MonoBehaviour {
 	float randomX,randomY,randomZ;
 	// Use this for initialization
 	void Awake () {
-		enemyBulletSpeed = 2400.0f;//弾の速さ
-		Destroy(gameObject,2f);
+		enemyBulletSpeed = 3200.0f;//弾の速さ
+		Destroy(gameObject,2.5f);
 	}
 
 	public void RandomBullet(){

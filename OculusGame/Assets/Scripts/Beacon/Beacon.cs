@@ -12,7 +12,7 @@ public class Beacon : MonoBehaviour {
 
     void Awake()
     {
-        ResourcesManager.Instance.ResourcesLoadScene("Play");
+        //ResourcesManager.Instance.ResourcesLoadScene("Play");
         putFlg = false;
         time = 0;
         waitTime = 3;
@@ -25,7 +25,7 @@ public class Beacon : MonoBehaviour {
     {
         if (putFlg == false)
         {
-            if (Input.GetButton("BatuP2"))  //ばつが押されている間
+            if (Input.GetButton("ShikakuP2"))  //ばつが押されている間
             {
                 time += Time.deltaTime;
                 moveFlg = true;
@@ -35,7 +35,7 @@ public class Beacon : MonoBehaviour {
                     if (baseBeacon == true)
                     {
                         putFlg = true;
-                        Instantiate(ResourcesManager.Instance.GetResourceScene("babel"), transform.position, transform.rotation);
+                        Instantiate(ResourcesManager.Instance.GetResourceScene("Beacon1"), transform.position, transform.rotation);
                         moveFlg = false;
                         time = 0;
                     }
@@ -49,7 +49,7 @@ public class Beacon : MonoBehaviour {
 
                 }
             }
-            else if (Input.GetButtonUp("BatuP2"))
+            else if (Input.GetButtonUp("ShikakuP2"))
             {
                 time = 0;  //ばつが離れたとき
                 moveFlg = false;

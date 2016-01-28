@@ -8,6 +8,7 @@ public class Player2D : MonoBehaviour {
 	Slider BulletSlider;
 
     PlayerData2D playerData;
+    [SerializeField]
 	GameObject player3D;
 	Renderer ren;
     Beacon playerBeacon;
@@ -19,16 +20,14 @@ public class Player2D : MonoBehaviour {
 	OverHeat2D overHeat2D;
 
 	// Use this for initialization
-	public void Awake () {
-        playerData = GetComponent<PlayerData2D>();
-		player3D = GameObject.FindWithTag("Player3D");
-		ren = gameObject.GetComponent<Renderer> ();
-        playerData = GetComponent<PlayerData2D>();
+	 void Awake () {
+        playerData = GameObject.Find("Player2D").GetComponent<PlayerData2D>();
+		//player3D = GameObject.FindWithTag("Player3D");
+		//ren = gameObject.GetComponent<Renderer> ();
         playerBeacon = GetComponent<Beacon>();
         playerBeaconUI = GetComponent<BeaconUI>();
         playerData.speed = 8.0f;
 		//playerData.bulletPrefab = Resources.Load("Prefabs/Play/Player/Bullet") as GameObject;
-
 
 
 		SliderVol = BulletSlider.value;
@@ -38,14 +37,17 @@ public class Player2D : MonoBehaviour {
 		playerData.resurrectionTime = 3.0f;
 		playerData.resurrectionPenalty = 3.0f;
 	}
+
     public void Move()
     {
+
 		if ((playerData.playerHP > 0 /*&& ren.enabled == true*/) || (playerBeacon.moveFlg == false)) {
 			playerData.vectorZ = Input.GetAxisRaw("HorizontalP2");
 			playerData.vectorY = Input.GetAxisRaw("VerticalP2");
 		}
-		if (playerData.playerHP <= 0 && ren.enabled == true) {
-			StartCoroutine ("Resurrection");
+		if (playerData.playerHP <= 0 /*&& ren.enabled == true*/) {
+            Debug.Log("2D_DEAD");
+            StartCoroutine("Resurrection");
 		}
 
          if (playerBeacon.moveFlg == true)
@@ -66,7 +68,7 @@ public class Player2D : MonoBehaviour {
 
     public void BulletShot(){
 	
-		if (Input.GetButton ("MaruP2")) {
+		if (Input.GetButton ("BatuP2")) {
 			SliderVol = BulletSlider.value;
 			if(SliderVol >= 59f){
 				OverHeatFlg = false;
@@ -83,17 +85,18 @@ public class Player2D : MonoBehaviour {
 			}
 		}
 			
-		if (Input.GetButtonUp ("MaruP2")) {
+		if (Input.GetButtonUp ("BatuP2")) {
 			i = 0;
 		}
 	}
 
 	public IEnumerator Resurrection(){
-		ren.enabled = false;
+		//ren.enabled = false;
 		playerData.vectorZ = -100000;
 
 		while (playerData.resurrectionTime > 0) {
-			playerData.resurrectionTime -= Time.deltaTime;
+			playerData.resurrectionTime -= 1 * Time.deltaTime;
+            playerData.InitHP();
 			yield return null;
 		}
 		if (playerData.resurrectionPenalty < 10.0f) {
@@ -101,8 +104,8 @@ public class Player2D : MonoBehaviour {
 		}
 		playerData.resurrectionTime = playerData.resurrectionPenalty;//復活時間の再設定
 		gameObject.transform.position = player3D.transform.position;
-		ren.enabled = true;
-		playerData.InitHP ();
-
+		//ren.enabled = true;
+		
+        Debug.Log(playerData.playerHP);
 	}
 }

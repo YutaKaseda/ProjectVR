@@ -41,7 +41,7 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 
 	public void ResourcesLoadScene(string sceneName){
 
-		sceneResources.Clear();
+        sceneResources.Clear();
 
 		if(allSceneResources.Count == 0)
 			ResourcesLoadAllScene ();
@@ -49,6 +49,7 @@ public class ResourcesManager : SingletonMonobehaviour<ResourcesManager> {
 		resourcesStuck = Resources.LoadAll<GameObject>("prefabs/" + sceneName);
 		foreach(var obj in resourcesStuck){
 			sceneResources.Add (obj.name,new ResourceInfo("prefabs/" + obj.name,obj));
+            Debug.Log(obj.name + "Loaded");
 		}
 
 		resourcesStuck = null;

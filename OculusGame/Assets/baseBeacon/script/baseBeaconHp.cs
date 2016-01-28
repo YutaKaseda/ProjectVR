@@ -13,7 +13,7 @@ public class baseBeaconHp : MonoBehaviour {
 	
 		void Awake(){
 		//タグ設定
-		this.tag = ("DefaultBeacon");
+		this.tag = ("BeasBeacon");
 		baseBeaconLife = 50;
 		//3D出現用
 		Instantiate(prefab,transform.position,transform.rotation);

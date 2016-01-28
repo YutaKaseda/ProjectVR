@@ -15,7 +15,7 @@ public class BeaconUI : MonoBehaviour{
     GameObject barrier;
 
     void Awake(){
-        playerBeacon = GetComponent<Beacon>();
+        //playerBeacon = GetComponent<Beacon>();
         ber = GameObject.Find("BeaconWaitBer").GetComponent<Slider>();
         clearBer = GameObject.Find("Background").GetComponent<Image>();
         time = 0;
