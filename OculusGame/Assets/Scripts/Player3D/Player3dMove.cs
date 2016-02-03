@@ -41,6 +41,7 @@ public class Player3dMove: MonoBehaviour {
         {
             playerData.bulletPosition = new Vector3(transform.position.x+0.15f, transform.position.y-0.5f, transform.position.z+0.6f);
             Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet3D"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+            SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
         }
     }
 

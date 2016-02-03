@@ -97,7 +97,7 @@ public class BabelSelect : MonoBehaviour
                     tempHitBeaconPosition = hit.collider.transform.position;
                     tempHitBeaconName = hit.collider.name;
                     
-                    //SoundPlayer.Instance.PlaySoundEffect("Warp", 1.0f);
+                    SoundPlayer.Instance.PlaySoundEffect("warp", 1.0f);
                     anim.Play("fade");
                 }
             }

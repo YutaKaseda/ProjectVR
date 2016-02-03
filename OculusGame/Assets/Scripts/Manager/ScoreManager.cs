@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour {
         {
             score += 100;
             scoreYard -= 100;
-            scoreView2D.GetComponent<ScoreView2D>().DrawScore();
+            //scoreView2D.GetComponent<ScoreView2D>().DrawScore();
 			scoreView3D.GetComponent<ScoreView3D>().DrawScore();
             yield return null;
         }

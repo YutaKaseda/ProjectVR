@@ -12,13 +12,11 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
     class AudioClipInfo
     {
         public string resourceName;
-        public string name;
         public AudioClip clip;
 
-        public AudioClipInfo(string resourceName, string name)
+        public AudioClipInfo(string resourceName)
         {
             this.resourceName = resourceName;
-            this.name = name;
         }
     }
 
@@ -31,18 +29,18 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
             audioSource = soundPlayer.AddComponent<AudioSource>();
         }
 
-        //SE
-        audioClips.Add("Explosion", new AudioClipInfo("Explosion", "se001"));
-        
-        //BGM
-        //audioClips.Add("");
-
-        DontDestroyOnLoad(this);
+        //audioClips.Add("Explosion", new AudioClipInfo("Explosion4"));
+        audioClips.Add("Balkan2", new AudioClipInfo("laser"));
+        audioClips.Add("warp", new AudioClipInfo("warp"));
+        audioClips.Add("Railgun", new AudioClipInfo("beamgun"));
+        //DontDestroyOnLoad(this);
 
     }
 
-    public bool PlaySoundEffect(string seName)
+    public bool PlaySoundEffect(string seName,float seVolume)
     {
+
+        Debug.Log(seName);
         if (audioClips.ContainsKey(seName) == false)
             return false;   //not register error
 
@@ -51,6 +49,8 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
         if (audioclipinfo.clip == null)
             audioclipinfo.clip = (AudioClip)Resources.Load("Sounds/" + audioclipinfo.resourceName);
 
+
+        audioSource.volume = seVolume;
         audioSource.PlayOneShot(audioclipinfo.clip);
         
         return true;
