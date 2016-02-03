@@ -12,7 +12,8 @@ public class Collisionbullet : MonoBehaviour {
     //何かに当たったら消える
 	void OnTriggerEnter(Collider other){
 		switch (other.tag) {
-		case "Enemy":
+            case "2DEnemy":
+            case "3DEnemy":
 			Destroy (gameObject);
 			break;
 		}

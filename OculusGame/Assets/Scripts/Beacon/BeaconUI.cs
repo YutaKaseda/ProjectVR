@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class BeaconUI : MonoBehaviour{
 
-	Beacon playerBeacon;
+    [SerializeField]
+    Beacon playerBeacon;
+
     Slider ber;
     Image clearBer;
     float time;
@@ -13,7 +15,7 @@ public class BeaconUI : MonoBehaviour{
     GameObject barrier;
 
     void Awake(){
-        playerBeacon = GetComponent<Beacon>();
+        //playerBeacon = GetComponent<Beacon>();
         ber = GameObject.Find("BeaconWaitBer").GetComponent<Slider>();
         clearBer = GameObject.Find("Background").GetComponent<Image>();
         time = 0;
@@ -24,13 +26,13 @@ public class BeaconUI : MonoBehaviour{
     public void BeaconPutUI(){
         if (playerBeacon.moveFlg == true)  //ばつが押されている間
         {
-			if(playerBeacon.OverHeatFlg == true){
+			//if(playerBeacon.OverHeatFlg == true){
             	clearBer.enabled = true;
             	time += Time.deltaTime;
            		ber.value += Time.deltaTime;
             	if (barrierFlg == barrierState.IDLE) {
 					barrierFlg = barrierState.OPEN;
-            	}
+            	//}
 			}
 
             if (time >= playerBeacon.waitTime)   //時間を超えたとき設置
@@ -61,7 +63,7 @@ public class BeaconUI : MonoBehaviour{
                     Destroy(barrier);
                 break;
             case barrierState.OPEN:
-                Instantiate(ResourcesManager.Instance.GetResourceScene("barrier"), transform.position, transform.rotation);
+                barrier = Instantiate(ResourcesManager.Instance.GetResourceScene("barrier"), transform.position, transform.rotation) as GameObject;
                 barrierFlg = barrierState.STAY;
                 break;
             case barrierState.STAY:

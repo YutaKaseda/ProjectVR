@@ -19,7 +19,8 @@ public class Player3dMove: MonoBehaviour {
         playerCamera = GameObject.Find("PlayerCamera") as GameObject;
         lockonCanvas = GameObject.Find("LockonCanvas") as GameObject;
         markerCanvas = GameObject.Find("MarkerCanvas") as GameObject;
-        markerCanvas.SetActive(false);
+        //markerCanvas.SetActive(false);
+        GameObject.Find("UpdateManager").GetComponent<UpdateManager>().player3dMove = this.GetComponent<Player3dMove>();
 	}
 	
 	public void Player3DMove(){
@@ -28,18 +29,19 @@ public class Player3dMove: MonoBehaviour {
         playerData.movePlayer = new Vector3(playerData.vectorX * playerData.speed, playerData.vectorY * playerData.speed, 0);
         GetComponent<Rigidbody>().velocity = playerData.movePlayer;
 
-        Ray();
+        //Ray();
         BulletShot();
-        LaserShot();
+        //LaserShot();
 	}
 
     void BulletShot()
     {
 
-        if (Input.GetButton("MaruP1"))
+        if (Input.GetButton("ShikakuP1"))
         {
             playerData.bulletPosition = new Vector3(transform.position.x+0.15f, transform.position.y-0.5f, transform.position.z+0.6f);
-            Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+            Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet3D"), playerData.bulletPosition, playerData.oculusCamera.transform.rotation);
+            SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
         }
     }
 
@@ -47,22 +49,22 @@ public class Player3dMove: MonoBehaviour {
     {
         if (Input.GetButton("SankakuP1"))
         {
-            markerCanvas.SetActive(true);
+            //markerCanvas.SetActive(true);
             playerData.lockonActive = true;
         }
 
         if(Input.GetButtonUp("SankakuP1")){
-            lockedEnemy = GameObject.FindGameObjectsWithTag("Locked");
+            /*lockedEnemy = GameObject.FindGameObjectsWithTag("Locked");
             foreach(GameObject enemy in lockedEnemy){
                 if(enemy.gameObject != null){
                     Destroy(enemy.gameObject);
                 }
-            }
-            markerCanvas.SetActive(false);
+            }*/
+            //markerCanvas.SetActive(false);
             playerData.lockonActive = false;
         }
     }
-
+    /*
     void Ray()
     {
         if (Physics.SphereCast(playerCamera.transform.position, 5f, playerCamera.transform.forward, out hit))
@@ -78,7 +80,7 @@ public class Player3dMove: MonoBehaviour {
                 break;
             }
         }
-    }
+    }*/
 
     void Lockon()
     {

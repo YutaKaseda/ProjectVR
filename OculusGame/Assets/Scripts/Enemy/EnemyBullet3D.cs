@@ -9,6 +9,7 @@ public class EnemyBullet3D : MonoBehaviour
     void Awake()
     {
         enemyBulletSpeed = 800.0f;//弾の速さ
+        //SoundPlayer.Instance.PlaySoundEffect("Balkan2",0.5f);
     }
 
     // Update is called once per frame

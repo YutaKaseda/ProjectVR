@@ -148,6 +148,7 @@ public class Boss : MonoBehaviour {
     {
         railgunEffect.SetActive(true);
         Debug.Log("RAILGUN SHOT!!");
+        SoundPlayer.Instance.PlaySoundEffect("Railgun", 1f);
     }
     public void RailgunDelete()
     {

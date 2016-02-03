@@ -5,11 +5,16 @@ public class CollisionEnemy : MonoBehaviour {
 
     EnemyData enemyData;
     ScoreManager scoreManager;
+    int dimension;
 
     void Awake()
     {
         enemyData = GetComponent<EnemyData>();
-        scoreManager = GameObject.Find("DataManager").GetComponent<ScoreManager>();
+        //scoreManager = GameObject.Find("DataManager").GetComponent<ScoreManager>();
+        if (this.tag == "3DEnemy")
+            dimension = 3;
+        if (this.tag == "2DEnemy")
+            dimension = 2;
     }
 
     void OnTriggerEnter(Collider other)
@@ -18,20 +23,26 @@ public class CollisionEnemy : MonoBehaviour {
         {
             //プレイヤーの弾に当たったら
             case "Player2DBullet":
-                enemyData.Damege(1);
-                if (enemyData.enemyHP <= 0)
+                if (dimension == 2)
                 {
-                    scoreManager.plusScore(1000);
-                    Destroy(gameObject);
+                    enemyData.Damege(1);
+                    if (enemyData.enemyHP <= 0)
+                    {
+                        //scoreManager.plusScore(1000);
+                        Destroy(gameObject);
+                    }
                 }
                 break;
             //プレイヤーの弾に当たったら
             case "Player3DBullet":
-                enemyData.Damege(1);
-                if (enemyData.enemyHP <= 0)
+                if (dimension == 3)
                 {
-                    scoreManager.plusScore(1000);
-                    Destroy(gameObject);
+                    enemyData.Damege(1);
+                    if (enemyData.enemyHP <= 0)
+                    {
+                        //scoreManager.plusScore(1000);
+                        Destroy(gameObject);
+                    }
                 }
                 break;
             default:

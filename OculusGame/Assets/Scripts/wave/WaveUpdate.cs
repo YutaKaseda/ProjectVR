@@ -90,11 +90,12 @@ public class WaveUpdate : MonoBehaviour {
 		}else {
 
 			if(socreFlg == false && (Time.realtimeSinceStartup - startTime) >= (timeRap + (stayTime))){
-				resultScore.InitScoreText();
-				socreFlg = true;
-			}
-			if(socreFlg == true && resultScore.resultViweFlg == false){
-				socreFlg = false;
+                Debug.Log("result");
+             //   resultScore.InitScoreText();
+			//	socreFlg = true;
+			//}
+			//if(socreFlg == true && resultScore.resultViweFlg == false){
+			//	socreFlg = false;
 				NextWave();
 			}
 		}

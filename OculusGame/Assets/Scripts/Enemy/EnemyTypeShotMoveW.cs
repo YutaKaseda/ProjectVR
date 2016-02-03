@@ -3,12 +3,13 @@ using System.Collections;
 
 public class EnemyTypeShotMoveW : MonoBehaviour {
 
+    EnemyData enemyData;
     enum E_w_updown { UP, DOWN };   //Wに動くときの上に行ってるか下に行ってるか
     E_w_updown updown;              //その保存場所
-    EnemyData enemyData;
 
     void Awake()
     {
+        enemyData = GetComponent<EnemyData>();
         enemyData.createPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         if (enemyData.createPos.y <= 0)
         {
