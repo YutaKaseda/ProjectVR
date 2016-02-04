@@ -8,16 +8,22 @@
 using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
-public class Warp_Effect : MonoBehaviour {
+public class WarpEffect : MonoBehaviour {
 	
 	ScreenOverlay screenOver;
-	// Update is called once per frame
-	void Update () {
-		//仮当て
-		if (Input.GetKeyDown (KeyCode.S)) {
-			FadeWhite ();
-		}
+	//透明度
+	[SerializeField]
+	float whiteAlpha,blackAlpha;
+	//フェード時間
+	[SerializeField]
+	float fadeTimer;
+
+	void Awake(){
+		whiteAlpha = 2f;
+		blackAlpha = -2f;
+		fadeTimer = 4f;
 	}
+	
 	/// <summary>
 	/// 他でただただ呼び出せば、フェードインアウトします
 	/// </summary>
@@ -28,13 +34,20 @@ public class Warp_Effect : MonoBehaviour {
 		StartCoroutine ("FadeWhiteCol");
 	}
 
+	public void FadeBlack(){
+		gameObject.AddComponent <ScreenOverlay>();
+		screenOver = GetComponent<ScreenOverlay>();
+		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
+		StartCoroutine ("FadeBlackCol");
+	}
+
 	IEnumerator FadeWhiteCol(){
-		while(screenOver.intensity < 2f){
-			screenOver.intensity += 4f * Time.deltaTime;	
+		while(screenOver.intensity < whiteAlpha){
+			screenOver.intensity += fadeTimer * Time.deltaTime;	
 			yield return null;
 		}
 		while(screenOver.intensity > 0){
-			screenOver.intensity -= 4f * Time.deltaTime;
+			screenOver.intensity -= fadeTimer * Time.deltaTime;
 			yield return null;
 		}
 
@@ -42,13 +55,15 @@ public class Warp_Effect : MonoBehaviour {
 	}
 
 	IEnumerator FadeBlackCol(){
-		while(screenOver.intensity > -2f){
-			screenOver.intensity -= 4f * Time.deltaTime;	
+		while(screenOver.intensity > blackAlpha){
+			screenOver.intensity -= fadeTimer * Time.deltaTime;	
 			yield return null;
 		}
 		while(screenOver.intensity < 0){
-			screenOver.intensity += 4f * Time.deltaTime;
+			screenOver.intensity += fadeTimer * Time.deltaTime;
 			yield return null;
 		}
+
+		Destroy (GetComponent<ScreenOverlay>());
 	}
 }
