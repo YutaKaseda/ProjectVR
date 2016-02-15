@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.VR;
 
 public class OculusPlayerMain : MonoBehaviour {
 	//OculusCamera
@@ -16,20 +17,21 @@ public class OculusPlayerMain : MonoBehaviour {
 	//RayHitColliderChecking
 	RaycastHit raycastHit;
 
-	void Init(){
+	void RayInit(){
 
 		//Camera forward
 		ray = new Ray(oculusCamera.transform.position,oculusCamera.transform.forward);
-
 	}
 
 	public void Update(){
 
-		if(Input.GetKeyDown(KeyCode.A)){
+		if(Input.GetKey(KeyCode.A)){
+            RayInit();
 			ShotBullet();
 		}
 
 		if(Input.GetKeyDown(KeyCode.B)){
+            RayInit();
 			RayWarp();
 		}
 
@@ -37,20 +39,21 @@ public class OculusPlayerMain : MonoBehaviour {
 
 	void ShotBullet(){
 
-		Debug.Assert(CheckHitRayWithTag(ray,"Enemy",1.0f));
+        if (CheckHitRayWithTag(ray, "Enemy", 1.0f)) ;
+
+
 	}
 
 	void RayWarp(){
-
-		Debug.Assert(CheckHitRayWithTag(ray,"Base",4.0f));
-
-	}
+        if (CheckHitRayWithTag(ray, "Beacon", 20.0f))
+            gameObject.transform.position = raycastHit.collider.transform.position;
+    }
 
 	bool CheckHitRayWithTag(Ray checkRay,string checkTag,float rayRadius){
 
 		if(Physics.SphereCast(ray,rayRadius,out raycastHit)){
 			if(raycastHit.collider.tag == checkTag)
-				return true;
+                return true;
 		}
 
 		return false;
