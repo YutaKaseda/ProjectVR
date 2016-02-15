@@ -23,7 +23,7 @@ public class OculusPlayerMain : MonoBehaviour {
 
 	}
 
-	public void Main(){
+	public void Update(){
 
 		if(Input.GetKeyDown(KeyCode.A)){
 			ShotBullet();
@@ -37,20 +37,22 @@ public class OculusPlayerMain : MonoBehaviour {
 
 	void ShotBullet(){
 
-		if(CheckHitRayWithTag(ray,"Enemy",1.0f));
-
+		Debug.Assert(CheckHitRayWithTag(ray,"Enemy",1.0f));
 	}
 
 	void RayWarp(){
 
-		if(CheckHitRayWithTag(ray,"Base",4,0f));
+		Debug.Assert(CheckHitRayWithTag(ray,"Base",4.0f));
 
 	}
 
 	bool CheckHitRayWithTag(Ray checkRay,string checkTag,float rayRadius){
 
-		Physics.Raycast()
+		if(Physics.SphereCast(ray,rayRadius,out raycastHit)){
+			if(raycastHit.collider.tag == checkTag)
+				return true;
+		}
 
+		return false;
 	}
-
 }
