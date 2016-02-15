@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 6f19108706fdce9469603d07980eb8ad
+guid: 4975a6e437fc3b149a8cd508ce5bdd69
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - texture: {instanceID: 0}
-  - overlayShader: {fileID: 4800000, guid: 8c81db0e527d24acc9bcec04e87781bd, type: 3}
+  - fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
