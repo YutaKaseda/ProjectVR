@@ -8,8 +8,8 @@ public class menu_controller : MonoBehaviour
 	//Animator animator; //アニメーター用変数
 	int      lkey;
 	int      rkey;
-	int      count;
-	int 	 moveCount;
+	int      count;//何を選択中か
+	int 	 moveCount;//動ききるまでのcount
 	float AxisY;
 	void Awake () 
 	{
@@ -18,50 +18,6 @@ public class menu_controller : MonoBehaviour
 		rkey     = Animator.StringToHash ("Rkey");
 		count = 0;
 	}
-	/*
-	// Update is called once per frame
-	void Update () 
-	{
-		Debug.Log (count);
-		animator.SetBool (rkey, false);
-		animator.SetBool (lkey, false);
-
-		if (Input.GetKeyUp (KeyCode.RightArrow)) 
-		{
-			animator.SetBool (rkey, true);
-		} 
-		else if (Input.GetKeyUp(KeyCode.LeftArrow)) 
-		{
-			animator.SetBool(lkey,true);
-		}
-		else if(Input.GetKeyUp(KeyCode.Return)){
-			if(count == 0){
-				GameData.nextState = OfflineStatus.E_OFFLINE_STATE.CUSTOMIZE;
-			}
-			if(count == 1){
-				GameData.nextState = OfflineStatus.E_OFFLINE_STATE.OPTION;
-			}
-			if(count == 2){
-				GameData.nextState = OfflineStatus.E_OFFLINE_STATE.RANKING;
-			}
-		}
-
-		if (count < 0) {
-			count = 2;
-		}
-		if(count > 2){
-			count = 0;
-		}
-	}
-
-	public void Right(){
-		count += 1;
-	}
-	public void Left(){
-		count -= 1;
-	}
-	*/
-
 	void Update () 
 	{
 		AxisY = Input.GetAxisRaw("HorizontalP1");

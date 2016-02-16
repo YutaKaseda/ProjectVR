@@ -9,7 +9,7 @@ using GameMainData;
 public class Garage : MonoBehaviour {
 
 	public static int shipSelect{private set; get;}
-	public static int balkanSelect{private set; get;}
+	public static int vulcanSelect{private set; get;}
 	public static int laserSelect{private set; get;}
 	public static int bombSelect{private set; get;}
 
@@ -18,7 +18,7 @@ public class Garage : MonoBehaviour {
 		MENU = 0,
 		SHIP,
 		WEAPON,
-		BALKAN,
+		VULCAN,
 		LASER,
 		BOMB
 	}
@@ -41,9 +41,9 @@ public class Garage : MonoBehaviour {
 	float AxisY;
 	int inputCnt;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		shipSelect = 1;
-		balkanSelect = 1;
+		vulcanSelect = 1;
 		laserSelect = 1;
 		bombSelect = 1;
 
@@ -87,7 +87,7 @@ public class Garage : MonoBehaviour {
 				nextGarageState = UiState.MENU;
 			}
 			if(nowOk == 1){
-				nextGarageState = UiState.BALKAN;
+				nextGarageState = UiState.VULCAN;
 			}
 			if(nowOk == 2){
 				nextGarageState = UiState.LASER;
@@ -96,13 +96,13 @@ public class Garage : MonoBehaviour {
 				nextGarageState = UiState.BOMB;
 			}
 			break;
-		case UiState.BALKAN:
+		case UiState.VULCAN:
 			if(nowOk == -1){
 				nextGarageState = UiState.WEAPON;
 			}
 			if(nowOk > 0){
 				nextGarageState = UiState.WEAPON;
-				balkanSelect = nowOk;
+				vulcanSelect = nowOk;
 			}
 			break;
 		case UiState.LASER:
@@ -150,9 +150,9 @@ public class Garage : MonoBehaviour {
 				itemNo = 3;
 				ui[(int)UiState.WEAPON].SetActive(true);
 				break;
-			case UiState.BALKAN:
+			case UiState.VULCAN:
 				itemNo = 3;
-				ui[(int)UiState.BALKAN].SetActive(true);
+				ui[(int)UiState.VULCAN].SetActive(true);
 				break;
 			case UiState.LASER:
 				itemNo = 3;
@@ -176,8 +176,8 @@ public class Garage : MonoBehaviour {
 			case UiState.WEAPON:
 				ui[(int)UiState.WEAPON].SetActive(false);
 				break;
-			case UiState.BALKAN:
-				ui[(int)UiState.BALKAN].SetActive(false);
+			case UiState.VULCAN:
+				ui[(int)UiState.VULCAN].SetActive(false);
 				break;
 			case UiState.LASER:
 				ui[(int)UiState.LASER].SetActive(false);
