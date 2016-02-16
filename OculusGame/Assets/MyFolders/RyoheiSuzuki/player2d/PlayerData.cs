@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// 2/16:class内容追加 瀧本
+using UnityEngine;
 using System.Collections;
 
 public class PlayerData : MonoBehaviour {
@@ -10,6 +11,8 @@ public class PlayerData : MonoBehaviour {
     public float vectorY { get; set; }
     public float vectorZ { get; set; }
     public GameObject bulletPrefab { get; set; }
+	public	double score { get; set;}
+	public	int killCombo { get; set;}
 
     public void Awake(){
         playerHP = 100;
