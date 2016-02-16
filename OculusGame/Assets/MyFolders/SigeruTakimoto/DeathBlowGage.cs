@@ -18,10 +18,7 @@ public class DeathBlowGage : MonoBehaviour {
 		//必殺技
 		laser2D = 0;
 	}
-	//確認用入らなくなったら消してください
-	void Update(){
-		GageUp ();
-	}
+
 	//必殺技のゲージをためる
 	//２Dまたは３Dが敵を倒したとき
 	public void GageUp(){

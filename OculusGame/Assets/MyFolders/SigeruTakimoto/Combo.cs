@@ -21,14 +21,8 @@ public class Combo : MonoBehaviour {
 
 	void Awake(){
 		comboText.text=playerData.killCombo+" ";
-		}
-	//Debug用　入らなくなった場合消してください
-	void Update(){
-		if (Input.GetKey(KeyCode.G)) {
-			playerData.killCombo += 1;
-			ComboUp ();
-		}
 	}
+
 	//敵にを倒したとき
 	public void ComboUp(){
 		playerData.killCombo += 1;

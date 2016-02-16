@@ -15,12 +15,7 @@ public class Lifes2D : MonoBehaviour {
 		playerData2D.lifes = 6;
 		LifesDraw ();
 	}
-	//確認用
-	void Update () {
-	if(Input.GetKeyUp(KeyCode.Z)){
-			ReduceLife();
-		}
-	}
+
 	//死んだとき
 	public void ReduceLife(){
 		playerData2D.lifes -= 1;
