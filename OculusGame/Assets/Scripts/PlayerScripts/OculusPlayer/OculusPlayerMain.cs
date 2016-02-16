@@ -11,6 +11,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	[SerializeField]
 	Camera oculusCamera;
 	//FadeIn,FadeOutEffect
+    [SerializeField]
 	WarpEffect warpEffect;
 
 	//Use ShotBullet,Warp
@@ -81,7 +82,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	}
 
 	void RayWarp(){
-        if (CheckHitRayWithTag(ray, "Beacon", 20.0f)){
+        if (CheckHitRayWithTag(ray, "Beacon", 3.0f)){
 			warpEffect.FadeWhite();
 			playerState = e_PLAYER_STATE.WARP;
 		}
