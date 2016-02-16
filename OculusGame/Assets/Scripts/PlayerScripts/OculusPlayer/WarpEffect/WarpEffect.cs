@@ -18,10 +18,13 @@ public class WarpEffect : MonoBehaviour {
 	[SerializeField]
 	float fadeTimer;
 
+	public bool activeWarp{private set;get;}
+
 	void Awake(){
 		whiteAlpha = 2f;
 		blackAlpha = -2f;
 		fadeTimer = 4f;
+		activeWarp = false;
 	}
 	
 	/// <summary>
@@ -31,6 +34,7 @@ public class WarpEffect : MonoBehaviour {
 		gameObject.AddComponent <ScreenOverlay>();
 		screenOver = GetComponent<ScreenOverlay>();
 		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
+		activeWarp = !activeWarp;
 		StartCoroutine ("FadeWhiteCol");
 	}
 
@@ -38,6 +42,7 @@ public class WarpEffect : MonoBehaviour {
 		gameObject.AddComponent <ScreenOverlay>();
 		screenOver = GetComponent<ScreenOverlay>();
 		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
+		activeWarp = !activeWarp;
 		StartCoroutine ("FadeBlackCol");
 	}
 
@@ -46,6 +51,7 @@ public class WarpEffect : MonoBehaviour {
 			screenOver.intensity += fadeTimer * Time.deltaTime;	
 			yield return null;
 		}
+		activeWarp = !activeWarp;
 		while(screenOver.intensity > 0){
 			screenOver.intensity -= fadeTimer * Time.deltaTime;
 			yield return null;
@@ -59,6 +65,7 @@ public class WarpEffect : MonoBehaviour {
 			screenOver.intensity -= fadeTimer * Time.deltaTime;	
 			yield return null;
 		}
+		activeWarp = !activeWarp;
 		while(screenOver.intensity < 0){
 			screenOver.intensity += fadeTimer * Time.deltaTime;
 			yield return null;
