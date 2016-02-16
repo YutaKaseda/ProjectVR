@@ -13,6 +13,9 @@ public class OfflineLevel : SingletonMonobehaviour<OfflineLevel> {
 	static int sOption = 2;
 	static int sRanking = 3;
 	static int sCustmize = 4;
+
+
+
     void Awake()
     {
 		GameData.offlineState = E_OFFLINE_STATE.NULL;
