@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-// 2月~16日　瀧本　全部
+// 2月~16日　瀧本　Scoredraw
 
 public class Score : MonoBehaviour {
 	[SerializeField]

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-// 2月~16日　瀧本　全部
+// 2月~16日　瀧本　comboUp、Down
 
-public class Combo : MonoBehaviour {
+public class KillCombo : MonoBehaviour {
 	
 	[SerializeField]
 	PlayerData playerData;
@@ -23,7 +23,7 @@ public class Combo : MonoBehaviour {
 		comboText.text=playerData.killCombo+" ";
 	}
 
-	//敵にを倒したとき
+	//敵にを倒したとき呼ぶ
 	public void ComboUp(){
 		playerData.killCombo += 1;
 		if (playerData.killCombo % 50 == 0) {

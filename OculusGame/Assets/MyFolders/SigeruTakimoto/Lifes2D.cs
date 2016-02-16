@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-// 2月~16日　瀧本 全部
+// 2月~16日　瀧本  ReduceLife,LifesDraw
 
 public class Lifes2D : MonoBehaviour {
 
@@ -16,7 +16,7 @@ public class Lifes2D : MonoBehaviour {
 		LifesDraw ();
 	}
 
-	//死んだとき
+	//2D死んだとき呼ぶ
 	public void ReduceLife(){
 		playerData2D.lifes -= 1;
 		LifesDraw ();
