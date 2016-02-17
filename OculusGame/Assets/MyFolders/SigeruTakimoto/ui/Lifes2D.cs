@@ -3,15 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 
 // 2月~16日　瀧本  ReduceLife,LifesDraw
-
+// 2016/02/17 梅村 Text周りをちょっと修正
 public class Lifes2D : MonoBehaviour {
-
-	[SerializeField]
+	
 	Text lifesText;
 	[SerializeField]
 	PlayerData2D playerData2D;
 
 	void Awake(){
+		lifesText = GetComponent<Text>();
 		playerData2D.lifes = 6;
 		LifesDraw ();
 	}
