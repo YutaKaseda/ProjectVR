@@ -6,6 +6,9 @@
 /// テキストの読込部の改変(円状に配置するのに必要な数値を読み込むように)
 /// CreateOrder関数追加　連続して敵を出す際にテキストの分量を増やさなくてもよいようにしました
 /// 
+/// 2016/02/17 中村圭吾
+/// 表示のバグを修正
+/// 
 ///////////////////////////////////////
 using UnityEngine;
 using System.Collections;
@@ -94,10 +97,8 @@ public class WaveUpdate : MonoBehaviour {
 		
 		// 読み込むwaveの情報のテキストを取得
 		// waveが進む際にも呼ばれるため読み込むテキストの変更も
-		//waveText = Resources.Load ("Texts/wave" + waveProgress) as TextAsset;
 		if (waveTextList [waveProgress] == null) {
 			// ゲーム終了
-			Debug.LogError ("TextNull");
 			this.gameObject.SetActive(false);
 			return;
 		}
@@ -116,7 +117,6 @@ public class WaveUpdate : MonoBehaviour {
 	void ReadClassValueSelect(){
 		string[] eachInfo;
 		for (int i = 0; i < waveInfo.Count; i++) {
-			
 			eachInfo = waveInfo [i].Split ("," [0]);
 			waveData [i].enemyName			= (eachInfo [0]);
 			waveData [i].delayTime			= (float.Parse (eachInfo [1]));
@@ -133,7 +133,6 @@ public class WaveUpdate : MonoBehaviour {
 	}
 
 	public void Wave(){
-
 		if (!waveData [arrayPosition].enemyName.Contains(DATANULL) &&
 			!waveData [arrayPosition].enemyName.Contains(ENEMY_DATAEND) &&
 		    bossFlg == false) {
@@ -162,21 +161,22 @@ public class WaveUpdate : MonoBehaviour {
 
 	void CreateOrder(){
 		Vector3 pos;
-		float positionSpace = enemyPositionSpace;
+		float positionSpace = 0;
 		pos.x = waveData[arrayPosition].radius * Mathf.Cos (PAI/180 * waveData[arrayPosition].degree);
 		pos.y = waveData [arrayPosition].pointY;
 		pos.z = waveData[arrayPosition].radius * Mathf.Sin (PAI/180 * waveData[arrayPosition].degree);
 
 		for (int createNumber = 0;createNumber < waveData[arrayPosition].enemySuccessin;createNumber++){
-			enemyFactory.Create (waveData [arrayPosition].enemyName,pos);
-
+			enemyFactory.Create (waveData [arrayPosition].enemyName,pos,(waveData[arrayPosition].degree+positionSpace));
 
 			switch(waveData[arrayPosition].enemyLineDirection){
 			case "U":
 				pos.y += enemyPositionSpace;
+				positionSpace -= 5;
 				break;
 			case "D":
 				pos.y -= enemyPositionSpace;
+				positionSpace -= 5;
 				break;
 			case "L":
 				pos.x = waveData[arrayPosition].radius * Mathf.Cos (PAI/180 * (waveData[arrayPosition].degree+positionSpace));
