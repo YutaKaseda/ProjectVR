@@ -1,6 +1,7 @@
 ﻿//<Summary>
 //YutaKaseda
 //2016/2/4
+//2/17:ShotBulletに処理追加 by石田
 //</Summary>
 
 using UnityEngine;
@@ -13,9 +14,11 @@ public class OculusPlayerMain : MonoBehaviour {
 	//FadeIn,FadeOutEffect
     [SerializeField]
 	WarpEffect warpEffect;
+    [SerializeField]
+    EnemyData enemydata;
 
 	//Use ShotBullet,Warp
-	Ray ray;
+    public Ray ray { private set; get; }
 	//RayHitColliderChecking
 	RaycastHit raycastHit;
 
@@ -77,7 +80,11 @@ public class OculusPlayerMain : MonoBehaviour {
 
 	void ShotBullet(){
 
-        if (CheckHitRayWithTag(ray, "Enemy", 1.0f)) ;
+        if (CheckHitRayWithTag(ray, "Enemy", 1.0f))
+        {
+            enemydata.Damage(1);
+        }
+            
 
 	}
 
