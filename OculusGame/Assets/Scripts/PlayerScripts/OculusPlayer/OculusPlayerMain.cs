@@ -35,6 +35,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	void Awake(){
 
 		playerState = e_PLAYER_STATE.DEFAULT;
+        OnlineLevel.Instance.VRDeviceEnabled();
 
 	}
 
@@ -45,7 +46,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	
 	}
 
-	public void Main(){
+	void Update(){
 
 		switch(playerState){
 		case e_PLAYER_STATE.DEFAULT:
@@ -89,7 +90,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	}
 
 	void RayWarp(){
-        if (CheckHitRayWithTag(ray, "Beacon", 3.0f)){
+        if (CheckHitRayWithTag(ray, "Beacon", 2.0f)){
 			warpEffect.FadeWhite();
 			playerState = e_PLAYER_STATE.WARP;
 		}
