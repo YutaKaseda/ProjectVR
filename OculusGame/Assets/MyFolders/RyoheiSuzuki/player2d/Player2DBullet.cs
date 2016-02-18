@@ -17,7 +17,7 @@ using System.Collections;
 
 public class Player2DBullet : MonoBehaviour {
 
-	public static readonly float PAI = 3.14f;
+	const float PAI = 3.14f;
 	float bulletDegree; // 角度
 	[SerializeField]
 	float radius; // 半径
@@ -28,11 +28,11 @@ public class Player2DBullet : MonoBehaviour {
 	float bulletLife;
 	Vector3 shotPosition;
 	int shotBulletWay;	// 発射する弾の向き
-	Vector3 bulletPosition;
+
 	//自身の進む方向と出現角度
 	//bulletInit(進む方向'R'or'L',出現角度　player2dの角度など);
-	public void bulletInit(char receiveVariable,float player2dDegree,float player2dPositionY){
-		bulletPosition.y = player2dPositionY;
+	public void BulletInit(char receiveVariable,float player2dDegree,float player2dPositionY){
+		transform.position = new Vector3 (transform.position.x, player2dPositionY, transform.position.z);
 		if(receiveVariable == 'R'){
 			shotBulletWay = 1;
 			bulletDegree = player2dDegree+degreeSpace;
@@ -65,9 +65,7 @@ public class Player2DBullet : MonoBehaviour {
 
 	void ShotMove(){
 		degreeWay (shotBulletWay);
-		bulletPosition.x = radius * Mathf.Cos (PAI / 180 * bulletDegree);
-		bulletPosition.z = radius * Mathf.Sin (PAI / 180 * bulletDegree);
-		transform.position = bulletPosition;
+		transform.position = new Vector3 (radius * Mathf.Cos (PAI / 180 * bulletDegree), transform.position.y,radius * Mathf.Sin (PAI / 180 * bulletDegree));
 		transform.eulerAngles = new Vector3 (0, -bulletDegree, 0);
 		BulletDestroy ();
 	}

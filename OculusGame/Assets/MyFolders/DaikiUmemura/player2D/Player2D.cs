@@ -10,8 +10,7 @@
 // ただしresource追加の許可を得るまでの措置
 /////////////////////////////
 // 2016/02/17 梅村 ui関連(lifes)の紐づけ
-// 2016/02/18 鈴木
-// bullet初期位置バグ修正
+// 2016/02/18 鈴木 bullet初期位置バグ修正
 using UnityEngine;
 using System.Collections;
 
@@ -27,6 +26,7 @@ public class Player2D : MonoBehaviour {
 	GameObject bullet;		//resourceに追加するのは許可を得てからやるために
 	[SerializeField]
 	AllUI allUI;
+
 	void Awake () {
 		allUI = GameObject.Find("UICanvas").GetComponent<AllUI>();
 		playerTurnDirection = 1;
@@ -46,19 +46,19 @@ public class Player2D : MonoBehaviour {
 			StartCoroutine("Resurrection");
 		}
 
-		if(Input.GetAxisRaw ("HorizontalP2") > 0 || Input.GetKey(KeyCode.D)){
+		if(Input.GetAxisRaw ("HorizontalP2") > 0){
 			if(playerTurnDirection == 2){
 				playerTurnDirection = 1;
 				StartCoroutine("RightTurn");
 			}
 		}
-		else if(Input.GetAxisRaw ("HorizontalP2") < 0 || Input.GetKey(KeyCode.A)){
+		else if(Input.GetAxisRaw ("HorizontalP2") < 0){
 			if(playerTurnDirection == 1){
 				playerTurnDirection = 2;
 				StartCoroutine("LeftTurn");
 			}
 		}
-	
+
 		Circumference();
 		BulletShot();
 	}
@@ -70,14 +70,14 @@ public class Player2D : MonoBehaviour {
 
 			//ResourcesManagerの処理に置き換えます
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-			shotBullet.GetComponent<Player2DBullet>().bulletInit('R',playerData2D.degree,transform.position.y);
+			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y);
 			playerData2D.shotWaitTime = 0;
 		}
 		else if (Input.GetButton ("L1P2") && playerData2D.shotWaitTime > playerData2D.intervalTime) {
 
 			//ResourcesManagerにー
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-			shotBullet.GetComponent<Player2DBullet>().bulletInit('L',playerData2D.degree,transform.position.y);
+			shotBullet.GetComponent<Player2DBullet>().BulletInit('L',playerData2D.degree,transform.position.y);
 			playerData2D.shotWaitTime = 0;
 		}
 
