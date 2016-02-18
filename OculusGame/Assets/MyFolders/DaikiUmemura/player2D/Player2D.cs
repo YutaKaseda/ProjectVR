@@ -3,31 +3,37 @@
 // 2/14:Turn処理追加、調整 by梅村
 // 2/15:Circumference追加 by鈴木
 // 2/16:Circumference更新 by鈴木
+// 2016/02/17 梅村 ui関連(lifes)の紐づけ
 using UnityEngine;
 using System.Collections;
 
 public class Player2D : MonoBehaviour {
-	int turnFlg;
+	int playerTurnDirection;//1の時右向き,2のとき左向き
 	int playerQuater;
 	[SerializeField]
 	PlayerData2D playerData;
-	int i;	//弾の感覚管理
+	int shotInterval;	//弾の感覚管理
 	Vector3 Pos2D;	//復活用position保存
 	[SerializeField]
 	GameObject playerObject;
-	
+
+	[SerializeField]
+	AllUI allUI;
 	void Awake () {
-		turnFlg = 1;
+		allUI = GameObject.Find("UICanvas").GetComponent<AllUI>();
+		playerTurnDirection = 1;
 		playerQuater = 0;
 		playerData.speed = 1.0f;
 		playerData.pi = 3.14f;
 		playerData.resurrectionTime = 1.0f;
-		playerData.resurrectionPenalty = 3.0f;
+	}
+
+	void Update(){
+		Move ();
 	}
 
 	/***移動処理***/
 	public void Move(){
-		Debug.Log(gameObject.transform.localEulerAngles);
 		if (playerData.playerHP > 0) {
 			playerData.vectorZ = Input.GetAxisRaw ("HorizontalP1");
 			playerData.vectorY = Input.GetAxisRaw ("VerticalP1");
@@ -38,14 +44,14 @@ public class Player2D : MonoBehaviour {
 		}
 
 		if(Input.GetAxisRaw ("HorizontalP1") > 0 || Input.GetKey(KeyCode.D)){
-			if(turnFlg == 2){
-				turnFlg = 1;
+			if(playerTurnDirection == 2){
+				playerTurnDirection = 1;
 				StartCoroutine("RightTurn");
 			}
 		}
 		else if(Input.GetAxisRaw ("HorizontalP1") < 0 || Input.GetKey(KeyCode.A)){
-			if(turnFlg == 1){
-				turnFlg = 2;
+			if(playerTurnDirection == 1){
+				playerTurnDirection = 2;
 				StartCoroutine("LeftTurn");
 			}
 		}
@@ -57,24 +63,21 @@ public class Player2D : MonoBehaviour {
 	/***撃つ処理***/
 	public void BulletShot(){
 		if (Input.GetButton ("R1P1")) {
-			Debug.Log ("Test2DShot");
-			i++;
-			if (i / 2 != 0 || i / 5 != 0) {
+			shotInterval++;
+			if (shotInterval / 2 != 0 || shotInterval / 5 != 0) {
 				Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet2D"), transform.position, new Quaternion(0,0,0,0));
 			}
 		}
 
 		else if (Input.GetButton ("L1P1")) {
-			//if(Input.GetKey(KeyCode.Q)){
-			Debug.Log ("Test2DShot");
-			i++;
-			if (i / 2 != 0 || i / 5 != 0) {
+			shotInterval++;
+			if (shotInterval / 2 != 0 || shotInterval / 5 != 0) {
 				Instantiate(ResourcesManager.Instance.GetResourceScene("Bullet2D"), transform.position,new Quaternion(0,1,0,0));
 			}
 		}
 
 		if (Input.GetButtonUp ("R1P1") || Input.GetButtonUp ("L1P1")) {
-			i = 0;
+			shotInterval = 0;
 		}
 	}
 	
@@ -82,15 +85,17 @@ public class Player2D : MonoBehaviour {
 	public IEnumerator Resurrection(){
 		Pos2D = gameObject.transform.position;
 		playerData.vectorZ = -100000;
-		
+
+		allUI.UiUpdate ("Lifes2D",0);
+		allUI.UiUpdate ("ComboReset",0);
+
 		while (playerData.resurrectionTime > 0) {
 			playerData.resurrectionTime -= 1 * Time.deltaTime;
 			playerData.InitHP();
 			yield return null;
 		}
-		playerData.resurrectionTime = playerData.resurrectionPenalty;//復活時間の再設定
+		playerData.resurrectionTime = 1.0f;
 		gameObject.transform.position = Pos2D;
-		Debug.Log(playerData.playerHP);
 	}
 
 	/***自機のターン処理***/
@@ -98,7 +103,7 @@ public class Player2D : MonoBehaviour {
 		while (true) {
 			playerQuater += 10;
 			playerObject.transform.Rotate(0,-10,0);
-			if(playerQuater >= 0 || turnFlg == 0){
+			if(playerQuater >= 0 || playerTurnDirection == 0){
 				break;
 			}
 			yield return null;
@@ -108,7 +113,7 @@ public class Player2D : MonoBehaviour {
 		while (true) {
 			playerQuater -= 10;
 			playerObject.transform.Rotate(0,10,0);
-			if(playerQuater <= -180 || turnFlg == 1){
+			if(playerQuater <= -180 || playerTurnDirection == 1){
 				break;
 			}
 			yield return null;
