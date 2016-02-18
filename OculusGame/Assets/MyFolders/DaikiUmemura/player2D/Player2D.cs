@@ -124,6 +124,7 @@ public class Player2D : MonoBehaviour {
 		else if(playerData.vectorZ < 0){
 			playerData.degree--;
 		}
+
 		playerData.position.x = playerData.radius * Mathf.Cos (playerData.pi / 180 * playerData.degree);
 		playerData.position.y += playerData.vectorY * playerData.speed;
 		playerData.position.z = playerData.radius * Mathf.Sin (playerData.pi / 180 * playerData.degree);
