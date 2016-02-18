@@ -11,7 +11,7 @@ public class Lifes2D : MonoBehaviour {
 	PlayerData2D playerData2D;
 
 	void Awake(){
-		lifesText = GetComponent<Text>();
+		lifesText = GameObject.Find("Lifes2DText").GetComponent<Text>();
 		playerData2D.lifes = 6;
 		LifesDraw ();
 	}

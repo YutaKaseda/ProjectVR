@@ -12,7 +12,7 @@ public class DeathBlowGage : MonoBehaviour {
 
 	void Awake(){
 		deathBlowGage = GameObject.Find ("DeathBlow").GetComponent<Slider> ();
-		deathBlowText = gameObject.GetComponent<Text>();
+		deathBlowText = GameObject.Find ("DeathBlowGage").GetComponent<Text>();
 		deathBlowGage.maxValue = 250;
 		killGage = 0;
 		//必殺技

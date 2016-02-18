@@ -12,12 +12,14 @@ public class AllUI : MonoBehaviour {
 	DeathBlowGage deathBlowGage;
 	[SerializeField]
 	Lifes2D lifes2D;
+
+
 	// Use this for initialization
 	void Awake () {
-		killCombo = GameObject.Find("Combo").GetComponent<KillCombo>();
-		score = GameObject.Find("Score").GetComponent<Score>();
-		deathBlowGage = GameObject.Find("DeathBlowGage").GetComponent<DeathBlowGage>();
-		lifes2D = GameObject.Find("Lifes2DText").GetComponent<Lifes2D>();
+		killCombo = GetComponent<KillCombo>();
+		score = GetComponent<Score>();
+		deathBlowGage = GetComponent<DeathBlowGage>();
+		lifes2D = GetComponent<Lifes2D>();
 	}
 	
 	public void UiUpdate(string uiName,int value){

@@ -10,7 +10,8 @@ public class KillCombo : MonoBehaviour {
 	PlayerData2D playerData2D;
 	[SerializeField]
 	Lifes2D lifes;
-	Text comboText;
+	Text comboText2D;
+	Text comboText3D;
 	[SerializeField]
 	ScoreUpAnim scoreUpAnim;
 	//追加score保存
@@ -18,13 +19,15 @@ public class KillCombo : MonoBehaviour {
 	int Base;
 
 	void Awake(){
-		comboText = GetComponent<Text>();
-		comboText.text=playerData2D.killCombo+" ";
+		comboText2D = GameObject.Find("Combo2D").GetComponent<Text>();
+		comboText3D = GameObject.Find("Combo3D").GetComponent<Text>();
+		comboText2D.text=playerData2D.killCombo+" ";
+		comboText3D.text=playerData2D.killCombo+" ";
 	}
 
 	//敵にを倒したとき呼ぶ
 	public void ComboUp(){
-		playerData2D.killCombo += 50;
+		playerData2D.killCombo += 1;
 		if (playerData2D.killCombo % 50 == 0) {
 			scoreUpAnim.ScoreUp();
 			if (playerData2D.killCombo % 100 == 0) {
@@ -35,14 +38,16 @@ public class KillCombo : MonoBehaviour {
 				lifes.LifesDraw ();
 			}
 		}
-		comboText.text = playerData2D.killCombo + " ";
+		comboText2D.text = playerData2D.killCombo + " ";
+		comboText3D.text = playerData2D.killCombo + " ";
 	}
 
 	//コンボ初期化
 	//２Dが死んだとき呼ぶ
 	public void ComboReset(){
 		playerData2D.killCombo = 0;
-		comboText.text = playerData2D.killCombo + " ";
+		comboText2D.text = playerData2D.killCombo + " ";
+		comboText3D.text = playerData2D.killCombo + " ";
 	}
 }
 
