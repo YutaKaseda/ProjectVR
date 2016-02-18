@@ -19,10 +19,10 @@ public class EnemyDataNew : MonoBehaviour {
 	public float enemyLifeTime{ get; set;}				//敵が生存している時間
 
 	public float playerEnemyDistance{ get; set;}		//2点間の距離保存用
-	public float stokingX{ get; set;}					
-	public float stokingY{ get; set;}					//追尾用座標調整保存変数
-	public float stokingZ{ get; set;}
-	public bool stokingSearch{ get; set; }				//追尾用範囲内にいるかどうか
+	public float stalkingX{ get; set;}					
+	public float stalkingY{ get; set;}					//追尾用座標調整保存変数
+	public float stalkingZ{ get; set;}
+	public bool stalkingSearch{ get; set; }				//追尾用範囲内にいるかどうか
 
 	public float enemySpeed{ get; set;}
 	public float player2DDegree{ get; set; }			//Speed格納仮変数

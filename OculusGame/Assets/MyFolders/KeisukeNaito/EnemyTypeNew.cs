@@ -24,8 +24,8 @@ public class EnemyTypeNew : MonoBehaviour {
 		enemyDataNew.enemyRadius = 125f;
 		enemyDataNew.enemyDeleteTime = 15f;
 		enemyDataNew.enemyLifeTime = 0;
-		enemyDataNew.stokingSearch = false;
-		player2D = GameObject.Find ("Player2D");
+		enemyDataNew.stalkingSearch = false;
+		player2D = GameObject.FindWithTag ("Player2D");
 		playerData2D = player2D.GetComponent<PlayerData2D>();
 	}
 
@@ -50,7 +50,7 @@ public class EnemyTypeNew : MonoBehaviour {
 			enemyDataNew.enemyDegree += enemyDataNew.enemySpeed;
 			
 			enemyDataNew.movePos = new Vector3 (enemyDataNew.enemyRadius * Mathf.Cos (enemyDataNew.pi / 180 * enemyDataNew.enemyDegree),
-			                                    enemyDataNew.movePos.y + enemyDataNew.stokingY,
+			                                    enemyDataNew.movePos.y + enemyDataNew.stalkingY,
 			                                    enemyDataNew.enemyRadius * Mathf.Sin (enemyDataNew.pi / 180 * enemyDataNew.enemyDegree));
 
 			transform.position=enemyDataNew.movePos;
@@ -74,17 +74,18 @@ public class EnemyTypeNew : MonoBehaviour {
 	//AIとして追尾の場所を関数
 	void StokingAI(){
 		enemyDataNew.playerEnemyDistance = Vector3.Distance (transform.position, player2D.transform.position);
+
 		if (enemyDataNew.playerEnemyDistance <= 30) { 
 
-			enemyDataNew.stokingSearch = true;
+			enemyDataNew.stalkingSearch = true;
 			if (transform.position.y <= player2D.transform.position.y)
-				enemyDataNew.stokingY = 0.2f;
+				enemyDataNew.stalkingY = 0.2f;
 			else
-				enemyDataNew.stokingY = -0.2f;
+				enemyDataNew.stalkingY = -0.2f;
 
-		} else if (enemyDataNew.stokingSearch == true) {
-			enemyDataNew.stokingSearch = false;
-			enemyDataNew.stokingY = 0;
+		} else if (enemyDataNew.stalkingSearch == true) {
+			enemyDataNew.stalkingSearch = false;
+			enemyDataNew.stalkingY = 0;
 
 			if(enemyDataNew.enemyDegree > playerData2D.degree){
 				enemyDataNew.enemySpeed = -0.3f;

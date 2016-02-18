@@ -15,6 +15,7 @@ public class EnemyFactory : MonoBehaviour {
 		switch (enemyName) {
 		case "enemyL":
 		case "enemyR":
+		case "enemy":
 			enemy = Instantiate (testteki, enemyPos, transform.rotation)as GameObject;
 			enemyTypeNew = enemy.GetComponent<EnemyTypeNew>();
 			enemyTypeNew.InitDegree(enemyPos,enemyDegree,enemyName);
