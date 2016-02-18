@@ -16,8 +16,14 @@ public class OverrideNetworkManager : NetworkManager {
 		GameObject playerObject = (GameObject)GameObject.Instantiate(spawnPrefabs[prefabNum], 
 		                                                  GetStartPosition().position, 
 		                                                  GetStartPosition().rotation);
-		prefabNum++;
+        Debug.Log(GetStartPosition().position);
+        Debug.Log(GetStartPosition().rotation);
+        Debug.LogError("AddServer");
+        
+        prefabNum++;
+        NetworkServer.Spawn(playerObject);
 		NetworkServer.AddPlayerForConnection(conn, playerObject, playerControllerId);
+        
 	}
 
 	public void Reset(){
