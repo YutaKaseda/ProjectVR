@@ -26,7 +26,7 @@ public class Player2D : MonoBehaviour {
 	}
 
 	/***移動処理***/
-	public void Move(){
+	public void Update(){
 		Debug.Log(gameObject.transform.localEulerAngles);
 		if (playerData.playerHP > 0) {
 			playerData.vectorZ = Input.GetAxisRaw ("HorizontalP1");
