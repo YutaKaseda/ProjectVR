@@ -10,6 +10,7 @@ using System.Collections;
 using UnityStandardAssets.ImageEffects;
 public class WarpEffect : MonoBehaviour {
 	
+    [SerializeField]
 	ScreenOverlay screenOver;
 	//透明度
 	[SerializeField]
@@ -31,16 +32,15 @@ public class WarpEffect : MonoBehaviour {
 	/// 他でただただ呼び出せば、フェードインアウトします
 	/// </summary>
 	public void FadeWhite(){
-		gameObject.AddComponent <ScreenOverlay>();
-		screenOver = GetComponent<ScreenOverlay>();
+        screenOver.enabled = true;
 		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
 		activeWarp = !activeWarp;
 		StartCoroutine ("FadeWhiteCol");
 	}
 
 	public void FadeBlack(){
-		gameObject.AddComponent <ScreenOverlay>();
-		screenOver = GetComponent<ScreenOverlay>();
+
+        screenOver.enabled = true;
 		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
 		activeWarp = !activeWarp;
 		StartCoroutine ("FadeBlackCol");
@@ -57,7 +57,7 @@ public class WarpEffect : MonoBehaviour {
 			yield return null;
 		}
 
-		Destroy (GetComponent<ScreenOverlay>());
+        screenOver.enabled = false;
 	}
 
 	IEnumerator FadeBlackCol(){
@@ -71,6 +71,6 @@ public class WarpEffect : MonoBehaviour {
 			yield return null;
 		}
 
-		Destroy (GetComponent<ScreenOverlay>());
+        screenOver.enabled = false;
 	}
 }
