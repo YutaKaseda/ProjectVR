@@ -23,7 +23,7 @@ public class NetworkSetup : NetworkBehaviour {
 		myCamera.enabled = true;
 
 		if(gameObject.tag == "Player2D")
-			GetComponent<Player2D>().enabled - true;
+			GetComponent<Player2D>().enabled = true;
 
 	}
 }
