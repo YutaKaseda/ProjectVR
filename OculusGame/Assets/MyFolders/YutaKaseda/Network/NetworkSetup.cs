@@ -22,5 +22,8 @@ public class NetworkSetup : NetworkBehaviour {
 		myAudioListener.enabled = true;
 		myCamera.enabled = true;
 
+		if(gameObject.tag == "Player2D")
+			GetComponent<Player2D>().enabled - true;
+
 	}
 }
