@@ -32,18 +32,21 @@ public class WarpEffect : MonoBehaviour {
 	/// 他でただただ呼び出せば、フェードインアウトします
 	/// </summary>
 	public void FadeWhite(){
-        screenOver.enabled = true;
-		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
-		activeWarp = !activeWarp;
-		StartCoroutine ("FadeWhiteCol");
+        if (!screenOver.enabled){
+            screenOver.enabled = true;
+            screenOver.overlayShader = Shader.Find("Hidden/BlendModesOverlay");
+            activeWarp = !activeWarp;
+            StartCoroutine("FadeWhiteCol");
+        }
 	}
 
 	public void FadeBlack(){
-
-        screenOver.enabled = true;
-		screenOver.overlayShader = Shader.Find ("Hidden/BlendModesOverlay");
-		activeWarp = !activeWarp;
-		StartCoroutine ("FadeBlackCol");
+        if (!screenOver.enabled){
+            screenOver.enabled = true;
+            screenOver.overlayShader = Shader.Find("Hidden/BlendModesOverlay");
+            activeWarp = !activeWarp;
+            StartCoroutine("FadeBlackCol");
+        }
 	}
 
 	IEnumerator FadeWhiteCol(){
