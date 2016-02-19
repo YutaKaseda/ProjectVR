@@ -34,6 +34,8 @@ public class BossMk2 : MonoBehaviour {
 	void Awake(){
 		player2D = GameObject.FindWithTag ("Player2D");
 		player3D = GameObject.FindWithTag ("Player3D");
+		bossRailgun = GameObject.FindWithTag ("Railgun");
+		bossRailgun.SetActive (false);
 		targetPlayer2D = player2D.transform;
 		targetPlayer3D = player3D.transform;
 		bossData = GetComponent<BossData>();
@@ -44,6 +46,7 @@ public class BossMk2 : MonoBehaviour {
 		attackPattern = 0;
 		attackTime = 0f;
 	}
+	
 
 	public void Main(){
 		LockOn ();
@@ -73,6 +76,8 @@ public class BossMk2 : MonoBehaviour {
 			nextPositionNumber = Random.Range (0, warpPointNumber);
 		}
 		nowPositionNumber = nextPositionNumber;
+		if (attackPattern == BossData.BOSS_PATTERN_RAILGUN)
+			nowPositionNumber = 4;
 		return warpPoint [nowPositionNumber].transform.position;
 	}
 	
@@ -138,22 +143,13 @@ public class BossMk2 : MonoBehaviour {
 	//呼ぶだけ
 	void Railgun(){
 		if (attackTime >= 10f) {
+			bossRailgun.SetActive (true);
+		}
+		if (attackTime >= 13f) {
 			attackPattern = 0;
 			attackTime = 0;
-			switch(bossData.bossAttackTarget){
-			case BossData.TARGET2D:
-				targetPlayerVec2D = targetPlayer2D.transform.position;
-				targetPlayerObject = Instantiate (bossRailgun, transform.position, Quaternion.identity) as GameObject;
-				targetPlayerObject.GetComponent<Railgun> ().TargetBullet (targetPlayerVec2D);
-				break;
-			case BossData.TARGET3D:
-				targetPlayerVec3D = targetPlayer3D.transform.position;
-				targetPlayerObject = Instantiate (bossRailgun, transform.position, Quaternion.identity) as GameObject;
-				targetPlayerObject.GetComponent<Railgun> ().TargetBullet (targetPlayerVec3D);
-				break;
-			default:
-				break;
-			}
+			bossRailgun.SetActive (false);
 		}
+		
 	}
 }
