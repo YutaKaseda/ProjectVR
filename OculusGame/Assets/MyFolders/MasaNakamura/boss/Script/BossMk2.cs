@@ -43,7 +43,7 @@ public class BossMk2 : MonoBehaviour {
 		warpPointNumber = warpPoint.Length;
 	}
 
-	public void Update(){
+	public void Main(){
 		LockOn ();
 		AttackPattern ();
 	}
