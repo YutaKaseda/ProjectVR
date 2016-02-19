@@ -3,8 +3,11 @@ using UnityEngine;
 using System.Collections;
 
 public class BossData : MonoBehaviour {
-	public const int target2D = 1;
-	public const int target3D = 2;
+	public const int TARGET2D = 1;
+	public const int TARGET3D = 2;
+	public const int BOSS_PATTERN_STAY = 0;
+	public const int BOSS_PATTERN_VULCAN = 1;
+	public const int BOSS_PATTERN_RAILGUN = 2;
 
 	public int bossHp { private set; get;}
 	public int bossHate { set; get;}//+10で2Dを狙う -10で3Dを狙う
@@ -12,7 +15,7 @@ public class BossData : MonoBehaviour {
 
 	void Awake(){
 		bossHp = 400;
-		bossAttackTarget = target2D;
+		bossAttackTarget = TARGET2D;
 	}
 	/// <summary>
 	/// ダメージ処理
@@ -20,10 +23,8 @@ public class BossData : MonoBehaviour {
 	/// <param name="bullet">弾の種類</param>
 	/// <param name="player">攻撃しているプレイヤー</param>
 	public void BossDamage(string bullet,string player){
-		Debug.Log (player + "ダメージ");
-
 		switch(bullet){
-		case "NomalBullet":
+		case "NormalBullet":
 			bossHp -= 2;
 			break;
 		default:
@@ -44,11 +45,11 @@ public class BossData : MonoBehaviour {
 		}
 
 		if(bossHate >= 10){
-			bossAttackTarget = target2D;
+			bossAttackTarget = TARGET2D;
 			bossHate = 0;
 		}
 		if(bossHate <= -10){
-			bossAttackTarget = target3D;
+			bossAttackTarget = TARGET3D;
 			bossHate = 0;
 		}
 	}

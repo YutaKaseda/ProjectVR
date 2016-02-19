@@ -8,25 +8,24 @@ public class BossMk2 : MonoBehaviour {
 	GameObject player3D;
 	BossData bossData;
 
-	Vector3 targetPos;
-	float bossRotationSpeed;
-	float bossWaitTime;
-	Vector3 warpPosition;
-	int warpPointNumber;
-	int nowPositionNumber = 0;
-	int nextPositionNumber = 0;
+	Vector3 targetPos;//プレイヤーの位置
+	[SerializeField]
+	float bossRotationSpeed;//ボス振り向き速度
+	int warpPointNumber;//ワープポイントの数
+	int nowPositionNumber;//今いるワープポイント
+	int nextPositionNumber;//次に行くワープポイント
 	
 	[SerializeField]
-	public GameObject [] warpPoint = new GameObject[1];
+	public GameObject [] warpPoint;
 	
 	[SerializeField]
 	GameObject bossBullet;
 	[SerializeField]
 	GameObject bossRailgun;
 	
-	int attackPattern = 1;
-	float attackTime = 0f;
-	int Bullet;
+	int attackPattern;//ボスの攻撃パターン
+	float attackTime;//攻撃までの時間
+	int bulletCnt;//弾を撃った数
 
 	Transform targetPlayer2D,targetPlayer3D;
 	Vector3 targetPlayerVec2D, targetPlayerVec3D;
@@ -39,8 +38,11 @@ public class BossMk2 : MonoBehaviour {
 		targetPlayer3D = player3D.transform;
 		bossData = GetComponent<BossData>();
 		bossRotationSpeed = 0.6f;
-		bossWaitTime = 8.0f;
 		warpPointNumber = warpPoint.Length;
+		nowPositionNumber = 0;
+		nextPositionNumber = 0;
+		attackPattern = 0;
+		attackTime = 0f;
 	}
 
 	public void Main(){
@@ -50,10 +52,10 @@ public class BossMk2 : MonoBehaviour {
 
 	void LockOn(){
 		switch(bossData.bossAttackTarget){
-		case 1:
+		case BossData.TARGET2D:
 			targetPos = player2D.transform.position;
 			break;
-		case 2:
+		case BossData.TARGET3D:
 			targetPos = player3D.transform.position;
 			break;
 		default:
@@ -63,10 +65,10 @@ public class BossMk2 : MonoBehaviour {
 	}
 
 	void Warp(){
-		this.transform.position = WarpPointGet(warpPosition);
+		this.transform.position = WarpPointGet();
 	}
 	
-	Vector3 WarpPointGet(Vector3 pos){
+	Vector3 WarpPointGet(){
 		while (nowPositionNumber == nextPositionNumber) {
 			nextPositionNumber = Random.Range (0, warpPointNumber);
 		}
@@ -83,13 +85,13 @@ public class BossMk2 : MonoBehaviour {
 	void AttackPattern(){
 		attackTime += Time.deltaTime;
 		switch (attackPattern) {
-		case 0:
+		case BossData.BOSS_PATTERN_STAY:
 			Stay ();
 			break;
-		case 1:
+		case BossData.BOSS_PATTERN_VULCAN:
 			Vulcan ();
 			break;
-		case 2:
+		case BossData.BOSS_PATTERN_RAILGUN:
 			Railgun();
 			break;
 		}
@@ -110,12 +112,12 @@ public class BossMk2 : MonoBehaviour {
 		if (attackTime >= 0.2f) {
 			attackTime = 0;
 			switch(bossData.bossAttackTarget){
-			case 1:
+			case BossData.TARGET2D:
 				targetPlayerVec2D = targetPlayer2D.transform.position;
 				targetPlayerObject = Instantiate (bossBullet, transform.position, Quaternion.identity) as GameObject;
 				targetPlayerObject.GetComponent<BossBullet> ().TargetBullet (targetPlayerVec2D);	
 				break;
-			case 2:
+			case BossData.TARGET3D:
 				targetPlayerVec3D = targetPlayer3D.transform.position;
 				targetPlayerObject = Instantiate (bossBullet, transform.position, Quaternion.identity) as GameObject;
 				targetPlayerObject.GetComponent<BossBullet> ().TargetBullet (targetPlayerVec3D);
@@ -124,12 +126,12 @@ public class BossMk2 : MonoBehaviour {
 				break;
 			}
 			
-			Bullet += 1;
+			bulletCnt += 1;
 		}
-		if (Bullet >= 50) {
+		if (bulletCnt >= 50) {
 			attackTime = 0;
 			attackPattern = 0;
-			Bullet = 0;
+			bulletCnt = 0;
 		}
 	}
 	//Railgun
@@ -139,12 +141,12 @@ public class BossMk2 : MonoBehaviour {
 			attackPattern = 0;
 			attackTime = 0;
 			switch(bossData.bossAttackTarget){
-			case 1:
+			case BossData.TARGET2D:
 				targetPlayerVec2D = targetPlayer2D.transform.position;
 				targetPlayerObject = Instantiate (bossRailgun, transform.position, Quaternion.identity) as GameObject;
 				targetPlayerObject.GetComponent<Railgun> ().TargetBullet (targetPlayerVec2D);
 				break;
-			case 2:
+			case BossData.TARGET3D:
 				targetPlayerVec3D = targetPlayer3D.transform.position;
 				targetPlayerObject = Instantiate (bossRailgun, transform.position, Quaternion.identity) as GameObject;
 				targetPlayerObject.GetComponent<Railgun> ().TargetBullet (targetPlayerVec3D);

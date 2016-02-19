@@ -16,7 +16,7 @@ public class CollisionBoss : MonoBehaviour {
 		switch (other.gameObject.tag) {
 			
 		case "Player2DBullet":
-			bossData.BossDamage("NomalBullet","2D");
+			bossData.BossDamage("NormalBullet","2D");
 			if (bossData.bossHp <= 0) {
 				Destroy (gameObject);
 			}
