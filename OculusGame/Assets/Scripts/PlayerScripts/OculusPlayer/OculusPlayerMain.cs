@@ -46,7 +46,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	
 	}
 
-	void Update(){
+	public void Main(){
 
 		switch(playerState){
 		case e_PLAYER_STATE.DEFAULT:

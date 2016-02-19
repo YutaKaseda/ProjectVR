@@ -28,7 +28,7 @@ public class Player2D : MonoBehaviour {
 	AllUI allUI;
 
 	void Awake () {
-		allUI = GameObject.Find("UICanvas").GetComponent<AllUI>();
+		//allUI = GameObject.Find("UICanvas").GetComponent<AllUI>();
 		playerTurnDirection = 1;
 		playerQuater = 0;
 		playerData2D.speed = 0.5f;
@@ -37,7 +37,7 @@ public class Player2D : MonoBehaviour {
 	}
 	
 	/***移動処理***/
-	public void Move(){
+	public void Main(){
 		if (playerData2D.playerHP > 0) {
 			playerData2D.vectorZ = Input.GetAxisRaw ("HorizontalP2");
 			playerData2D.vectorY = Input.GetAxisRaw ("VerticalP2");
