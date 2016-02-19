@@ -13,6 +13,9 @@ public class OverrideNetworkManager : NetworkManager {
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId) {
 
+        if (spawnPrefabs[prefabNum].tag == "Player2D")
+            OnlineLevel.Instance.player2DConnected = true;
+
 		GameObject playerObject = (GameObject)GameObject.Instantiate(spawnPrefabs[prefabNum], 
 		                                                  GetStartPosition().position, 
 		                                                  GetStartPosition().rotation);

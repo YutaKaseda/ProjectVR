@@ -17,13 +17,24 @@ public class NetworkSetup : NetworkBehaviour {
 	//LocalPlayerInit
 	public override void OnStartLocalPlayer(){
 
-		GameObject.FindWithTag("SceneCamera").SetActive(false);
-
-		myAudioListener.enabled = true;
-		myCamera.enabled = true;
-
-		if(gameObject.tag == "Player2D")
-			GetComponent<Player2D>().enabled = true;
-
+        if (tag == "Player2D"){
+            OnlineLevel.Instance.player2DConnected = true;
+            OnlineLevel.Instance.localPlayer = gameObject;
+        }
+        if (tag == "Player3D"){
+            OnlineLevel.Instance.localPlayer = gameObject;
+        }
 	}
+
+    public void SetupLocalPlayer(){
+
+        GameObject.FindWithTag("SceneCamera").SetActive(false);
+
+        myAudioListener.enabled = true;
+        myCamera.enabled = true;
+
+        if (gameObject.tag == "Player2D")
+            GetComponent<Player2D>().enabled = true;
+    }
+
 }
