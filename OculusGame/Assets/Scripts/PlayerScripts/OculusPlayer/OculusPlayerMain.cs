@@ -19,6 +19,12 @@ public class OculusPlayerMain : MonoBehaviour {
 	WarpEffect warpEffect;
 	EnemyDataNew enemyDataNew;
 
+    [SerializeField]
+    Vector3 posRevision;
+
+    [SerializeField]
+    DroneControll droneControll;
+
 	//Use ShotBullet,Warp
     public Ray ray { private set; get; }
 	//RayHitColliderChecking
@@ -28,6 +34,7 @@ public class OculusPlayerMain : MonoBehaviour {
 	//Can't Move State
 	enum e_PLAYER_STATE{
 		WARP,
+        WARP_END,
 		DEAD,
 		DEFAULT
 	}
@@ -38,6 +45,7 @@ public class OculusPlayerMain : MonoBehaviour {
 
 		playerState = e_PLAYER_STATE.DEFAULT;
         OnlineLevel.Instance.VRDeviceEnabled();
+        droneControll = GameObject.FindWithTag("BeasBeacon").GetComponent<DroneControll>();
 
 	}
 
@@ -53,22 +61,33 @@ public class OculusPlayerMain : MonoBehaviour {
 		switch(playerState){
 		case e_PLAYER_STATE.DEFAULT:
 
-			if(Input.GetKey(KeyCode.A)){
-				RayInit();
-				ShotBullet();
-			}
+                droneControll.DroneMain();
+
+                if (Input.GetButton("MaruP1") || Input.GetButton("ShikakuP1") || Input.GetButton("SankakuP1") || Input.GetButton("BatuP1")){
+                    RayInit();
+                    ShotBullet();
+                }
+              
 			
-			if(Input.GetKeyDown(KeyCode.B)){
-				RayInit();
-				RayWarp();
-			}
+			
+                if(Input.GetButton("R1P1") || Input.GetButton("R2P1") || Input.GetButton("L1P1") || Input.GetButton("L2P1")){
+
+                    RayInit();
+                    RayWarp();
+			
+                }
 
 			break;
 
 		case e_PLAYER_STATE.WARP:
 
 			if(!warpEffect.activeWarp){
-				gameObject.transform.position = raycastHit.collider.transform.position;
+                droneControll.Init();
+				transform.position = raycastHit.collider.transform.position;
+                transform.rotation = raycastHit.collider.transform.rotation;
+                droneControll = raycastHit.collider.GetComponent<DroneControll>();
+                transform.parent = raycastHit.collider.transform;
+                transform.position += posRevision;
 				playerState = e_PLAYER_STATE.DEFAULT;
 			}
 
