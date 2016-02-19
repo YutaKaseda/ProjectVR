@@ -34,10 +34,13 @@ public class Player2D : MonoBehaviour {
 		playerData2D.speed = 0.5f;
 		playerData2D.pi = 3.14f;
 		playerData2D.resurrectionTime = 1.0f;
+		playerData2D.InitHP ();
+		playerData2D.lifes = 3;
 	}
 	
 	/***移動処理***/
-	public void Main(){
+	//public void Main(){
+	void Update(){
 		if (playerData2D.playerHP > 0) {
 			playerData2D.vectorZ = Input.GetAxisRaw ("HorizontalP2");
 			playerData2D.vectorY = Input.GetAxisRaw ("VerticalP2");
@@ -89,17 +92,21 @@ public class Player2D : MonoBehaviour {
 	/***呼び出せばPlayer2Dの破壊され復活までの処理が実行される***/
 	public IEnumerator Resurrection(){
 		Pos2D = gameObject.transform.position;
-		playerData2D.vectorZ = -100000;
+		playerData2D.lifes --;
+
+		//
+		//ここで残機が減って何か処理が入る
+		//
 
 		allUI.UiUpdate ("Lifes2D",0);
 		allUI.UiUpdate ("ComboReset",0);
 
 		while (playerData2D.resurrectionTime > 0) {
 			playerData2D.resurrectionTime -= 1 * Time.deltaTime;
-			playerData2D.InitHP();
 			yield return null;
 		}
 		playerData2D.resurrectionTime = 1.0f;
+		playerData2D.InitHP();
 		gameObject.transform.position = Pos2D;
 	}
 

@@ -15,15 +15,15 @@ public class PlayerData : MonoBehaviour {
 	public	int killCombo { get; set;}
 
     public void Awake(){
-        playerHP = 100;
+        playerHP = 1;
     }
 
 	public void InitHP(){
-		playerHP = 100;
+		playerHP = 1;
 	}
 
     //ダメージ処理
-    public virtual void Damege(int gensyo)
+    public virtual void Damage(int gensyo)
     {
 
         playerHP -= gensyo;
