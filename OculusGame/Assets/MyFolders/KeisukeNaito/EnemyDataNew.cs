@@ -4,6 +4,7 @@
 /// 使用方法　EnemyのPrefabに入れて行動をさせるクラスから参照する（基本してある）
 /// 2/16 内藤　作成
 /// 2/18 内藤　追記（追尾等）
+/// 2/19 内藤　追記（Enemy3D用変数）
 /// </summary>
 
 using UnityEngine;
@@ -23,11 +24,15 @@ public class EnemyDataNew : MonoBehaviour {
 	public float stalkingY{ get; set;}					//追尾用座標調整保存変数
 	public float stalkingZ{ get; set;}
 	public bool stalkingSearch{ get; set; }				//追尾用範囲内にいるかどうか
+	public int enemyQuater{ get; set; }					//Enemy回転用
 
 	public float enemySpeed{ get; set;}
 	public float player2DDegree{ get; set; }			//Speed格納仮変数
 
 	public float pi{ get; private set;}
+
+	public Vector3 player3DBase{ get; set; }			//3DPlayerのいる位置を出た瞬間のみ保存
+	public Vector3 enemy3DDirection{ get; set; }		//Enemy3D向かわせる方向
 
 	void Awake(){
 		pi = 3.14f;

@@ -15,12 +15,14 @@ using System.Collections;
 public class EnemyTypeNew : MonoBehaviour {
 
 	EnemyDataNew enemyDataNew;
+	GameObject enemy2DMain;
 	GameObject player2D;
 	PlayerData2D playerData2D;
 
 	void Awake()
 	{
 		enemyDataNew = GetComponent<EnemyDataNew>();
+		enemy2DMain = transform.FindChild ("Enemy2DMain").gameObject;
 		enemyDataNew.enemyRadius = 125f;
 		enemyDataNew.enemyDeleteTime = 15f;
 		enemyDataNew.enemyLifeTime = 0;
@@ -33,9 +35,11 @@ public class EnemyTypeNew : MonoBehaviour {
 	public void InitDegree(Vector3 enemyPos,float degree,string enemyName){
 		enemyDataNew.enemyDegree = degree;
 		enemyDataNew.movePos = enemyPos;
-		if (enemyName == "enemyL")
+		if (enemyName == "enemyL") {
 			enemyDataNew.enemySpeed = 0.3f;
-		if (enemyName == "enemyR")
+			enemy2DMain.transform.Rotate (0, 180, 0);
+		}
+		if (enemyName == "enemyR") 
 			enemyDataNew.enemySpeed = -0.3f;
 		StartCoroutine("EnemyTypeNewMove");
 	}
@@ -88,14 +92,19 @@ public class EnemyTypeNew : MonoBehaviour {
 			enemyDataNew.stalkingY = 0;
 
 			if(enemyDataNew.enemyDegree > playerData2D.degree){
+				if(enemyDataNew.enemySpeed >= 0){
+					enemy2DMain.transform.Rotate(0,180,0);
+				}
 				enemyDataNew.enemySpeed = -0.3f;
 			}
 			else if(enemyDataNew.enemyDegree < playerData2D.degree){
+				if(enemyDataNew.enemySpeed <= 0){
+					enemy2DMain.transform.Rotate(0,180,0);
+				}
 				enemyDataNew.enemySpeed = 0.3f;
 			}
 		}
-	}
-	
+	}	
 	void Delete()
 	{
 		Destroy(gameObject);

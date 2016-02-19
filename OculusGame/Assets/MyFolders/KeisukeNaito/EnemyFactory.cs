@@ -7,7 +7,10 @@ using UnityEngine;
 using System.Collections;
 
 public class EnemyFactory : MonoBehaviour {
-	public GameObject testteki;
+	[SerializeField]
+	GameObject enemy2D;
+	[SerializeField]
+	GameObject enemy3D;
 	GameObject enemy;
 	EnemyTypeNew enemyTypeNew;
 
@@ -15,12 +18,13 @@ public class EnemyFactory : MonoBehaviour {
 		switch (enemyName) {
 		case "enemyL":
 		case "enemyR":
-		case "enemy":
-			enemy = Instantiate (testteki, enemyPos, transform.rotation)as GameObject;
+			enemy = Instantiate (enemy2D, enemyPos, transform.rotation)as GameObject;
 			enemyTypeNew = enemy.GetComponent<EnemyTypeNew>();
 			enemyTypeNew.InitDegree(enemyPos,enemyDegree,enemyName);
 			break;
-        
+		case "enemy3D":
+			enemy = Instantiate (enemy3D, enemyPos, transform.rotation)as GameObject;
+			break;
 		}
 	}
 }
