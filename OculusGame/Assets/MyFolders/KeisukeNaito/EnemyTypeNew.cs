@@ -50,7 +50,7 @@ public class EnemyTypeNew : MonoBehaviour {
 		while (enemyDataNew.enemyDeleteTime >= enemyDataNew.enemyLifeTime)
 		{
 			enemyDataNew.enemyLifeTime += Time.deltaTime;
-			StokingAI();
+			StalkingAI();
 			enemyDataNew.enemyDegree += enemyDataNew.enemySpeed;
 			
 			enemyDataNew.movePos = new Vector3 (enemyDataNew.enemyRadius * Mathf.Cos (enemyDataNew.pi / 180 * enemyDataNew.enemyDegree),
@@ -76,7 +76,7 @@ public class EnemyTypeNew : MonoBehaviour {
 	}
 
 	//AIとして追尾の場所を関数
-	void StokingAI(){
+	void StalkingAI(){
 		enemyDataNew.playerEnemyDistance = Vector3.Distance (transform.position, player2D.transform.position);
 
 		if (enemyDataNew.playerEnemyDistance <= 30) { 
