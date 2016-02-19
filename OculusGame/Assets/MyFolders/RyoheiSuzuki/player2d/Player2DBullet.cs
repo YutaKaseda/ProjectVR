@@ -75,4 +75,14 @@ public class Player2DBullet : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
+	void OnTriggerEnter(Collider other)
+	{
+		switch (other.gameObject.tag)
+		{
+		default:
+			Destroy(gameObject);
+			break;
+		}
+		
+	}
 }

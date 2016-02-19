@@ -26,6 +26,7 @@ public class EnemyTypeNew : MonoBehaviour {
 		enemyDataNew.enemyRadius = 125f;
 		enemyDataNew.enemyDeleteTime = 15f;
 		enemyDataNew.enemyLifeTime = 0;
+		enemyDataNew.InitHP (2);
 		enemyDataNew.stalkingSearch = false;
 		player2D = GameObject.FindWithTag ("Player2D");
 		playerData2D = player2D.GetComponent<PlayerData2D>();
@@ -51,6 +52,8 @@ public class EnemyTypeNew : MonoBehaviour {
 		{
 			enemyDataNew.enemyLifeTime += Time.deltaTime;
 			StalkingAI();
+			if(enemyDataNew.enemyHP <= 0)
+				Delete();
 			enemyDataNew.enemyDegree += enemyDataNew.enemySpeed;
 			
 			enemyDataNew.movePos = new Vector3 (enemyDataNew.enemyRadius * Mathf.Cos (enemyDataNew.pi / 180 * enemyDataNew.enemyDegree),

@@ -16,6 +16,6 @@ public class PlayerData2D : PlayerData {
 	public float radius;
 	public float pi{ get; set;}
 	public Vector3 position;
-	public int lifes;
+	public int lifes{ get; set; }
 	public int weaponLevel { get; set;}
 }
