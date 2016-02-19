@@ -6,6 +6,9 @@
 /// 内容　敵が生成位置から3D追尾
 /// プレイヤーを発見し次第追尾を追加予定
 /// 2016 2/19 内藤 作成
+/// 2016/02/20 鈴木
+/// HPの初期化追加
+/// Delete処理追加
 /// </summary>
 
 using UnityEngine;
@@ -20,6 +23,7 @@ public class EnemyType3D : MonoBehaviour {
 	void Awake()
 	{
 		enemyDataNew = GetComponent<EnemyDataNew>();
+		enemyDataNew.InitHP (1);
 		enemy3DMain = transform.FindChild ("Enemy3DMain").gameObject;
 		enemy3DMain.transform.Rotate (0, 180, 0);
 		enemyDataNew.enemyRadius = 125f;
@@ -37,6 +41,9 @@ public class EnemyType3D : MonoBehaviour {
 		while (enemyDataNew.enemyDeleteTime >= enemyDataNew.enemyLifeTime)
 		{
 			enemyDataNew.enemyLifeTime += Time.deltaTime;
+			if(enemyDataNew.enemyHP <= 0){
+				Delete();
+			}
 			enemyDataNew.enemy3DDirection = enemyDataNew.player3DBase - transform.position; //方向
 			enemyDataNew.enemy3DDirection = enemyDataNew.enemy3DDirection.normalized;   //単位化（距離要素を取り除く）
 			transform.position = transform.position + (enemyDataNew.enemy3DDirection * 50f * Time.deltaTime);
