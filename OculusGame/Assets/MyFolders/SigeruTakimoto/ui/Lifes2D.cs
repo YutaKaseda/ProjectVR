@@ -27,6 +27,6 @@ public class Lifes2D : MonoBehaviour {
 	}
 	//表示用
 	public void LifesDraw(){
-		lifesText.text = "残機:"+playerData2D.lifes;
+		lifesText.text = ""+playerData2D.lifes;
 	}
 }
