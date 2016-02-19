@@ -1,24 +1,20 @@
 ﻿//2016/02/18 梅村 UIの大本を作成。更新したいUIの名前と、値があれば正しい値を入れることでアクセスしてくれる
-
+// 2016/02/19 梅村 全体的に見やすくなったかな？
 using UnityEngine;
 using System.Collections;
 
 public class AllUI : MonoBehaviour {
-	[SerializeField]
-	KillCombo killCombo;
-	[SerializeField]
-	Score score;
-	[SerializeField]
-	DeathBlowGage deathBlowGage;
-	[SerializeField]
-	Lifes2D lifes2D;
 
+	KillCombo killCombo;
+	Score score;
+	DeathBlowGauge deathBlowGauge;
+	Lifes2D lifes2D;
 
 	// Use this for initialization
 	void Awake () {
 		killCombo = GetComponent<KillCombo>();
 		score = GetComponent<Score>();
-		deathBlowGage = GetComponent<DeathBlowGage>();
+		deathBlowGauge = GetComponent<DeathBlowGauge>();
 		lifes2D = GetComponent<Lifes2D>();
 	}
 	
@@ -33,8 +29,8 @@ public class AllUI : MonoBehaviour {
 		case "ComboReset":
 			killCombo.ComboReset();
 			break;
-		case "DeathBlowGageUp":
-			deathBlowGage.GageUp();
+		case "DeathBlowGaugeUp":
+			deathBlowGauge.GaugeUp();
 			break;
 		case "Lifes2D":
 			lifes2D.ReduceLife ();

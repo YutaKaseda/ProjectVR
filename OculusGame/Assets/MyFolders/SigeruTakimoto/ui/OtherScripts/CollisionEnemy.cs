@@ -1,5 +1,5 @@
 ﻿//2016/02/17 ui関連の紐づけ 梅村
-
+// 2016/02/19 梅村 DeathBlowGaugeUpの名前変更
 using UnityEngine;
 using System.Collections;
 
@@ -11,15 +11,6 @@ public class CollisionEnemy : MonoBehaviour {
     {
 		allUI = GameObject.Find("UIObj").GetComponent<AllUI>();
     }
-
-	void Update(){
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			allUI.UiUpdate("ComboUp",0);
-			allUI.UiUpdate("ScoreUp",1000);
-			allUI.UiUpdate("DeathBlowGageUp",0);
-			Destroy(gameObject);
-		}
-	}
 
     void OnTriggerEnter(Collider other)
     {
@@ -45,5 +36,4 @@ public class CollisionEnemy : MonoBehaviour {
         }
 
     }
-
-}
+}	
