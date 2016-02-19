@@ -44,10 +44,14 @@ public class EnemyDataNew : MonoBehaviour {
         enemyHP = hp;
     }
 
-    //ダメージ処理
-    public void Damege(int gensyo)
-    {
-        enemyHP -= gensyo;
-    }
-
+	public void EnemyDamage(string bullet){
+		switch (bullet) {
+		case "NormalBullet":
+			enemyHP -= 1;
+			break;
+		default:
+			Debug.LogError ("bullet指定ミス");
+			break;
+		}
+	}
 }
