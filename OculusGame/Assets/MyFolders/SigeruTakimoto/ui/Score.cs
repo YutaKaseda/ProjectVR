@@ -24,7 +24,7 @@ public class Score : MonoBehaviour {
 	}
 
 	public void ScoreDraw(){
-		scoreText2D.text = playerData.score+"点";
-		scoreText3D.text = playerData.score+"点";
+		scoreText2D.text = playerData.score+"";
+		scoreText3D.text = playerData.score+"";
 	}
 }
