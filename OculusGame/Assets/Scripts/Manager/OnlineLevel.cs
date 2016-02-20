@@ -11,23 +11,30 @@ using UnityEngine.Networking;
 
 public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
-    public bool player2DConnected;
+    [SerializeField]
+    GameObject OculusPlayer;
+    [SerializeField]
+    MainInterface OculusPlayerMainInterface;
 
-    public GameObject localPlayer { get; set; }
-    public MainInterface localPlayerMainInterface { get; set; }
+    [SerializeField]
+    GameObject SecondPlayer;
+    [SerializeField]
+    MainInterface SecondPlayerMainInterface;
 
     [SerializeField]
     GameObject bossObject;
+    [SerializeField]
+    BossMk2 bossMain;
 
     [SerializeField]
     GameObject centerTowerUI;
 
     void Awake(){
 
-        player2DConnected = false;
-
         GameData.onlineState = E_ONLINE_STATE.NETWORK_CONNECT;
-        ResourcesManager.Instance.ResourcesLoadScene("Online");
+        ResourcesManager.Instance.ResourcesLoadScene("OnLine");
+
+        bossMain.Init();
 
     }
 
@@ -44,25 +51,28 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
             case E_ONLINE_STATE.NETWORK_CONNECT:
 
-                if (player2DConnected)
+                if(Input.GetKeyDown(KeyCode.Return))
                     ChangeNextState();
 
                 break;
 
             case E_ONLINE_STATE.GAME_START_WAIT:
-                localPlayerMainInterface.IMain();
+                OculusPlayerMainInterface.IMain();
+                //SecondPlayerMainInterface.IMain();
                 ChangeNextState();
 
                 break;
 
             case E_ONLINE_STATE.GAME_PLAY:
-                localPlayerMainInterface.IMain();
-                bossObject.GetComponent<BossMk2>().Main();
+                OculusPlayerMainInterface.IMain();
+                //SecondPlayerMainInterface.IMain();
+                bossMain.Main();
 
                 break;
 
             case E_ONLINE_STATE.GAME_CLEAR:
-                localPlayerMainInterface.IMain();
+                OculusPlayerMainInterface.IMain();
+                //SecondPlayerMainInterface.IMain();
 
 
                 break;
@@ -84,9 +94,9 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
         switch (prevState){
 
             case E_ONLINE_STATE.NETWORK_CONNECT:
-                Debug.Log(localPlayer);
-                localPlayer.GetComponent<NetworkSetup>().SetupLocalPlayer();
-                localPlayerMainInterface = localPlayer.GetComponent<MainInterface>();
+                OculusPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
+                //SecondPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
+
                 GameData.onlineState = E_ONLINE_STATE.GAME_START_WAIT;
 
                 break;
@@ -94,14 +104,13 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
             case E_ONLINE_STATE.GAME_START_WAIT:
 
                 StartCoroutine(GameStartCountDown());
-                //bossObject = Instantiate(ResourcesManager.Instance.GetResourceScene("Boss"), transform.position, transform.rotation) as GameObject;
-                //NetworkServer.Spawn(bossObject);
-                bossObject = GameObject.FindWithTag("Boss");
-                bossObject.GetComponent<BossMk2>().Init();
+             
                 GameData.onlineState = E_ONLINE_STATE.NONE;
                 break;
 
             case E_ONLINE_STATE.GAME_PLAY:
+
+                StartCoroutine(GameClearCountDown());
 
                 break;
 
@@ -132,6 +141,22 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
         yield return new WaitForSeconds(3.0f);
 
+        centerTowerUI.SetActive(false);
+
+    }
+
+    IEnumerator GameClearCountDown()
+    {
+
+        centerTowerUI.SetActive(true);
+
+        centerTowerUI.GetComponent<CountDownUI>().TextUpdate("CLEAR!");
+        GameData.onlineState = E_ONLINE_STATE.GAME_CLEAR;
+        
+        yield return new WaitForSeconds(7.0f);
+
+        Application.LoadLevelAsync("network_offline"); 
+        
         centerTowerUI.SetActive(false);
 
     }

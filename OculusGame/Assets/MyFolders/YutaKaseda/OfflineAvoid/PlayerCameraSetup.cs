@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerCameraSetup : MonoBehaviour {
+public class PlayerCameraSetup : MonoBehaviour
+{
 
-    [SerializeField]
-    AudioListener myAudioListener;
     [SerializeField]
     Camera myCamera;
 
-    public void SetupLocalPlayer()
+    public void SetUpPlayer()
     {
 
-        GameObject.FindWithTag("SceneCamera").SetActive(false);
+        if (gameObject.tag == "Player2D")
+        {
+            GameObject.FindWithTag("SceneCamera2D").SetActive(false);
+            GetComponent<Player2D>().enabled = true;
+        }
 
-        myAudioListener.enabled = true;
+        if (gameObject.tag == "Player3D")
+        {
+            GameObject.FindWithTag("SceneCameraOculus").SetActive(false);
+        }
+
         myCamera.enabled = true;
 
-        if (gameObject.tag == "Player2D")
-            GetComponent<Player2D>().enabled = true;
     }
-
 }

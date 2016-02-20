@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class CollisionBoss : NetworkBehaviour {
+public class CollisionBoss : MonoBehaviour {
 
 	BossData bossData;
 
@@ -13,13 +13,12 @@ public class CollisionBoss : NetworkBehaviour {
 		bossData = GetComponent<BossData>();
     }
 
-    [Client]
 	void OnTriggerEnter(Collider other){
 		switch (other.gameObject.tag) {
 			
 		case "Player2DBullet":
                 Debug.Log("たまあたったで");
-			bossData.CmdBossDamage("NormalBullet","2D");
+			bossData.BossDamage("NormalBullet","2D");
 			break;
 		}
 	}

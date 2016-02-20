@@ -15,7 +15,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class Player2D : NetworkBehaviour {
+public class Player2D : MonoBehaviour {
 	int playerTurnDirection;//1の時右向き,2のとき左向き
 	int playerQuater;
 	[SerializeField]

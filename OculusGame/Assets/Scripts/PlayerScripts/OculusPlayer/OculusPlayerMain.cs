@@ -11,7 +11,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class OculusPlayerMain : NetworkBehaviour {
+public class OculusPlayerMain : MonoBehaviour {
 	//OculusCamera
 	[SerializeField]
 	Camera oculusCamera;
@@ -52,7 +52,7 @@ public class OculusPlayerMain : NetworkBehaviour {
 
 		playerState = e_PLAYER_STATE.DEFAULT;
         OnlineLevel.Instance.VRDeviceEnabled();
-        droneControll = GameObject.FindWithTag("BeasBeacon").GetComponent<DroneControll>();
+        droneControll = GameObject.FindWithTag("Beacon").GetComponent<DroneControll>();
 
 	}
 
@@ -62,12 +62,6 @@ public class OculusPlayerMain : NetworkBehaviour {
 		ray = new Ray(oculusCamera.transform.position,oculusCamera.transform.forward);
 
 	}
-
-    public override void OnStartLocalPlayer()
-    {
-        bossObject = Instantiate(ResourcesManager.Instance.GetResourceScene("Boss"), new Vector3(0,0,0), new Quaternion(0,0,0,0)) as GameObject;
-        NetworkServer.Spawn(bossObject);
-    }
 
 	public void Main(){
 
@@ -116,15 +110,14 @@ public class OculusPlayerMain : NetworkBehaviour {
 	void ShotBullet(){
         if (CheckHitRayWithTag(ray, "Enemy", 1.0f))
         {
-            EffectFactory.Instance.Create("flash", transform.position, transform.rotation);
+   
 			enemyDataNew = raycastHit.collider.gameObject.GetComponentInParent<EnemyDataNew>();
 			enemyDataNew.EnemyDamage("NormalBullet");
         }
         if (CheckHitRayWithTag(ray, "Boss", 1.0f))
         {
-            EffectFactory.Instance.Create("flash", effectpos.transform.position, effectpos.transform.rotation);
             bossData = raycastHit.collider.gameObject.GetComponentInParent<BossData>();
-            bossData.CmdBossDamage("NormalBullet","3D");
+            bossData.BossDamage("NormalBullet","3D");
         }
 	}
 
