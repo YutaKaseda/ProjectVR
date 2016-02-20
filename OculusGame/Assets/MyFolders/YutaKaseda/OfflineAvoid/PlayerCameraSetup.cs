@@ -7,6 +7,9 @@ public class PlayerCameraSetup : MonoBehaviour
     [SerializeField]
     Camera myCamera;
 
+    [SerializeField]
+    AudioListener audioListener;
+
     public void SetUpPlayer()
     {
 
@@ -22,6 +25,7 @@ public class PlayerCameraSetup : MonoBehaviour
         }
 
         myCamera.enabled = true;
+        audioListener.enabled = true;
 
     }
 }

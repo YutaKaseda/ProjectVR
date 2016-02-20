@@ -35,6 +35,8 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
         audioClips.Add("Railgun", new AudioClipInfo("beamgun"));
 		audioClips.Add("charge", new AudioClipInfo("charge"));
 		audioClips.Add("Bomb", new AudioClipInfo("explosion"));
+        audioClips.Add("push", new AudioClipInfo("push"));
+
         //DontDestroyOnLoad(this);
 
     }

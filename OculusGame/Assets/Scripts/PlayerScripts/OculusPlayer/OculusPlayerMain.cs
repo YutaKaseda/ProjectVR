@@ -30,7 +30,7 @@ public class OculusPlayerMain : MonoBehaviour {
     [SerializeField]
     DroneControll droneControll;
 
-    GameObject bossObject;
+    bool vulcanPlaySound;
 
 	//Use ShotBullet,Warp
     public Ray ray { private set; get; }
@@ -74,6 +74,12 @@ public class OculusPlayerMain : MonoBehaviour {
                 droneControll.DroneMain();
 				vulcanKnockBackAnim.SetBool("shot",false);
                 if (Input.GetButton("MaruP1") || Input.GetButton("ShikakuP1") || Input.GetButton("SankakuP1") || Input.GetButton("BatuP1")){
+                    if (!vulcanPlaySound)
+                    {
+                        vulcanPlaySound = true;
+                        SoundPlayer.Instance.PlaySoundEffect("Balkan2", 1.0f);
+                        StartCoroutine(VulcanSoundInterval(0.1f));
+                    }
                     RayInit();
                     ShotBullet();
 					vulcanKnockBackAnim.SetBool("shot",true);
@@ -82,10 +88,8 @@ public class OculusPlayerMain : MonoBehaviour {
 			
 			
                 if(Input.GetButton("R1P1") || Input.GetButton("R2P1") || Input.GetButton("L1P1") || Input.GetButton("L2P1")){
-
                     RayInit();
                     RayWarp();
-			
                 }
 
 			break;
@@ -126,8 +130,9 @@ public class OculusPlayerMain : MonoBehaviour {
 	}
 
 	void RayWarp(){
-        if (CheckHitRayWithTag(ray, "Beacon", 2.0f)){
+        if (CheckHitRayWithTag(ray, "Beacon", 3.0f)){
 			warpEffect.FadeWhite();
+            SoundPlayer.Instance.PlaySoundEffect("warp", 1.0f);
 			playerState = e_PLAYER_STATE.WARP;
 		}
     }
@@ -141,4 +146,10 @@ public class OculusPlayerMain : MonoBehaviour {
 
 		return false;
 	}
+    IEnumerator VulcanSoundInterval(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        vulcanPlaySound = false;
+    }
+
 }

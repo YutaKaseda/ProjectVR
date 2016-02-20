@@ -29,6 +29,9 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
     [SerializeField]
     GameObject centerTowerUI;
 
+    [SerializeField]
+    AudioSource bgmAudioSource;
+
     void Awake(){
 
         GameData.onlineState = E_ONLINE_STATE.NETWORK_CONNECT;
@@ -133,9 +136,11 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
             centerTowerUI.GetComponent<CountDownUI>().TextUpdate(count.ToString());
             count--;
+            SoundPlayer.Instance.PlaySoundEffect("push", 1.0f);
             yield return new WaitForSeconds(1.0f);
         }
 
+        bgmAudioSource.Play();
         centerTowerUI.GetComponent<CountDownUI>().TextUpdate("GO!");
         GameData.onlineState = E_ONLINE_STATE.GAME_PLAY;
 
