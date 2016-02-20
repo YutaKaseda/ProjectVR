@@ -33,10 +33,6 @@ public class BossMk2 : MonoBehaviour {
 	[SerializeField]
 	GameObject enemyCreateObj;
 
-	public void Awake(){
-		Init ();
-	}
-
 	public void Init(){
 		player2D = GameObject.FindWithTag ("Player2D");
 		player3D = GameObject.FindWithTag ("Player3D");

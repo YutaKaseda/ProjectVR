@@ -32,7 +32,9 @@ public class BossData : MonoBehaviour {
 
 		switch(bullet){
 		case "NormalBullet":
-                bossHp -= 2;
+            bossHp -= 2;
+			EffectFactory.Instance.Create("hit",transform.position + new Vector3(Random.Range(-10,10),Random.Range(-10,10),Random.Range(-10,10)),
+			                              transform.rotation);
 			break;
 		default:
 			Debug.LogError("bullet指定ミス");
