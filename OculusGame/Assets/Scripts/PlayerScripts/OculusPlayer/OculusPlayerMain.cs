@@ -37,6 +37,8 @@ public class OculusPlayerMain : MonoBehaviour {
 	//RayHitColliderChecking
 	RaycastHit raycastHit;
 
+	Animator vulcanKnockBackAnim;
+
 	//WARP or DEAD 
 	//Can't Move State
 	enum e_PLAYER_STATE{
@@ -53,6 +55,7 @@ public class OculusPlayerMain : MonoBehaviour {
 		playerState = e_PLAYER_STATE.DEFAULT;
         OnlineLevel.Instance.VRDeviceEnabled();
         droneControll = GameObject.FindWithTag("Beacon").GetComponent<DroneControll>();
+		vulcanKnockBackAnim = GetComponent<Animator>();
 
 	}
 
@@ -69,10 +72,11 @@ public class OculusPlayerMain : MonoBehaviour {
 		case e_PLAYER_STATE.DEFAULT:
 
                 droneControll.DroneMain();
-
+				vulcanKnockBackAnim.SetBool("shot",false);
                 if (Input.GetButton("MaruP1") || Input.GetButton("ShikakuP1") || Input.GetButton("SankakuP1") || Input.GetButton("BatuP1")){
                     RayInit();
                     ShotBullet();
+					vulcanKnockBackAnim.SetBool("shot",true);
                 }
               
 			
