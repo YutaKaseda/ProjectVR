@@ -7,6 +7,7 @@ using UnityEngine.VR;
 using System.Collections;
 using GameMainData;
 using OnlineStatus;
+using UnityEngine.Networking;
 
 public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
@@ -14,6 +15,9 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
     public GameObject localPlayer { get; set; }
     public MainInterface localPlayerMainInterface { get; set; }
+
+    [SerializeField]
+    GameObject bossObject;
 
     [SerializeField]
     GameObject centerTowerUI;
@@ -53,11 +57,13 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
             case E_ONLINE_STATE.GAME_PLAY:
                 localPlayerMainInterface.IMain();
+                bossObject.GetComponent<BossMk2>().Main();
 
                 break;
 
             case E_ONLINE_STATE.GAME_CLEAR:
                 localPlayerMainInterface.IMain();
+
 
                 break;
 
@@ -88,6 +94,10 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
             case E_ONLINE_STATE.GAME_START_WAIT:
 
                 StartCoroutine(GameStartCountDown());
+                //bossObject = Instantiate(ResourcesManager.Instance.GetResourceScene("Boss"), transform.position, transform.rotation) as GameObject;
+                //NetworkServer.Spawn(bossObject);
+                bossObject = GameObject.FindWithTag("Boss");
+                bossObject.GetComponent<BossMk2>().Init();
                 GameData.onlineState = E_ONLINE_STATE.NONE;
                 break;
 

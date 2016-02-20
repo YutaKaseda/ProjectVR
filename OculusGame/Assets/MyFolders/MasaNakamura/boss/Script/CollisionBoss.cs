@@ -2,8 +2,9 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class CollisionBoss : MonoBehaviour {
+public class CollisionBoss : NetworkBehaviour {
 
 	BossData bossData;
 
@@ -12,14 +13,13 @@ public class CollisionBoss : MonoBehaviour {
 		bossData = GetComponent<BossData>();
     }
 
+    [Client]
 	void OnTriggerEnter(Collider other){
 		switch (other.gameObject.tag) {
 			
 		case "Player2DBullet":
-			bossData.BossDamage("NormalBullet","2D");
-			if (bossData.bossHp <= 0) {
-				Destroy (gameObject);
-			}
+                Debug.Log("たまあたったで");
+			bossData.CmdBossDamage("NormalBullet","2D");
 			break;
 		}
 	}

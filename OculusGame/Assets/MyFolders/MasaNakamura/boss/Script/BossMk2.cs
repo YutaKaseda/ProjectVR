@@ -31,7 +31,7 @@ public class BossMk2 : MonoBehaviour {
 	Vector3 targetPlayerVec2D, targetPlayerVec3D;
 	GameObject targetPlayerObject;
 
-	void Awake(){
+	public void Init(){
 		player2D = GameObject.FindWithTag ("Player2D");
 		player3D = GameObject.FindWithTag ("Player3D");
 		bossRailgun = GameObject.FindWithTag ("Railgun");
@@ -45,6 +45,7 @@ public class BossMk2 : MonoBehaviour {
 		nextPositionNumber = 0;
 		attackPattern = 0;
 		attackTime = 0f;
+       
 	}
 	
 

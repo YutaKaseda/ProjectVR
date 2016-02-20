@@ -13,8 +13,9 @@
 // 2016/02/18 鈴木 bullet初期位置バグ修正
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Player2D : MonoBehaviour {
+public class Player2D : NetworkBehaviour {
 	int playerTurnDirection;//1の時右向き,2のとき左向き
 	int playerQuater;
 	[SerializeField]
@@ -39,8 +40,8 @@ public class Player2D : MonoBehaviour {
 	}
 	
 	/***移動処理***/
-	//public void Main(){
-	void Update(){
+	public void Main(){
+	//void Update(){
 		if (playerData2D.playerHP > 0) {
 			playerData2D.vectorZ = Input.GetAxisRaw ("HorizontalP2");
 			playerData2D.vectorY = Input.GetAxisRaw ("VerticalP2");
@@ -73,6 +74,7 @@ public class Player2D : MonoBehaviour {
 
 			//ResourcesManagerの処理に置き換えます
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+            NetworkServer.Spawn(shotBullet);
 			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y);
 			playerData2D.shotWaitTime = 0;
 		}
@@ -80,6 +82,7 @@ public class Player2D : MonoBehaviour {
 
 			//ResourcesManagerにー
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+            NetworkServer.Spawn(shotBullet);
 			shotBullet.GetComponent<Player2DBullet>().BulletInit('L',playerData2D.degree,transform.position.y);
 			playerData2D.shotWaitTime = 0;
 		}

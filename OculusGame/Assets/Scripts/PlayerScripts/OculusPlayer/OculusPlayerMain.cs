@@ -9,8 +9,9 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class OculusPlayerMain : MonoBehaviour {
+public class OculusPlayerMain : NetworkBehaviour {
 	//OculusCamera
 	[SerializeField]
 	Camera oculusCamera;
@@ -18,12 +19,18 @@ public class OculusPlayerMain : MonoBehaviour {
     [SerializeField]
 	WarpEffect warpEffect;
 	EnemyDataNew enemyDataNew;
+    BossData bossData;
+
+    [SerializeField]
+    Transform effectpos;
 
     [SerializeField]
     Vector3 posRevision;
 
     [SerializeField]
     DroneControll droneControll;
+
+    GameObject bossObject;
 
 	//Use ShotBullet,Warp
     public Ray ray { private set; get; }
@@ -55,6 +62,12 @@ public class OculusPlayerMain : MonoBehaviour {
 		ray = new Ray(oculusCamera.transform.position,oculusCamera.transform.forward);
 
 	}
+
+    public override void OnStartLocalPlayer()
+    {
+        bossObject = Instantiate(ResourcesManager.Instance.GetResourceScene("Boss"), new Vector3(0,0,0), new Quaternion(0,0,0,0)) as GameObject;
+        NetworkServer.Spawn(bossObject);
+    }
 
 	public void Main(){
 
@@ -103,8 +116,15 @@ public class OculusPlayerMain : MonoBehaviour {
 	void ShotBullet(){
         if (CheckHitRayWithTag(ray, "Enemy", 1.0f))
         {
+            EffectFactory.Instance.Create("flash", transform.position, transform.rotation);
 			enemyDataNew = raycastHit.collider.gameObject.GetComponentInParent<EnemyDataNew>();
-			enemyDataNew.Damage("NormalBullet");
+			enemyDataNew.EnemyDamage("NormalBullet");
+        }
+        if (CheckHitRayWithTag(ray, "Boss", 1.0f))
+        {
+            EffectFactory.Instance.Create("flash", effectpos.transform.position, effectpos.transform.rotation);
+            bossData = raycastHit.collider.gameObject.GetComponentInParent<BossData>();
+            bossData.CmdBossDamage("NormalBullet","3D");
         }
 	}
 
