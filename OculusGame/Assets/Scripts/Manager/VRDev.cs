@@ -6,7 +6,7 @@ public class VRDev : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        VRSettings.showDeviceView = false;
+        //VRSettings.showDeviceView = false;
 	}
 
     void Update()
