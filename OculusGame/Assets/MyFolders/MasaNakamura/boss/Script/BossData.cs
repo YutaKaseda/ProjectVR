@@ -4,16 +4,18 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class BossData : NetworkBehaviour {
-	public const int TARGET2D = 1;
-	public const int TARGET3D = 2;
+	public const int TARGET2D = 11;
+	public const int TARGET3D = 22;
 	public const int BOSS_PATTERN_STAY = 0;
-	public const int BOSS_PATTERN_VULCAN = 1;
-	public const int BOSS_PATTERN_RAILGUN = 2;
-
+	public const int BOSS_PATTERN_VULCAN = 99;
+	public const int BOSS_PATTERN_RAILGUN = 1;
+	public const int BOSS_PATTERN_TACKLE = 2;
+	public const int BOSS_PATTERN_ENEMY_CREATE = 3;
+	public const int BOSS_PATTERN_NULL = -1;
  
     [SyncVar]public int bossHp;
     public int bossHate;//+10で2Dを狙う -10で3Dを狙う
-    public int bossAttackTarget;
+	public int bossAttackTarget{ set; get;}
 
 	void Awake(){
 		bossHp = 400;
@@ -29,6 +31,8 @@ public class BossData : NetworkBehaviour {
     {
         if (bossHp <= 0)
         {
+			SoundPlayer.Instance.PlaySoundEffect("Bomb",1.0f);
+			EffectFactory.Instance.Create("bom",transform.position,transform.rotation);
             Destroy(gameObject);
         }
     }

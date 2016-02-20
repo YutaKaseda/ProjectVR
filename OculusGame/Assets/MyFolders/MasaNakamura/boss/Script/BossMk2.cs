@@ -30,6 +30,12 @@ public class BossMk2 : MonoBehaviour {
 	Transform targetPlayer2D,targetPlayer3D;
 	Vector3 targetPlayerVec2D, targetPlayerVec3D;
 	GameObject targetPlayerObject;
+	[SerializeField]
+	GameObject enemyCreateObj;
+
+	public void Awake(){
+		Init ();
+	}
 
 	public void Init(){
 		player2D = GameObject.FindWithTag ("Player2D");
@@ -47,7 +53,10 @@ public class BossMk2 : MonoBehaviour {
 		attackTime = 0f;
        
 	}
-	
+
+	void Update(){
+		Main ();
+	}
 
 	public void Main(){
 		LockOn ();
@@ -65,7 +74,6 @@ public class BossMk2 : MonoBehaviour {
 		default:
 			break;
 		}
-		transform.rotation = CalcRotationLeap(targetPos);
 	}
 
 	void Warp(){
@@ -98,7 +106,13 @@ public class BossMk2 : MonoBehaviour {
 			Vulcan ();
 			break;
 		case BossData.BOSS_PATTERN_RAILGUN:
-			Railgun();
+			StartCoroutine(Railgun());
+			break;
+		case BossData.BOSS_PATTERN_TACKLE:
+			Tackle ();
+			break;
+		case BossData.BOSS_PATTERN_ENEMY_CREATE:
+			StartCoroutine(EnemyCreate());
 			break;
 		}
 	}
@@ -106,10 +120,11 @@ public class BossMk2 : MonoBehaviour {
 	//待機時間
 	//呼ぶだけ
 	void Stay(){
-		if (attackTime >= 8f) {
+		if (attackTime >= 4f) {
+			transform.rotation = CalcRotationLeap(targetPos);
 			attackTime = 0;
-			attackPattern = Random.Range(1,3);
-			Warp();
+			attackPattern = Random.Range(0,3);
+
 		}
 	}
 	//Balkan攻撃
@@ -136,21 +151,64 @@ public class BossMk2 : MonoBehaviour {
 		}
 		if (bulletCnt >= 50) {
 			attackTime = 0;
-			attackPattern = 0;
+			attackPattern = BossData.BOSS_PATTERN_STAY;
 			bulletCnt = 0;
 		}
 	}
 	//Railgun
 	//呼ぶだけ
-	void Railgun(){
+	IEnumerator Railgun(){
+		attackPattern = BossData.BOSS_PATTERN_NULL;
+		SoundPlayer.Instance.PlaySoundEffect ("charge", 1.0f);
+		EffectFactory.Instance.Create ("concentration",transform.position,transform.rotation);
+		while(attackTime <= 10f){
+			transform.rotation = CalcRotationLeap(targetPos);
+			yield return null;
+		}
 		if (attackTime >= 10f) {
+			SoundPlayer.Instance.PlaySoundEffect ("Railgun", 1.0f);
 			bossRailgun.SetActive (true);
+			yield return new WaitForSeconds(4.0f);
 		}
 		if (attackTime >= 13f) {
-			attackPattern = 0;
+			attackPattern = BossData.BOSS_PATTERN_STAY;
 			attackTime = 0;
 			bossRailgun.SetActive (false);
+			Warp();
 		}
 		
+	}
+
+	void Tackle(){
+		if(attackTime <= 6f){
+			transform.rotation = CalcRotationLeap(targetPos);
+		}
+		if(attackTime > 6f){
+			transform.TransformDirection(0,0,1);
+		}
+		if(attackTime > 12f){
+			attackPattern = BossData.BOSS_PATTERN_STAY;
+			attackTime = 0;
+			Warp();
+		}
+	}
+
+	IEnumerator EnemyCreate(){
+		attackPattern = BossData.BOSS_PATTERN_NULL;
+		while(attackTime <= 5f){
+			transform.rotation = CalcRotationLeap(targetPos);
+			yield return null;
+		}
+		if (attackTime >= 5f) {
+			for(int i = 0;i < 10;i++){
+			Instantiate(enemyCreateObj,new Vector3(transform.position.x + Random.Range(-100,100),
+			                                       transform.position.y + Random.Range(-100,100),
+			                                       transform.position.z + Random.Range(-100,100)),transform.rotation);
+				yield return new WaitForSeconds(1.0f);
+			}
+		}
+		attackPattern = BossData.BOSS_PATTERN_STAY;
+		attackTime = 0;
+		Warp();
 	}
 }
