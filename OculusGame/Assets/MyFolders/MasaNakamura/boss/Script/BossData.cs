@@ -3,9 +3,10 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class BossData : NetworkBehaviour {
-	public const int TARGET2D = 11;
-	public const int TARGET3D = 22;
+
+public class BossData : MonoBehaviour {
+	public const int TARGET2D = 1;
+	public const int TARGET3D = 2;
 	public const int BOSS_PATTERN_STAY = 0;
 	public const int BOSS_PATTERN_VULCAN = 99;
 	public const int BOSS_PATTERN_RAILGUN = 1;
@@ -13,7 +14,7 @@ public class BossData : NetworkBehaviour {
 	public const int BOSS_PATTERN_ENEMY_CREATE = 3;
 	public const int BOSS_PATTERN_NULL = -1;
  
-    [SyncVar]public int bossHp;
+    public int bossHp;
     public int bossHate;//+10で2Dを狙う -10で3Dを狙う
 	public int bossAttackTarget{ set; get;}
 
@@ -26,23 +27,12 @@ public class BossData : NetworkBehaviour {
 	/// </summary>
 	/// <param name="bullet">弾の種類</param>
 	/// <param name="player">攻撃しているプレイヤー</param>
-
-    void Update()
-    {
-        if (bossHp <= 0)
-        {
-			SoundPlayer.Instance.PlaySoundEffect("Bomb",1.0f);
-			EffectFactory.Instance.Create("bom",transform.position,transform.rotation);
-            Destroy(gameObject);
-        }
-    }
-
-    [Client]
-	public void CmdBossDamage(string bullet,string player){
+    
+	public void BossDamage(string bullet,string player){
 
 		switch(bullet){
 		case "NormalBullet":
-                CmdSendHPToServer(bossHp - 2);
+                bossHp -= 2;
 			break;
 		default:
 			Debug.LogError("bullet指定ミス");
@@ -70,11 +60,17 @@ public class BossData : NetworkBehaviour {
 			bossHate = 0;
 		}
 
+        if (bossHp <= 0)
+        {
+            SoundPlayer.Instance.PlaySoundEffect("Bomb",1.0f);
+			EffectFactory.Instance.Create("bom",transform.position,transform.rotation);
+            Destroy(gameObject);
+        }
+
 	}
 
-    [Command]
-    void CmdSendHPToServer(int HP){
-        bossHp = HP;
+    void OnDestroy()
+    {
+        OnlineLevel.Instance.ChangeNextState();
     }
-
 }
