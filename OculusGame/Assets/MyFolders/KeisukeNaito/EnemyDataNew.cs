@@ -47,7 +47,9 @@ public class EnemyDataNew : MonoBehaviour {
 	public void EnemyDamage(string bullet){
 		switch (bullet) {
 		case "NormalBullet":
-			enemyHP -= 1;
+                SoundPlayer.Instance.PlaySoundEffect("Bomb", 1.0f);
+                EffectFactory.Instance.Create("bom", transform.position, transform.rotation);
+                Destroy(gameObject);
 			break;
 		default:
 			Debug.LogError ("bullet指定ミス");

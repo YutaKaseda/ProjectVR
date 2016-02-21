@@ -83,7 +83,7 @@ public class OculusPlayerMain : MonoBehaviour {
                     if (!vulcanPlaySound)
                     {
                         vulcanPlaySound = true;
-                        SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.6f);
+                        SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
                         StartCoroutine(VulcanSoundInterval(0.1f));
                     }
                 }

@@ -10,8 +10,8 @@ public class BossData : MonoBehaviour {
 	public const int BOSS_PATTERN_STAY = 0;
 	public const int BOSS_PATTERN_VULCAN = 99;
 	public const int BOSS_PATTERN_RAILGUN = 1;
-	public const int BOSS_PATTERN_TACKLE = 2;
-	public const int BOSS_PATTERN_ENEMY_CREATE = 3;
+	public const int BOSS_PATTERN_TACKLE = -2;
+	public const int BOSS_PATTERN_ENEMY_CREATE = 2;
 	public const int BOSS_PATTERN_NULL = -1;
  
     public int bossHp;

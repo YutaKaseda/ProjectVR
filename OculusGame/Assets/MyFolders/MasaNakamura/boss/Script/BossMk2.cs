@@ -107,16 +107,21 @@ public class BossMk2 : MonoBehaviour {
 		case BossData.BOSS_PATTERN_ENEMY_CREATE:
 			StartCoroutine(EnemyCreate());
 			break;
+        case BossData.BOSS_PATTERN_NULL:
+            break;
+            default:
+            Debug.LogError("AttackPattern指定ミス");
+            break;
 		}
 	}
 	
 	//待機時間
 	//呼ぶだけ
 	void Stay(){
-		if (attackTime >= 4f) {
-			transform.rotation = CalcRotationLeap(targetPos);
+        transform.rotation = CalcRotationLeap(targetPos);
+		if (attackTime >= 3f) {
 			attackTime = 0;
-			attackPattern = Random.Range(0,3);
+			attackPattern = Random.Range(1,3);
 
 		}
 	}
@@ -154,17 +159,16 @@ public class BossMk2 : MonoBehaviour {
 		attackPattern = BossData.BOSS_PATTERN_NULL;
 		SoundPlayer.Instance.PlaySoundEffect ("charge", 1.0f);
 		EffectFactory.Instance.Create ("concentration",transform.position,transform.rotation);
-		while(attackTime <= 10f){
-			transform.rotation = CalcRotationLeap(targetPos);
+		while(attackTime <= 3f){
 			yield return null;
 		}
-		if (attackTime >= 10f) {
+		if (attackTime >= 3f) {
 			SoundPlayer.Instance.PlaySoundEffect ("Railgun", 1.0f);
             SoundPlayer.Instance.PlaySoundEffect("thunder", 1.0f);
 			bossRailgun.SetActive (true);
 			yield return new WaitForSeconds(4.0f);
 		}
-		if (attackTime >= 13f) {
+		if (attackTime >= 4f) {
 			attackPattern = BossData.BOSS_PATTERN_STAY;
 			attackTime = 0;
 			bossRailgun.SetActive (false);
@@ -189,11 +193,11 @@ public class BossMk2 : MonoBehaviour {
 
 	IEnumerator EnemyCreate(){
 		attackPattern = BossData.BOSS_PATTERN_NULL;
-		while(attackTime <= 5f){
+		while(attackTime <= 3f){
 			transform.rotation = CalcRotationLeap(targetPos);
 			yield return null;
 		}
-		if (attackTime >= 5f) {
+		if (attackTime >= 3f) {
 			for(int i = 0;i < 10;i++){
 			Instantiate(enemyCreateObj,new Vector3(transform.position.x + Random.Range(-100,100),
 			                                       transform.position.y + Random.Range(-100,100),
