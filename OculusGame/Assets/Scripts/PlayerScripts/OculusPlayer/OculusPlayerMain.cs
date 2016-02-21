@@ -31,6 +31,7 @@ public class OculusPlayerMain : MonoBehaviour {
     DroneControll droneControll;
 
     bool vulcanPlaySound;
+    bool hitSound;
 
 	//Use ShotBullet,Warp
     public Ray ray { private set; get; }
@@ -39,6 +40,7 @@ public class OculusPlayerMain : MonoBehaviour {
 
 	Animator vulcanKnockBackAnim;
 
+    Vector3 posCorrection;
 	//WARP or DEAD 
 	//Can't Move State
 	enum e_PLAYER_STATE{
@@ -57,6 +59,7 @@ public class OculusPlayerMain : MonoBehaviour {
         droneControll = GameObject.FindWithTag("Beacon").GetComponent<DroneControll>();
 		vulcanKnockBackAnim = GetComponent<Animator>();
 
+        posCorrection = transform.position;
 	}
 
 	void RayInit(){
@@ -74,15 +77,15 @@ public class OculusPlayerMain : MonoBehaviour {
                 droneControll.DroneMain();
 				vulcanKnockBackAnim.SetBool("shot",false);
                 if (Input.GetButton("MaruP1") || Input.GetButton("ShikakuP1") || Input.GetButton("SankakuP1") || Input.GetButton("BatuP1")){
+                    RayInit();
+                    ShotBullet();
+                    vulcanKnockBackAnim.SetBool("shot", true);
                     if (!vulcanPlaySound)
                     {
                         vulcanPlaySound = true;
-                        SoundPlayer.Instance.PlaySoundEffect("Balkan2", 1.0f);
+                        SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.6f);
                         StartCoroutine(VulcanSoundInterval(0.1f));
                     }
-                    RayInit();
-                    ShotBullet();
-					vulcanKnockBackAnim.SetBool("shot",true);
                 }
               
 			
@@ -99,10 +102,11 @@ public class OculusPlayerMain : MonoBehaviour {
 			if(!warpEffect.activeWarp){
                 droneControll.Init();
 				transform.position = raycastHit.collider.transform.position;
+                posCorrection = raycastHit.collider.transform.position;
                 transform.rotation = raycastHit.collider.transform.rotation;
                 droneControll = raycastHit.collider.GetComponent<DroneControll>();
                 transform.parent = raycastHit.collider.transform;
-                transform.position += posRevision;
+                transform.localPosition += posRevision;
 				playerState = e_PLAYER_STATE.DEFAULT;
 			}
 
@@ -118,14 +122,19 @@ public class OculusPlayerMain : MonoBehaviour {
 	void ShotBullet(){
         if (CheckHitRayWithTag(ray, "Enemy", 1.0f))
         {
-   
+            hitSound = true;
 			enemyDataNew = raycastHit.collider.gameObject.GetComponentInParent<EnemyDataNew>();
 			enemyDataNew.EnemyDamage("NormalBullet");
         }
-        if (CheckHitRayWithTag(ray, "Boss", 1.0f))
+        else if (CheckHitRayWithTag(ray, "Boss", 1.0f))
         {
+            hitSound = true;
             bossData = raycastHit.collider.gameObject.GetComponentInParent<BossData>();
             bossData.BossDamage("NormalBullet","3D");
+        }
+        else
+        {
+            hitSound = false;
         }
 	}
 
@@ -152,4 +161,9 @@ public class OculusPlayerMain : MonoBehaviour {
         vulcanPlaySound = false;
     }
 
+    public void PosLoad()
+    {
+        transform.position = posCorrection;
+        transform.localPosition += posRevision;
+    }
 }

@@ -11,7 +11,7 @@ public class DroneControll : MonoBehaviour {
 
     void Awake(){
         initDroneRotation = transform.rotation;
-        moveSpeed = 0.1f;
+        moveSpeed = 0.2f;
     }
 
     public void Init(){

@@ -19,7 +19,7 @@ public class BossData : MonoBehaviour {
 	public int bossAttackTarget{ set; get;}
 
 	void Awake(){
-		bossHp = 400;
+		bossHp = 2000;
 		bossAttackTarget = TARGET2D;
 	}
 	/// <summary>
@@ -32,8 +32,8 @@ public class BossData : MonoBehaviour {
 
 		switch(bullet){
 		case "NormalBullet":
-            bossHp -= 2;
-			EffectFactory.Instance.Create("hit",transform.position + new Vector3(Random.Range(-10,10),Random.Range(-10,10),Random.Range(-10,10)),
+            bossHp -= 1;
+			EffectFactory.Instance.Create("hit",transform.position + new Vector3(Random.Range(-30,30),Random.Range(-30,30),Random.Range(-30,30)),
 			                              transform.rotation);
 			break;
 		default:
@@ -53,6 +53,9 @@ public class BossData : MonoBehaviour {
 			break;
 		}
 
+        if (bossHp == 1000)
+            StartCoroutine(SmokeEffect());
+
 		if(bossHate >= 10){
 			bossAttackTarget = TARGET2D;
 			bossHate = 0;
@@ -70,6 +73,16 @@ public class BossData : MonoBehaviour {
         }
 
 	}
+
+    IEnumerator SmokeEffect()
+    {
+        while (bossHp > 0)
+        {
+            EffectFactory.Instance.Create("smoke", transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), Random.Range(-30, 30)),
+                                              transform.rotation);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 
     void OnDestroy()
     {
