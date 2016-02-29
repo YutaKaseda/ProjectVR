@@ -28,6 +28,8 @@ public class Player2D : MonoBehaviour {
 	[SerializeField]
 	AllUI allUI;
 
+    bool vulcanPlaySound = false;
+
 	void Awake () {
 		//allUI = GameObject.Find("UICanvas").GetComponent<AllUI>();
 		playerTurnDirection = 1;
@@ -74,17 +76,27 @@ public class Player2D : MonoBehaviour {
 
 			//ResourcesManagerの処理に置き換えます
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-            NetworkServer.Spawn(shotBullet);
 			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y);
+            if (!vulcanPlaySound)
+            {
+                vulcanPlaySound = true;
+                SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
+                StartCoroutine(VulcanSoundInterval(0.2f));
+            }
 			playerData2D.shotWaitTime = 0;
 		}
 		else if (Input.GetButton ("L1P2") && playerData2D.shotWaitTime > playerData2D.intervalTime) {
 
 			//ResourcesManagerにー
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-            NetworkServer.Spawn(shotBullet);
-			shotBullet.GetComponent<Player2DBullet>().BulletInit('L',playerData2D.degree,transform.position.y);
-			playerData2D.shotWaitTime = 0;
+            shotBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, transform.position.y);
+            if (!vulcanPlaySound)
+            {
+                vulcanPlaySound = true;
+                SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
+                StartCoroutine(VulcanSoundInterval(0.2f));
+            }
+            playerData2D.shotWaitTime = 0;
 		}
 
 		if (playerData2D.shotWaitTime > playerData2D.intervalTime) {
@@ -150,4 +162,11 @@ public class Player2D : MonoBehaviour {
 		transform.position = playerData2D.position;
 		transform.eulerAngles = new Vector3 (0, -playerData2D.degree,0);
 	}
+
+    IEnumerator VulcanSoundInterval(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        vulcanPlaySound = false;
+    }
+
 }

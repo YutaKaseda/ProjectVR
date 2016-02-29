@@ -164,7 +164,7 @@ public class BossMk2 : MonoBehaviour {
 		}
 		if (attackTime >= 3f) {
 			SoundPlayer.Instance.PlaySoundEffect ("Railgun", 1.0f);
-            SoundPlayer.Instance.PlaySoundEffect("thunder", 1.0f);
+            SoundPlayer.Instance.PlaySoundEffect("thunder2", 1.0f);
 			bossRailgun.SetActive (true);
 			yield return new WaitForSeconds(4.0f);
 		}

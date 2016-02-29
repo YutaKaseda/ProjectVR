@@ -61,21 +61,21 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
             case E_ONLINE_STATE.GAME_START_WAIT:
                 OculusPlayerMainInterface.IMain();
-                //SecondPlayerMainInterface.IMain();
+                SecondPlayerMainInterface.IMain();
                 ChangeNextState();
 
                 break;
 
             case E_ONLINE_STATE.GAME_PLAY:
                 OculusPlayerMainInterface.IMain();
-                //SecondPlayerMainInterface.IMain();
+                SecondPlayerMainInterface.IMain();
                 bossMain.Main();
 
                 break;
 
             case E_ONLINE_STATE.GAME_CLEAR:
                 OculusPlayerMainInterface.IMain();
-                //SecondPlayerMainInterface.IMain();
+                SecondPlayerMainInterface.IMain();
 
 
                 break;
@@ -98,7 +98,7 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
             case E_ONLINE_STATE.NETWORK_CONNECT:
                 OculusPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
-                //SecondPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
+                SecondPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
 
                 GameData.onlineState = E_ONLINE_STATE.GAME_START_WAIT;
 
