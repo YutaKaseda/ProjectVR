@@ -1,5 +1,6 @@
 ﻿//　2/18　まさ　ヘイト関係処理改変
 // 2/19 梅村 地獄のリファクタ
+// 2/29 梅村 バランス調整
 using UnityEngine;
 using System.Collections;
 
@@ -41,7 +42,7 @@ public class BossMk2 : MonoBehaviour {
 		targetPlayer2D = player2D.transform;
 		targetPlayer3D = player3D.transform;
 		bossData = GetComponent<BossData>();
-		bossRotationSpeed = 0.6f;
+		bossRotationSpeed = 2f;
 		warpPointNumber = warpPoint.Length;
 		nowPositionNumber = 0;
 		nextPositionNumber = 0;
@@ -119,7 +120,7 @@ public class BossMk2 : MonoBehaviour {
 	//呼ぶだけ
 	void Stay(){
         transform.rotation = CalcRotationLeap(targetPos);
-		if (attackTime >= 3f) {
+		if (attackTime >= 5f) {
 			attackTime = 0;
 			attackPattern = Random.Range(1,3);
 
