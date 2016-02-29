@@ -30,14 +30,14 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
         }
 
         //audioClips.Add("Explosion", new AudioClipInfo("Explosion4"));
-        audioClips.Add("Balkan2", new AudioClipInfo("laser"));
+        audioClips.Add("laser", new AudioClipInfo("laser"));
         audioClips.Add("warp", new AudioClipInfo("warp"));
         audioClips.Add("Railgun", new AudioClipInfo("beamgun"));
 		audioClips.Add("charge", new AudioClipInfo("charge"));
 		audioClips.Add("Bomb", new AudioClipInfo("explosion"));
         audioClips.Add("push", new AudioClipInfo("push"));
-        audioClips.Add("Balkan", new AudioClipInfo("Balkan2"));
-        audioClips.Add("thunder", new AudioClipInfo("thunder2"));
+        audioClips.Add("Balkan2", new AudioClipInfo("Balkan2"));
+        audioClips.Add("thunder2", new AudioClipInfo("thunder2"));
 
 
 
@@ -47,8 +47,6 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
 
     public bool PlaySoundEffect(string seName,float seVolume)
     {
-
-        Debug.Log(seName);
         if (audioClips.ContainsKey(seName) == false)
             return false;   //not register error
 

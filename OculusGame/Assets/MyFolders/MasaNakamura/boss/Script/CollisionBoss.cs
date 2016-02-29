@@ -17,7 +17,6 @@ public class CollisionBoss : MonoBehaviour {
 		switch (other.gameObject.tag) {
 			
 		case "Player2DBullet":
-                Debug.Log("たまあたったで");
 			bossData.BossDamage("NormalBullet","2D");
 			break;
 		}
