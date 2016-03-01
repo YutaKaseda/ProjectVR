@@ -56,7 +56,7 @@ public class OculusPlayerMain : MonoBehaviour {
 
 		playerState = e_PLAYER_STATE.DEFAULT;
         OnlineLevel.Instance.VRDeviceEnabled();
-        droneControll = GameObject.FindWithTag("Beacon").GetComponent<DroneControll>();
+        //droneControll = GameObject.FindWithTag("Beacon").GetComponent<DroneControll>();
 		vulcanKnockBackAnim = GetComponent<Animator>();
 
         posCorrection = transform.position;
