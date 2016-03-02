@@ -12,4 +12,14 @@ public class EffectFactory : SingletonMonobehaviour<EffectFactory> {
 		effResource.AddComponent<EffectLifeTimer>();
 	}
 
+    public void Create(string effectName, Vector3 instTransform, Quaternion instRotation,float lifeTime)
+    {
+
+        GameObject effResource = ResourcesManager.Instance.GetResourceScene(effectName);
+
+        effResource = Instantiate(effResource, instTransform, instRotation) as GameObject;
+        effResource.AddComponent<EffectLifeTimer>();
+        effResource.GetComponent<EffectLifeTimer>().lifeTime = lifeTime;
+    }
+
 }
