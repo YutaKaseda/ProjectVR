@@ -5,6 +5,7 @@
 //2016/02/20 鈴木
 //enemyDataNew 追加
 //ShotBullet 処理追加
+//2016/03/2 梅村 ダメージエフェクト処理追加、アニメーターから実行してる
 //</Summary>
 
 using UnityEngine;
@@ -166,4 +167,8 @@ public class OculusPlayerMain : MonoBehaviour {
         transform.position = posCorrection;
         transform.localPosition += posRevision;
     }
+
+	public void DamageEffectPlay(){
+		warpEffect.FadeDamage ();
+	}
 }

@@ -1,6 +1,7 @@
 ﻿//　2/18　まさ　ヘイト関係処理改変
 // 2/19 梅村 地獄のリファクタ
 // 2/29 梅村 バランス調整
+// 3/1 梅村 bossが出すエネミーの修正
 using UnityEngine;
 using System.Collections;
 
@@ -200,9 +201,9 @@ public class BossMk2 : MonoBehaviour {
 		}
 		if (attackTime >= 3f) {
 			for(int i = 0;i < 10;i++){
-			Instantiate(enemyCreateObj,new Vector3(transform.position.x + Random.Range(-100,100),
-			                                       transform.position.y + Random.Range(-100,100),
-			                                       transform.position.z + Random.Range(-100,100)),transform.rotation);
+			Instantiate(enemyCreateObj,new Vector3(transform.position.x + Random.Range(-50,50),
+			                                       transform.position.y + Random.Range(30,50),
+			                                       transform.position.z + Random.Range(-50,50)),transform.rotation);
 				yield return new WaitForSeconds(1.0f);
 			}
 		}
