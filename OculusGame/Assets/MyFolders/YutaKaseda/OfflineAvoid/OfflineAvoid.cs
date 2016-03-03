@@ -8,7 +8,7 @@ public class OfflineAvoid : MonoBehaviour {
         if(Input.GetButtonDown("MaruP1") || Input.GetButtonDown("BatuP1") ||
             Input.GetButtonDown("ShikakuP1") || Input.GetButtonDown("SankakuP1"))
         {
-            Application.LoadLevelAsync("OnlineLevel");
+            Application.LoadLevelAsync("VROP");
         }
 
     }
