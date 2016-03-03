@@ -14,16 +14,19 @@ public class EnemyFactory : MonoBehaviour {
 	GameObject enemy;
 	EnemyTypeNew enemyTypeNew;
 
+    [SerializeField]
+    Vector3 correctPos;
+
 	public void Create(string enemyName , Vector3 enemyPos ,float enemyDegree){
 		switch (enemyName) {
 		case "enemyL":
 		case "enemyR":
-			enemy = Instantiate (enemy2D, enemyPos, transform.rotation)as GameObject;
+			enemy = Instantiate (enemy2D, enemyPos + correctPos, transform.rotation)as GameObject;
 			enemyTypeNew = enemy.GetComponent<EnemyTypeNew>();
-			enemyTypeNew.InitDegree(enemyPos,enemyDegree,enemyName);
+			enemyTypeNew.InitDegree(enemyPos + correctPos,enemyDegree,enemyName);
 			break;
 		case "enemy3D":
-			enemy = Instantiate (enemy3D, enemyPos, transform.rotation)as GameObject;
+			enemy = Instantiate (enemy3D, enemyPos + correctPos, transform.rotation)as GameObject;
 			break;
 		}
 	}

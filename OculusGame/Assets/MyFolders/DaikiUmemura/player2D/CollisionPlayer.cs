@@ -18,7 +18,6 @@ public class CollisionPlayer : MonoBehaviour {
 		switch (other.gameObject.tag) {
 		case "Enemy":
 			damageAnim.SetBool("damage",true);
-			Debug.Log("敵あたったで");
 			playerData.Damage(1);
 			break;
 		}
@@ -28,7 +27,6 @@ public class CollisionPlayer : MonoBehaviour {
 		switch (other.gameObject.tag) {
 		case "Railgun":
 			damageAnim.SetBool ("damage", true);
-			Debug.Log ("超電磁砲あたったで");
 			playerData.Damage (1);
 			break;
 		}

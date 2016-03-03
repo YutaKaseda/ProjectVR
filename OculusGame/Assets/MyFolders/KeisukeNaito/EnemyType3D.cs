@@ -33,7 +33,6 @@ public class EnemyType3D : MonoBehaviour {
 		player3D = GameObject.FindWithTag ("Player3D");
 		enemyDataNew.player3DBase = player3D.transform.position;
 		StartCoroutine("EnemyTypeNewMove");
-        EffectFactory.Instance.Create("zakowarp02", transform.position, transform.rotation);
 	}
 
 	//メインループのようなもの、移動する
