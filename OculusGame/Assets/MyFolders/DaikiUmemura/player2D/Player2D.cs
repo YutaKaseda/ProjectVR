@@ -51,10 +51,10 @@ public class Player2D : MonoBehaviour {
 		if (isDead == false) {
 			playerData2D.vectorZ = Input.GetAxisRaw ("HorizontalP2");
 			playerData2D.vectorY = Input.GetAxisRaw ("VerticalP2");
-			Circumference();
-			BulletShot();
+            Circumference();
+            BulletShot();
 		} else {
-			playerData2D.vectorZ = 0;
+			playerData2D.vectorY = 0;
 			playerData2D.vectorZ = 0;
 		}
 
@@ -70,8 +70,6 @@ public class Player2D : MonoBehaviour {
 				StartCoroutine("LeftTurn");
 			}
 		}
-
-
 
 	}
 	
@@ -176,6 +174,12 @@ public class Player2D : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		switch (other.gameObject.tag) {
+
+            case "Boss":
+                if(isDead == false)
+			StartCoroutine("Resurrection");
+			break;
+
 		case "Railgun":
 			Debug.Log("超電磁砲");
 			if(isDead == false)
