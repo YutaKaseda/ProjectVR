@@ -5,6 +5,7 @@
 /// 2/16 内藤　作成
 /// 2/18 内藤　追記（追尾等）
 /// 2/19 内藤　追記（Enemy3D用変数）
+/// 3/3 梅村　score関連の修正
 /// </summary>
 
 using UnityEngine;
@@ -34,8 +35,12 @@ public class EnemyDataNew : MonoBehaviour {
 	public Vector3 player3DBase{ get; set; }			//3DPlayerのいる位置を出た瞬間のみ保存
 	public Vector3 enemy3DDirection{ get; set; }		//Enemy3D向かわせる方向
 
+	[SerializeField]
+	AllUI allUI;
+
 	void Awake(){
 		pi = 3.14f;
+		allUI = GameObject.Find("UIObj").GetComponent<AllUI>();
 	}
 
     //体力初期化
@@ -47,9 +52,12 @@ public class EnemyDataNew : MonoBehaviour {
 	public void EnemyDamage(string bullet){
 		switch (bullet) {
 		case "NormalBullet":
-                SoundPlayer.Instance.PlaySoundEffect("Bomb", 1.0f);
-                EffectFactory.Instance.Create("bom", transform.position, transform.rotation);
-                Destroy(gameObject);
+            SoundPlayer.Instance.PlaySoundEffect("Bomb", 1.0f);
+            EffectFactory.Instance.Create("bom", transform.position, transform.rotation);
+			allUI.UiUpdate("ComboUp",0);
+			allUI.UiUpdate("ScoreUp",100);
+			allUI.UiUpdate("DeathBlowGaugeUp",0);
+            Destroy(gameObject);
 			break;
 		default:
 			Debug.LogError ("bullet指定ミス");

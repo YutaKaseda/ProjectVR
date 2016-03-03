@@ -7,6 +7,7 @@
 /// プレイヤーを発見し次第追尾を追加予定
 /// 2016 2/16 内藤 作成
 /// 2/18 内藤　追記（追尾等）
+/// 3/3 梅村　nemyDataNew.enemyRadius = 130f;ここ修正
 /// </summary>
 
 using UnityEngine;
@@ -23,7 +24,7 @@ public class EnemyTypeNew : MonoBehaviour {
 	{
 		enemyDataNew = GetComponent<EnemyDataNew>();
 		enemy2DMain = transform.FindChild ("Enemy2DMain").gameObject;
-		enemyDataNew.enemyRadius = 125f;
+		enemyDataNew.enemyRadius = 130f;
 		enemyDataNew.enemyDeleteTime = 15f;
 		enemyDataNew.enemyLifeTime = 0;
 		enemyDataNew.InitHP (2);
