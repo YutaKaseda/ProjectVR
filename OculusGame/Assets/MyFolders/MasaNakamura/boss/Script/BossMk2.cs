@@ -35,6 +35,9 @@ public class BossMk2 : MonoBehaviour {
 	[SerializeField]
 	GameObject enemyCreateObj;
 
+    [SerializeField]
+    Quaternion lookAtRailgunLine;
+
 	public void Init(){
 		player2D = GameObject.FindWithTag ("Player2D");
 		player3D = GameObject.FindWithTag ("Player3D");
@@ -71,11 +74,22 @@ public class BossMk2 : MonoBehaviour {
 		}
 	}
 
-	void Warp(){
-		this.transform.position = WarpPointGet();
+	IEnumerator Warp(){
+
+        Vector3 tempPos;
+        tempPos = WarpPointGet();
+
+        EffectFactory.Instance.Create("bosswarp", transform.position, transform.rotation);
+        EffectFactory.Instance.Create("bosswarp", tempPos, transform.rotation);
+
+        yield return new WaitForSeconds(2.0f);
+
+        transform.position = tempPos;
+
 	}
 	
 	Vector3 WarpPointGet(){
+
 		while (nowPositionNumber == nextPositionNumber) {
 			nextPositionNumber = Random.Range (0, warpPointNumber);
 		}
@@ -161,6 +175,7 @@ public class BossMk2 : MonoBehaviour {
 		attackPattern = BossData.BOSS_PATTERN_NULL;
 		SoundPlayer.Instance.PlaySoundEffect ("charge", 1.0f);
 		EffectFactory.Instance.Create ("concentration",transform.position,transform.rotation);
+        EffectFactory.Instance.Create("standby02", transform.position, transform.rotation,0.3f);
 		while(attackTime <= 3f){
 			yield return null;
 		}
@@ -174,7 +189,7 @@ public class BossMk2 : MonoBehaviour {
 			attackPattern = BossData.BOSS_PATTERN_STAY;
 			attackTime = 0;
 			bossRailgun.SetActive (false);
-			Warp();
+            StartCoroutine(Warp());
 		}
 		
 	}

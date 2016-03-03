@@ -20,7 +20,6 @@ public class EffectLifeTimer : MonoBehaviour {
             while (lifeTime > 0)
             {
                 lifeTime -= Time.deltaTime;
-                Debug.Log(lifeTime);
                 yield return new WaitForSeconds(0.1f);
             }
 
