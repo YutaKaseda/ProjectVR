@@ -32,7 +32,7 @@ public class Player2DBullet : MonoBehaviour {
 	//自身の進む方向と出現角度
 	//bulletInit(進む方向'R'or'L',出現角度　player2dの角度など);
 	public void BulletInit(char receiveVariable,float player2dDegree,float player2dPositionY){
-		transform.position = new Vector3 (transform.position.x, player2dPositionY, transform.position.z);
+        transform.position = new Vector3(transform.position.x, player2dPositionY + Random.Range(-1, 1), transform.position.z + Random.Range(-1, 1));
 		if(receiveVariable == 'R'){
 			shotBulletWay = 1;
 			bulletDegree = player2dDegree+degreeSpace;
@@ -46,6 +46,7 @@ public class Player2DBullet : MonoBehaviour {
 	void Awake () {
 		shotPosition = transform.position;
 		bulletLife = radius * 1.4f;
+        EffectFactory.Instance.Create("flash", transform.position, transform.rotation);
 	}
 	
 	// Update is called once per frame
