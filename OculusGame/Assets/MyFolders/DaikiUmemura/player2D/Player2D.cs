@@ -122,7 +122,6 @@ public class Player2D : MonoBehaviour {
 		zikki2D.SetActive (false);
 
 		while (playerData2D.resurrectionTime > 0) {
-			Debug.Log(playerData2D.resurrectionTime);
 			playerData2D.resurrectionTime -= 1 * Time.deltaTime;
 			yield return null;
 		}

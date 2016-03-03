@@ -3,6 +3,7 @@
 /// 使用方法 カメラにAddComponent
 /// 用途 ワープによるフェードイン、アウト
 /// 2016/02/04 梅村大樹 作成
+/// 2016/3/3 フェードのバグ直し
 /// </summary>
 
 using UnityEngine;
@@ -30,16 +31,11 @@ public class WarpEffect : MonoBehaviour {
 		activeWarp = false;
 	}
 
-	void Update(){
-		if(Input.GetKeyDown(KeyCode.A)){
-			FadeDamage();
-		}
-	}
-
 	/// <summary>
 	/// 他でただただ呼び出せば、フェードインアウトします
 	/// </summary>
 	public void FadeWhite(){
+		FadeInit ();
         if (!screenOver.enabled){
             screenOver.enabled = true;
             screenOver.overlayShader = Shader.Find("Hidden/BlendModesOverlay");
@@ -62,7 +58,6 @@ public class WarpEffect : MonoBehaviour {
 			screenOver.enabled = true;
 			screenOver.texture = damageImg;
 			screenOver.overlayShader = Shader.Find("Hidden/BlendModesOverlay");
-			activeWarp = !activeWarp;
 			StartCoroutine("FadeDamageCol");
 		}
 	}
@@ -75,6 +70,9 @@ public class WarpEffect : MonoBehaviour {
 		activeWarp = !activeWarp;
 		while(screenOver.intensity > 0){
 			screenOver.intensity -= fadeTimer * Time.deltaTime;
+			if(activeWarp){
+				yield break;
+			}
 			yield return null;
 		}
 
@@ -89,6 +87,9 @@ public class WarpEffect : MonoBehaviour {
 		activeWarp = !activeWarp;
 		while(screenOver.intensity < 0){
 			screenOver.intensity += fadeTimer * Time.deltaTime;
+			if(activeWarp){
+				yield break;
+			}
 			yield return null;
 		}
 
@@ -98,14 +99,25 @@ public class WarpEffect : MonoBehaviour {
 	IEnumerator FadeDamageCol(){
 		while(screenOver.intensity < damageAlpha){
 			screenOver.intensity += fadeTimer * Time.deltaTime;	
+			if(activeWarp){
+				yield break;
+			}
 			yield return null;
 		}
-		activeWarp = !activeWarp;
 		while(screenOver.intensity > 0){
 			screenOver.intensity -= fadeTimer * Time.deltaTime;
+			if(activeWarp){
+				yield break;
+			}
 			yield return null;
 		}
 		screenOver.texture = null;
+		screenOver.enabled = false;
+	}
+
+	public void FadeInit(){
+		screenOver.texture = null;
+		screenOver.intensity = 0;
 		screenOver.enabled = false;
 	}
 }
