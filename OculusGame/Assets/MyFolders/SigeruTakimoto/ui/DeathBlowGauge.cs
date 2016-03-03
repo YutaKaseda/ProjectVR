@@ -5,26 +5,28 @@ using UnityEngine.UI;
 // 2016/02/17 梅村 Text周りをちょいと修正
 // 2016/02/19 梅村 全体的に見やすくなったかな？
 // 2016/02/19 梅村 いらない所消去
+// 2016/03/4 梅村 全体的に修正。UIの形を変えたため
 public class DeathBlowGauge : MonoBehaviour {
 
 	Slider deathBlowGaugeSlider;
 
+	Image deathBlowGaugeImg;
 	void Awake(){
-		deathBlowGaugeSlider = GameObject.Find ("DeathBlow").GetComponent<Slider> ();
-		deathBlowGaugeSlider.maxValue = 250;
+		deathBlowGaugeImg = GameObject.Find ("DeathBlowValue").GetComponent<Image> ();
+		deathBlowGaugeImg.fillAmount = 0;
 	}
 
 	//必殺技のゲージをためる
 	//２Dまたは３Dが敵を倒したとき
 	public void GaugeUp(){
-		if (deathBlowGaugeSlider.value < 250) {
-			deathBlowGaugeSlider.value += 1;
+		if (deathBlowGaugeImg.fillAmount < 1f) {
+			deathBlowGaugeImg.fillAmount += 0.004f;
 		}
 	}
 	//必殺技使った時
 	//呼ぶだけ
 	public void UseLaser(){
-		deathBlowGaugeSlider.value = 0;
+		deathBlowGaugeImg.fillAmount = 0;
 	}
 	
 }
