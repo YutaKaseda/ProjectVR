@@ -11,7 +11,7 @@ public class BulletStandard : MonoBehaviour {
 	
 	// 初期化
 	void Awake(){
-		bulletSpeed = 7000.0f;
+		//bulletSpeed = 7000.0f;
 		ShotBullet ();
 	}
 	

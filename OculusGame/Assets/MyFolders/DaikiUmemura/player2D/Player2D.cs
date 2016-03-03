@@ -160,8 +160,15 @@ public class Player2D : MonoBehaviour {
 			playerData2D.degree--;
 		}
 		playerData2D.position.x = playerData2D.radius * Mathf.Cos (playerData2D.pi / 180 * playerData2D.degree);
-		playerData2D.position.y += playerData2D.vectorY * playerData2D.speed;
+		
+        playerData2D.position.y += playerData2D.vectorY * playerData2D.speed;
 		playerData2D.position.z = playerData2D.radius * Mathf.Sin (playerData2D.pi / 180 * playerData2D.degree);
+
+        if (playerData2D.position.y >= 120)
+            playerData2D.position.y = 120;
+        if (playerData2D.position.y <= -20)
+            playerData2D.position.y = -20;
+
 		transform.position = playerData2D.position;
 		transform.eulerAngles = new Vector3 (0, -playerData2D.degree,0);
 	}
@@ -175,13 +182,9 @@ public class Player2D : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		switch (other.gameObject.tag) {
 
-            case "Boss":
-                if(isDead == false)
-			StartCoroutine("Resurrection");
-			break;
-
+        case "Enemy":
+        case "Boss":
 		case "Railgun":
-			Debug.Log("超電磁砲");
 			if(isDead == false)
 			StartCoroutine("Resurrection");
 			break;

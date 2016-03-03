@@ -46,7 +46,7 @@ public class Player2DBullet : MonoBehaviour {
 	void Awake () {
 		shotPosition = transform.position;
 		bulletLife = radius * 1.4f;
-        EffectFactory.Instance.Create("flash", transform.position, transform.rotation);
+        //EffectFactory.Instance.Create("flash", transform.position, transform.rotation);
 	}
 	
 	// Update is called once per frame

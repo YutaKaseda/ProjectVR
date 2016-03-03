@@ -217,7 +217,7 @@ public class WaveUpdate : MonoBehaviour {
 
 	// 次のwaveへ
 	void NextWave(){
-		waveProgress++;
+		//waveProgress++;
 		// 配列の初期化
 		DataInit();
 		// 次のテキストの読込
