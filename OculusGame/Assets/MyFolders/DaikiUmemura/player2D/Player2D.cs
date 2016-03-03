@@ -11,6 +11,7 @@
 /////////////////////////////
 // 2016/02/17 梅村 ui関連(lifes)の紐づけ
 // 2016/02/18 鈴木 bullet初期位置バグ修正
+// 2016/03/1 梅村 ui関連
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
@@ -18,9 +19,9 @@ using UnityEngine.Networking;
 public class Player2D : MonoBehaviour {
 	int playerTurnDirection;//1の時右向き,2のとき左向き
 	int playerQuater;
+	bool isDead;
 	[SerializeField]
 	PlayerData2D playerData2D;
-	Vector3 Pos2D;	//復活用position保存
 	[SerializeField]
 	GameObject playerObject;
 	[SerializeField]
@@ -28,28 +29,33 @@ public class Player2D : MonoBehaviour {
 	[SerializeField]
 	AllUI allUI;
 
+	[SerializeField]
+	GameObject zikki2D;
     bool vulcanPlaySound = false;
 
 	void Awake () {
-		//allUI = GameObject.Find("UICanvas").GetComponent<AllUI>();
+		allUI = GameObject.FindWithTag("UI").GetComponent<AllUI>();
+		isDead = false;
 		playerTurnDirection = 1;
 		playerQuater = 0;
 		playerData2D.speed = 0.5f;
 		playerData2D.pi = 3.14f;
-		playerData2D.resurrectionTime = 1.0f;
+		playerData2D.resurrectionTime = 3.0f;
 		playerData2D.InitHP ();
-		playerData2D.lifes = 3;
+		playerData2D.lifes = 6;
 	}
 	
 	/***移動処理***/
 	public void Main(){
 	//void Update(){
-		if (playerData2D.playerHP > 0) {
+		if (isDead == false) {
 			playerData2D.vectorZ = Input.GetAxisRaw ("HorizontalP2");
 			playerData2D.vectorY = Input.GetAxisRaw ("VerticalP2");
-		}
-		if (playerData2D.playerHP <= 0){
-			StartCoroutine("Resurrection");
+            Circumference();
+            BulletShot();
+		} else {
+			playerData2D.vectorY = 0;
+			playerData2D.vectorZ = 0;
 		}
 
 		if(Input.GetAxisRaw ("HorizontalP2") > 0){
@@ -65,8 +71,6 @@ public class Player2D : MonoBehaviour {
 			}
 		}
 
-		Circumference();
-		BulletShot();
 	}
 	
 	/***撃つ処理***/
@@ -106,23 +110,22 @@ public class Player2D : MonoBehaviour {
 	
 	/***呼び出せばPlayer2Dの破壊され復活までの処理が実行される***/
 	public IEnumerator Resurrection(){
-		Pos2D = gameObject.transform.position;
-		playerData2D.lifes --;
 
-		//
-		//ここで残機が減って何か処理が入る
-		//
+		SoundPlayer.Instance.PlaySoundEffect("Bomb",1.0f);
+		EffectFactory.Instance.Create("bom",transform.position,transform.rotation);
 
 		allUI.UiUpdate ("Lifes2D",0);
 		allUI.UiUpdate ("ComboReset",0);
+		isDead = true;
+		zikki2D.SetActive (false);
 
 		while (playerData2D.resurrectionTime > 0) {
 			playerData2D.resurrectionTime -= 1 * Time.deltaTime;
 			yield return null;
 		}
-		playerData2D.resurrectionTime = 1.0f;
-		playerData2D.InitHP();
-		gameObject.transform.position = Pos2D;
+		isDead = false;
+		zikki2D.SetActive (true);
+		playerData2D.resurrectionTime = 3.0f;
 	}
 
 	/***自機のターン処理***/
@@ -169,4 +172,19 @@ public class Player2D : MonoBehaviour {
         vulcanPlaySound = false;
     }
 
+	void OnTriggerEnter(Collider other){
+		switch (other.gameObject.tag) {
+
+            case "Boss":
+                if(isDead == false)
+			StartCoroutine("Resurrection");
+			break;
+
+		case "Railgun":
+			Debug.Log("超電磁砲");
+			if(isDead == false)
+			StartCoroutine("Resurrection");
+			break;
+		}
+	}
 }

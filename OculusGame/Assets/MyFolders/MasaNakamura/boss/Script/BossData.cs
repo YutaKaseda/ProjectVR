@@ -1,4 +1,5 @@
 ﻿// 2/19 梅村 ボスのデータ
+// 3/1 梅村 ui連動
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
@@ -18,9 +19,11 @@ public class BossData : MonoBehaviour {
     public int bossHate;//+10で2Dを狙う -10で3Dを狙う
 	public int bossAttackTarget{ set; get;}
 
+	AllUI allUi;
 	void Awake(){
 		bossHp = 2000;
 		bossAttackTarget = TARGET2D;
+		allUi = GameObject.FindWithTag ("UI").GetComponent<AllUI> ();
 	}
 	/// <summary>
 	/// ダメージ処理
@@ -35,6 +38,9 @@ public class BossData : MonoBehaviour {
             bossHp -= 1;
 			EffectFactory.Instance.Create("hit",transform.position + new Vector3(Random.Range(-30,30),Random.Range(-30,30),Random.Range(-30,30)),
 			                              transform.rotation);
+
+			allUi.UiUpdate("ScoreUp",100);
+			allUi.UiUpdate("DeathBlowGaugeUp",0);
 			break;
 		default:
 			Debug.LogError("bullet指定ミス");

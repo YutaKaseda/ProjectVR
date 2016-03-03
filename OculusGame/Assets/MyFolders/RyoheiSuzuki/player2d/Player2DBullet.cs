@@ -79,8 +79,13 @@ public class Player2DBullet : MonoBehaviour {
 	{
 		switch (other.gameObject.tag)
 		{
+            case "Boss":
+            case "Enemy":
+                Destroy(gameObject);
+                break;
+
 		default:
-			Destroy(gameObject);
+			//Destroy(gameObject);
 			break;
 		}
 		
