@@ -24,6 +24,7 @@ public class BossData : MonoBehaviour {
 		bossHp = 2000;
 		bossAttackTarget = TARGET2D;
 		allUi = GameObject.FindWithTag ("UI").GetComponent<AllUI> ();
+        StartCoroutine("HoverEffect");
 	}
 	/// <summary>
 	/// ダメージ処理
@@ -80,13 +81,25 @@ public class BossData : MonoBehaviour {
 
 	}
 
+    IEnumerator HoverEffect()
+    {
+        while (bossHp > 0)
+        {
+            EffectFactory.Instance.Create("dust", transform.position,transform.rotation, 0.5f);
+           
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+
     IEnumerator SmokeEffect()
     {
         while (bossHp > 0)
         {
-            EffectFactory.Instance.Create("smoke", transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), Random.Range(-30, 30)),
-                                              transform.rotation);
-            yield return new WaitForSeconds(0.1f);
+            EffectFactory.Instance.Create("bosssmoke", transform.position + new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20)),
+                                              transform.rotation,0.5f);
+            EffectFactory.Instance.Create("bossspark", transform.position + new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20)),
+                                              transform.rotation, 0.5f);
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
