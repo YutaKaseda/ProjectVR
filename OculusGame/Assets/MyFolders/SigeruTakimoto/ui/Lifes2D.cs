@@ -13,7 +13,7 @@ public class Lifes2D : MonoBehaviour {
 	void Awake(){
 		playerData2D = GameObject.FindWithTag("Player2D").GetComponent<PlayerData2D>();
 		lifesText = GameObject.Find("Lifes2DText").GetComponent<Text>();
-		playerData2D.lifes = 6;
+		playerData2D.lifes = 99;
 		LifesDraw ();
 	}
 

@@ -8,6 +8,9 @@ public class CollisionPlayer : MonoBehaviour {
 	
 	PlayerData playerData;
 	Animator damageAnim;
+    [SerializeField]
+    AllUI allUI;
+
 	void Awake()
 	{
 		playerData = GetComponent<PlayerData>();
@@ -19,6 +22,7 @@ public class CollisionPlayer : MonoBehaviour {
 		case "Enemy":
 			damageAnim.SetBool("damage",true);
 			playerData.Damage(1);
+            allUI.UiUpdate("ComboReset", 0);
 			break;
 		}
 	}
@@ -28,6 +32,7 @@ public class CollisionPlayer : MonoBehaviour {
 		case "Railgun":
 			damageAnim.SetBool ("damage", true);
 			playerData.Damage (1);
+            allUI.UiUpdate("ComboReset", 0);
 			break;
 		}
 	}

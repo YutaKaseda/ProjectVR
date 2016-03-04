@@ -10,23 +10,30 @@ public class DeathBlowGauge : MonoBehaviour {
 
 	Slider deathBlowGaugeSlider;
 
-	Image deathBlowGaugeImg;
+	Image deathBlowGaugeImg2D;
+    Image deathBlowGaugeImg3D;
 	void Awake(){
-		deathBlowGaugeImg = GameObject.Find ("DeathBlowValue").GetComponent<Image> ();
-		deathBlowGaugeImg.fillAmount = 0;
+		deathBlowGaugeImg2D = GameObject.Find ("DeathBlowValue2D").GetComponent<Image> ();
+		deathBlowGaugeImg2D.fillAmount = 0;
+        deathBlowGaugeImg3D = GameObject.Find("DeathBlowValue3D").GetComponent<Image>();
+        deathBlowGaugeImg3D.fillAmount = 0;
 	}
 
 	//必殺技のゲージをためる
 	//２Dまたは３Dが敵を倒したとき
 	public void GaugeUp(){
-		if (deathBlowGaugeImg.fillAmount < 1f) {
-			deathBlowGaugeImg.fillAmount += 0.004f;
+		if (deathBlowGaugeImg2D.fillAmount < 1f) {
+			deathBlowGaugeImg2D.fillAmount += 0.004f;
 		}
+        if (deathBlowGaugeImg3D.fillAmount < 1f){
+            deathBlowGaugeImg3D.fillAmount += 0.004f;
+        }
 	}
 	//必殺技使った時
 	//呼ぶだけ
 	public void UseLaser(){
-		deathBlowGaugeImg.fillAmount = 0;
+		deathBlowGaugeImg2D.fillAmount = 0;
+        deathBlowGaugeImg3D.fillAmount = 0;
 	}
 	
 }

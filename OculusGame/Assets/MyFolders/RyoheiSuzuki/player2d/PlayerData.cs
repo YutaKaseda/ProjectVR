@@ -11,7 +11,7 @@ public class PlayerData : MonoBehaviour {
     public float vectorY { get; set; }
     public float vectorZ { get; set; }
     public GameObject bulletPrefab { get; set; }
-	public	double score { get; set;}
+	public	int score { get; set;}
 	public	int killCombo { get; set;}
 
     public void Awake(){

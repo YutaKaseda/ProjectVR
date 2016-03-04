@@ -21,7 +21,7 @@ public class BossData : MonoBehaviour {
 
 	AllUI allUi;
 	void Awake(){
-		bossHp = 2000;
+		bossHp = 6000;
 		bossAttackTarget = TARGET2D;
 		allUi = GameObject.FindWithTag ("UI").GetComponent<AllUI> ();
         StartCoroutine("HoverEffect");

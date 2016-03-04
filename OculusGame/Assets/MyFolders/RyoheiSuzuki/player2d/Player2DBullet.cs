@@ -50,7 +50,7 @@ public class Player2DBullet : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		ShotMove ();
 	}
 	void degreeWay(int bulletWay){

@@ -18,7 +18,7 @@ public class Score : MonoBehaviour {
 		ScoreDraw ();
 	}
 
-	public void ScorePlus(double upScore){
+	public void ScorePlus(int upScore){
 		playerData.score += upScore;
 		ScoreDraw ();
 	}
