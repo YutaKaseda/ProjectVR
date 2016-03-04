@@ -54,8 +54,7 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
             case E_ONLINE_STATE.NETWORK_CONNECT:
 
-                if(Input.GetKeyDown(KeyCode.Return))
-                    ChangeNextState();
+                ChangeNextState();
 
                 break;
 
@@ -97,9 +96,7 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
         switch (prevState){
 
             case E_ONLINE_STATE.NETWORK_CONNECT:
-                OculusPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
-                SecondPlayer.GetComponent<PlayerCameraSetup>().SetUpPlayer();
-
+                
                 GameData.onlineState = E_ONLINE_STATE.GAME_START_WAIT;
 
                 break;

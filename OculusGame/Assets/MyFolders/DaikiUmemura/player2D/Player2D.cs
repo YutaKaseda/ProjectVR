@@ -113,6 +113,7 @@ public class Player2D : MonoBehaviour {
 
 		SoundPlayer.Instance.PlaySoundEffect("Bomb",1.0f);
 		EffectFactory.Instance.Create("bom",transform.position,transform.rotation);
+        GetComponent<BoxCollider>().enabled = false;
 
 		allUI.UiUpdate ("Lifes2D",0);
 		allUI.UiUpdate ("ComboReset",0);
@@ -126,6 +127,11 @@ public class Player2D : MonoBehaviour {
 		isDead = false;
 		zikki2D.SetActive (true);
 		playerData2D.resurrectionTime = 3.0f;
+
+        yield return new WaitForSeconds(2.0f);
+
+        GetComponent<BoxCollider>().enabled = true;
+
 	}
 
 	/***自機のターン処理***/

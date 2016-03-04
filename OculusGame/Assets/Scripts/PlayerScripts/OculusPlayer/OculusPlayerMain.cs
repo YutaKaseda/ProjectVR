@@ -61,6 +61,7 @@ public class OculusPlayerMain : MonoBehaviour {
 		vulcanKnockBackAnim = GetComponent<Animator>();
 
         posCorrection = transform.position;
+        transform.localPosition = posRevision;
 	}
 
 	void RayInit(){
