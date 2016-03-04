@@ -7,9 +7,20 @@ using System.Collections;
 public class CollisionEnemy : MonoBehaviour {
 	EnemyDataNew enemyDataNew;
 
+    public bool awakeCollision { private set; get; }
+
     void Awake()
     {
 		enemyDataNew = GetComponent<EnemyDataNew>();
+        StartCoroutine(EnablePlayerCollision());
+    }
+
+    IEnumerator EnablePlayerCollision()
+    {
+        awakeCollision = false;
+        yield return new WaitForSeconds(1.0f);
+        awakeCollision = true;
+
     }
 
     void OnTriggerEnter(Collider other)

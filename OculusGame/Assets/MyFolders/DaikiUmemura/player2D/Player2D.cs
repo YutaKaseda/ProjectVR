@@ -33,6 +33,11 @@ public class Player2D : MonoBehaviour {
 	GameObject zikki2D;
     bool vulcanPlaySound = false;
 
+    [SerializeField]
+    Transform[] optionPos;
+    [SerializeField]
+    GameObject[] options;
+
 	void Awake () {
 		allUI = GameObject.FindWithTag("UI").GetComponent<AllUI>();
 		isDead = false;
@@ -42,7 +47,9 @@ public class Player2D : MonoBehaviour {
 		playerData2D.pi = 3.14f;
 		playerData2D.resurrectionTime = 3.0f;
 		playerData2D.InitHP ();
-		playerData2D.lifes = 6;
+		playerData2D.lifes = 99;
+        playerData2D.weaponLevel = 0;
+        playerData2D.intervalTime = 0.08f;
 	}
 	
 	/***移動処理***/
@@ -81,6 +88,15 @@ public class Player2D : MonoBehaviour {
 			//ResourcesManagerの処理に置き換えます
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
 			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y);
+            if (playerData2D.weaponLevel != 0)
+            {
+                for (int i = 0; i < playerData2D.weaponLevel; i++)
+                {
+                    GameObject optionBullet = Instantiate(bullet, optionPos[i].position, optionPos[i].rotation) as GameObject;
+                    optionBullet.GetComponent<Player2DBullet>().BulletInit('R', playerData2D.degree, optionPos[i].position.y);
+                }
+            }
+
             if (!vulcanPlaySound)
             {
                 vulcanPlaySound = true;
@@ -93,6 +109,14 @@ public class Player2D : MonoBehaviour {
 
 			//ResourcesManagerにー
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+            if (playerData2D.weaponLevel != 0)
+            {
+                for (int i = 0; i < playerData2D.weaponLevel; i++)
+                {
+                    GameObject optionBullet = Instantiate(bullet, optionPos[i].position, optionPos[i].rotation) as GameObject;
+                    optionBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, optionPos[i].position.y);
+                }
+            }
             shotBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, transform.position.y);
             if (!vulcanPlaySound)
             {
@@ -101,10 +125,6 @@ public class Player2D : MonoBehaviour {
                 StartCoroutine(VulcanSoundInterval(0.2f));
             }
             playerData2D.shotWaitTime = 0;
-		}
-
-		if (playerData2D.shotWaitTime > playerData2D.intervalTime) {
-			playerData2D.shotWaitTime = playerData2D.intervalTime;
 		}
 	}
 	
@@ -185,10 +205,26 @@ public class Player2D : MonoBehaviour {
         vulcanPlaySound = false;
     }
 
+    public void WeaponLevelUp(){
+
+        if (playerData2D.weaponLevel > 3)
+            playerData2D.weaponLevel = 3;
+
+        if (options[playerData2D.weaponLevel-1] != null){
+            options[playerData2D.weaponLevel-1].SetActive(true);
+        }
+
+    }
+
 	void OnTriggerEnter(Collider other){
 		switch (other.gameObject.tag) {
 
         case "Enemy":
+                if(other.gameObject.GetComponent<CollisionEnemy>().awakeCollision)
+                    if (isDead == false)
+                        StartCoroutine("Resurrection");
+
+                break;
         case "Boss":
 		case "Railgun":
 			if(isDead == false)

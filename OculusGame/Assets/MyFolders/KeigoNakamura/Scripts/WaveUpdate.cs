@@ -206,6 +206,10 @@ public class WaveUpdate : MonoBehaviour {
 				pos.y -= enemyPositionSpace;
 				pos.z = waveData[arrayPosition].radius * Mathf.Sin (PAI/180 * (waveData[arrayPosition].degree-positionSpace));
 				break;
+
+                default:
+                Debug.Log("なぞやで");
+                break;
 			}
 			positionSpace += enemyPositionSpace;
 		}
@@ -217,7 +221,7 @@ public class WaveUpdate : MonoBehaviour {
 
 	// 次のwaveへ
 	void NextWave(){
-		//waveProgress++;
+		waveProgress++;
 		// 配列の初期化
 		DataInit();
 		// 次のテキストの読込

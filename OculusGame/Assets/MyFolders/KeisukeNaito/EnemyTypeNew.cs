@@ -95,6 +95,7 @@ public class EnemyTypeNew : MonoBehaviour {
 			enemyDataNew.stalkingSearch = false;
 			enemyDataNew.stalkingY = 0;
 
+            /*
 			if(enemyDataNew.enemyDegree > playerData2D.degree){
 				if(enemyDataNew.enemySpeed >= 0){
 					enemy2DMain.transform.Rotate(0,180,0);
@@ -107,6 +108,7 @@ public class EnemyTypeNew : MonoBehaviour {
 				}
 				enemyDataNew.enemySpeed = 0.3f;
 			}
+            */
 		}
 	}	
 	void Delete()

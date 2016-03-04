@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class KillCombo : MonoBehaviour {
 	
 	PlayerData2D playerData2D;
+    Player2D player2D;
 	Lifes2D lifes2D;
 	ScoreUpAnim scoreUpAnim;
 	Text comboText2D;
@@ -14,6 +15,7 @@ public class KillCombo : MonoBehaviour {
 	
 	void Awake(){
 		playerData2D = GameObject.FindWithTag("Player2D").GetComponent<PlayerData2D>();
+        player2D = GameObject.FindWithTag("Player2D").GetComponent<Player2D>();
 		lifes2D = 	   gameObject.GetComponent<Lifes2D>();
 		scoreUpAnim =  gameObject.GetComponent<ScoreUpAnim>();
 		comboText2D =  GameObject.Find("Combo2D").GetComponent<Text>();
@@ -28,8 +30,9 @@ public class KillCombo : MonoBehaviour {
 		if (playerData2D.killCombo % 50 == 0) {
 			scoreUpAnim.ScoreUp (playerData2D.killCombo);
 		}
-		if (playerData2D.killCombo % 100 == 0) {
-			playerData2D.weaponLevel += 1;
+		if (playerData2D.killCombo % 50 == 0) {
+            playerData2D.weaponLevel += 1;
+            player2D.WeaponLevelUp();
 		}
 		if (playerData2D.killCombo % 500 == 0) {
 			playerData2D.lifes += 1;
@@ -42,6 +45,8 @@ public class KillCombo : MonoBehaviour {
 	//コンボ初期化
 	//２Dが死んだとき呼ぶ
 	public void ComboReset(){
+        if(PlayerPrefs.GetInt("TopKill") < playerData2D.killCombo)
+            PlayerPrefs.SetInt("TopKill", playerData2D.killCombo);
 		playerData2D.killCombo = 0;
 		ComboDraw ();
 	}

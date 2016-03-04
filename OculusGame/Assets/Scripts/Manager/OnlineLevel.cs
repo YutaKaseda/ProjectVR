@@ -32,6 +32,9 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
     [SerializeField]
     AudioSource bgmAudioSource;
 
+    [SerializeField]
+    PlayerData playerData;
+
     void Awake(){
 
         GameData.onlineState = E_ONLINE_STATE.NETWORK_CONNECT;
@@ -154,8 +157,10 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
         centerTowerUI.GetComponent<CountDownUI>().TextUpdate("CLEAR!");
         GameData.onlineState = E_ONLINE_STATE.GAME_CLEAR;
-        
+
         yield return new WaitForSeconds(7.0f);
+
+        PlayerPrefs.SetInt("HighScore", playerData.score);
 
         Application.LoadLevelAsync("network_offline"); 
         

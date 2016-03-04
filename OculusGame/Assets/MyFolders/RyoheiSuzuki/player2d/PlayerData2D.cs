@@ -18,4 +18,5 @@ public class PlayerData2D : PlayerData {
 	public Vector3 position;
 	public int lifes{ get; set; }
 	public int weaponLevel { get; set;}
+
 }

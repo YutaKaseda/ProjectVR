@@ -24,10 +24,10 @@ public class WarpEffect : MonoBehaviour {
 
 	public Texture2D damageImg;
 	void Awake(){
-		whiteAlpha = 2f;
-		blackAlpha = -2f;
+		whiteAlpha = 5f;
+		blackAlpha = -5f;
 		damageAlpha = 1f;
-		fadeTimer = 4f;
+		fadeTimer = 16f;
 		activeWarp = false;
 	}
 
