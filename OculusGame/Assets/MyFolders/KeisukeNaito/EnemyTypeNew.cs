@@ -83,7 +83,7 @@ public class EnemyTypeNew : MonoBehaviour {
 	void StalkingAI(){
 		enemyDataNew.playerEnemyDistance = Vector3.Distance (transform.position, player2D.transform.position);
 
-		if (enemyDataNew.playerEnemyDistance <= 30) { 
+		if (enemyDataNew.playerEnemyDistance <= 100) { 
 
 			enemyDataNew.stalkingSearch = true;
 			if (transform.position.y <= player2D.transform.position.y)

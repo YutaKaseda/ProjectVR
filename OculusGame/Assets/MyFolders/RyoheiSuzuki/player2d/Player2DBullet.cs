@@ -38,11 +38,9 @@ public class Player2DBullet : MonoBehaviour {
 		if(receiveVariable == 'R'){
 			shotBulletWay = 1;
 			bulletDegree = player2dDegree+degreeSpace;
-			Debug.Log("bulletDegree R : " + bulletDegree);
 		}else if(receiveVariable == 'L'){
 			shotBulletWay = -1;
 			bulletDegree = player2dDegree-degreeSpace;
-			Debug.Log("bulletDegree L : " + bulletDegree);
 		}
 		bulletType = type;
 		
@@ -82,7 +80,7 @@ public class Player2DBullet : MonoBehaviour {
 	
 	void ShotMove(){
 		switch(bulletType){
-		case "NomalBullet":
+		case "NormalBullet":
 			degreeWay (shotBulletWay);
 			transform.position = new Vector3 (radius * Mathf.Cos (PAI / 180 * bulletDegree), transform.position.y,radius * Mathf.Sin (PAI / 180 * bulletDegree));
 			transform.eulerAngles = new Vector3 (0, -bulletDegree, 0);

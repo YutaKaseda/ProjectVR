@@ -29,6 +29,19 @@ public class OfflineAvoid : MonoBehaviour {
             Application.LoadLevelAsync("VROP");
         }
 
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Application.LoadLevelAsync("OnlineLevel");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerPrefs.SetInt("HighScore", 0);
+            PlayerPrefs.SetInt("TopKill", 0);
+            highScore.text = PlayerPrefs.GetInt("HighScore").ToString();
+            topKill.text = PlayerPrefs.GetInt("TopKill").ToString();
+        }
+
     }
 	
 }

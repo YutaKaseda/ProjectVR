@@ -30,7 +30,7 @@ public class KillCombo : MonoBehaviour {
 		if (playerData2D.killCombo % 50 == 0) {
 			scoreUpAnim.ScoreUp (playerData2D.killCombo);
 		}
-		if (playerData2D.killCombo % 50 == 0) {
+		if (playerData2D.killCombo % 100 == 0) {
             playerData2D.weaponLevel += 1;
             player2D.WeaponLevelUp();
 		}

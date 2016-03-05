@@ -55,6 +55,7 @@ public class Player2D : MonoBehaviour {
 		playerData2D.lifes = 99;
         playerData2D.weaponLevel = 0;
         playerData2D.intervalTime = 0.08f;
+        playerData2D.missileIntervalTime = 0.2f;
 	}
 	
 	/***移動処理***/
@@ -88,22 +89,45 @@ public class Player2D : MonoBehaviour {
 	/***撃つ処理***/
 	public void BulletShot(){
 		playerData2D.shotWaitTime += Time.deltaTime;
+        playerData2D.missileWaitTime += Time.deltaTime;
 
 		if (Input.GetButton ("R1P2") && playerData2D.shotWaitTime > playerData2D.intervalTime) {
 
 			//ResourcesManagerの処理に置き換えます
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y);
+			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y,"NormalBullet");
 
             if (playerData2D.weaponLevel != 0)
             {
                 for (int i = 0; i < playerData2D.weaponLevel; i++)
                 {
-                    GameObject optionBullet = Instantiate(bullet, optionPos[i].position, optionPos[i].rotation) as GameObject;
-                    optionBullet.GetComponent<Player2DBullet>().BulletInit('R', playerData2D.degree, optionPos[i].position.y);
+                    if (i < 3)
+                    {
+                        GameObject optionBullet = Instantiate(bullet, optionPos[i].position, optionPos[i].rotation) as GameObject;
+                        optionBullet.GetComponent<Player2DBullet>().BulletInit('R', playerData2D.degree, optionPos[i].position.y, "NormalBullet");
+                    }
+                    else
+                    {
+                        if (playerData2D.missileWaitTime > playerData2D.missileIntervalTime)
+                        {
+                            GameObject optionBullet = Instantiate(missile, optionPos[i].position, optionPos[i].rotation) as GameObject;
+                            optionBullet.GetComponent<Player2DBullet>().BulletInit('R', playerData2D.degree, optionPos[i].position.y, "HomingMissile");
+                            if (i == playerData2D.weaponLevel -1)
+                                playerData2D.missileWaitTime = 0;
+                        }
+                    }
                 }
             }
+            /*
+            if (playerData2D.missileWaitTime > playerData2D.missileIntervalTime)
+            {
+                //ResourcesManagerの処理に置き換えます
+                GameObject shotMissile = Instantiate(missile, missilePod.transform.position, transform.rotation) as GameObject;
+                shotMissile.GetComponent<Player2DBullet>().BulletInit('R', playerData2D.degree, missilePod.transform.position.y, "HomingMissile");
 
+                playerData2D.missileWaitTime = 0;
+            }
+            */
             if (!vulcanPlaySound)
             {
                 vulcanPlaySound = true;
@@ -111,20 +135,49 @@ public class Player2D : MonoBehaviour {
                 StartCoroutine(VulcanSoundInterval(0.2f));
             }
 			playerData2D.shotWaitTime = 0;
+        
 		}
+
+
 		else if (Input.GetButton ("L1P2") && playerData2D.shotWaitTime > playerData2D.intervalTime) {
 
 			//ResourcesManagerにー
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+            shotBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, transform.position.y,"NormalBullet");
             if (playerData2D.weaponLevel != 0)
             {
                 for (int i = 0; i < playerData2D.weaponLevel; i++)
                 {
-                    GameObject optionBullet = Instantiate(bullet, optionPos[i].position, optionPos[i].rotation) as GameObject;
-                    optionBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, optionPos[i].position.y);
+                    if (i < 3)
+                    {
+                        GameObject optionBullet = Instantiate(bullet, optionPos[i].position, optionPos[i].rotation) as GameObject;
+                        optionBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, optionPos[i].position.y, "NormalBullet");
+                    }
+                    else
+                    {
+                        if (playerData2D.missileWaitTime > playerData2D.missileIntervalTime)
+                        {
+                            GameObject optionBullet = Instantiate(missile, optionPos[i].position, optionPos[i].rotation) as GameObject;
+                            optionBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, optionPos[i].position.y, "HomingMissile");
+                            if(i == playerData2D.weaponLevel -1)
+                                playerData2D.missileWaitTime = 0;
+                        }
+                    }
+
                 }
             }
-            shotBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, transform.position.y);
+
+            /*
+            if (playerData2D.missileWaitTime > playerData2D.missileIntervalTime)
+            {
+                //ResourcesManagerの処理に置き換えます
+                GameObject shotMissile = Instantiate(missile, missilePod.transform.position, transform.rotation) as GameObject;
+                shotMissile.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, missilePod.transform.position.y, "HomingMissile");
+
+                playerData2D.missileWaitTime = 0;
+            }
+             * */
+
             if (!vulcanPlaySound)
             {
                 vulcanPlaySound = true;
@@ -132,74 +185,6 @@ public class Player2D : MonoBehaviour {
                 StartCoroutine(VulcanSoundInterval(0.2f));
             }
             playerData2D.shotWaitTime = 0;
-		}
-
-
-		playerData2D.missileWaitTime += Time.deltaTime;
-		if (Input.GetButton ("R1P2")) {
-
-			if(playerData2D.shotWaitTime > playerData2D.intervalTime){
-				//ResourcesManagerの処理に置き換えます
-				GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-				shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y,"NormalBullet");
-
-	            if (!vulcanPlaySound)
-	            {
-	                vulcanPlaySound = true;
-	                SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
-	                StartCoroutine(VulcanSoundInterval(0.2f));
-	            }
-				playerData2D.shotWaitTime = 0;
-			}
-
-			if(playerData2D.missileWaitTime > playerData2D.missileIntervalTime){
-				//ResourcesManagerの処理に置き換えます
-				GameObject shotMissile = Instantiate(missile, missilePod.transform.position, transform.rotation) as GameObject;
-				shotMissile.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,missilePod.transform.position.y,"HomingMissile");
-				
-				if (!vulcanPlaySound)
-				{
-					vulcanPlaySound = true;
-					SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
-					StartCoroutine(VulcanSoundInterval(0.2f));
-				}
-				playerData2D.missileWaitTime = 0;
-			}
-		}
-		else if (Input.GetButton ("L1P2")) {
-			if(playerData2D.shotWaitTime > playerData2D.intervalTime){
-				//ResourcesManagerにー
-				GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-				shotBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, transform.position.y,"NormalBullet");
-	            if (!vulcanPlaySound)
-	            {
-	                vulcanPlaySound = true;
-	                SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
-	                StartCoroutine(VulcanSoundInterval(0.2f));
-	            }
-	            playerData2D.shotWaitTime = 0;
-			}
-
-			if(playerData2D.missileWaitTime > playerData2D.missileIntervalTime){
-				//ResourcesManagerの処理に置き換えます
-				GameObject shotMissile = Instantiate(missile, missilePod.transform.position,transform.rotation) as GameObject;
-				shotMissile.GetComponent<Player2DBullet>().BulletInit('L',playerData2D.degree,missilePod.transform.position.y,"HomingMissile");
-				
-				if (!vulcanPlaySound)
-				{
-					vulcanPlaySound = true;
-					SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
-					StartCoroutine(VulcanSoundInterval(0.2f));
-				}
-				playerData2D.missileWaitTime = 0;
-			}
-		}
-
-		if (playerData2D.shotWaitTime > playerData2D.intervalTime) {
-			playerData2D.shotWaitTime = playerData2D.intervalTime;
-		}
-		if (playerData2D.missileWaitTime > playerData2D.missileIntervalTime) {
-			playerData2D.missileWaitTime = playerData2D.missileIntervalTime;
 		}
 	}
 	
@@ -282,8 +267,8 @@ public class Player2D : MonoBehaviour {
 
     public void WeaponLevelUp(){
 
-        if (playerData2D.weaponLevel > 3)
-            playerData2D.weaponLevel = 3;
+        if (playerData2D.weaponLevel > 6)
+            playerData2D.weaponLevel = 6;
 
         if (options[playerData2D.weaponLevel-1] != null){
             options[playerData2D.weaponLevel-1].SetActive(true);

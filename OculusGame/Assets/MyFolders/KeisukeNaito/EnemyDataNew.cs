@@ -53,7 +53,7 @@ public class EnemyDataNew : MonoBehaviour {
 	public void EnemyDamage(string bullet){
 		switch (bullet) {
 		case "NormalBullet":
-            SoundPlayer.Instance.PlaySoundEffect("Bomb", 0.4f);
+            SoundPlayer.Instance.PlaySoundEffect("Bomb", 0.7f);
             EffectFactory.Instance.Create("bom", transform.position, transform.rotation);
 			allUI.UiUpdate("ComboUp",0);
 			allUI.UiUpdate("ScoreUp",100);

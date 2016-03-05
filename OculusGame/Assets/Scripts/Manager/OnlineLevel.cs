@@ -35,6 +35,9 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
     [SerializeField]
     PlayerData playerData;
 
+    [SerializeField]
+    PlayerData2D playerData2D;
+
     void Awake(){
 
         GameData.onlineState = E_ONLINE_STATE.NETWORK_CONNECT;
@@ -161,6 +164,8 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
         yield return new WaitForSeconds(7.0f);
 
         PlayerPrefs.SetInt("HighScore", playerData.score);
+        if (PlayerPrefs.GetInt("TopKill") < playerData2D.killCombo)
+            PlayerPrefs.SetInt("TopKill", playerData2D.killCombo);
 
         Application.LoadLevelAsync("network_offline"); 
         
