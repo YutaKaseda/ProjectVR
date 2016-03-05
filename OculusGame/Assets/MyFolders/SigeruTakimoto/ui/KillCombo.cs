@@ -45,8 +45,8 @@ public class KillCombo : MonoBehaviour {
 	//コンボ初期化
 	//２Dが死んだとき呼ぶ
 	public void ComboReset(){
-        if(PlayerPrefs.GetInt("TopKill") < playerData2D.killCombo)
-            PlayerPrefs.SetInt("TopKill", playerData2D.killCombo);
+        if(PlayerPrefs.GetInt("NowTopKill") < playerData2D.killCombo)
+            PlayerPrefs.SetInt("NowTopKill", playerData2D.killCombo);
 		playerData2D.killCombo = 0;
 		ComboDraw ();
 	}

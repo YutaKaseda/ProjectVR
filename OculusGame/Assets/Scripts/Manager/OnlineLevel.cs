@@ -1,6 +1,7 @@
 ﻿//<Summary>
 //YutaKaseda
 //16/2/19
+//16/3/6 リザルトへ飛ぶ
 //</Summary>
 using UnityEngine;
 using UnityEngine.VR;
@@ -45,6 +46,9 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
 
         GameData.onlineState = E_ONLINE_STATE.NETWORK_CONNECT;
         ResourcesManager.Instance.ResourcesLoadScene("OnLine");
+        PlayerPrefs.SetInt("NowScore", 0);
+        PlayerPrefs.SetInt("NowTopKill", 0);
+        PlayerPrefs.SetInt("Now2DLife", 0);
 
         //bossMain.Init();
 
@@ -124,7 +128,7 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
                 break;
 
             case E_ONLINE_STATE.GAME_CLEAR:
-
+				
                 break;
 
             default:
@@ -171,16 +175,14 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
         centerTowerUI.GetComponent<CountDownUI>().TextUpdate("CLEAR!");
         GameData.onlineState = E_ONLINE_STATE.GAME_CLEAR;
 
-        yield return new WaitForSeconds(7.0f);
+		yield return new WaitForSeconds(7.0f);
 
-        PlayerPrefs.SetInt("HighScore", playerData.score);
-        if (PlayerPrefs.GetInt("TopKill") < playerData2D.killCombo)
-            PlayerPrefs.SetInt("TopKill", playerData2D.killCombo);
-
-        Application.LoadLevelAsync("network_offline"); 
-        
-        centerTowerUI.SetActive(false);
-
+		PlayerPrefs.SetInt("NowScore", playerData.score);
+        PlayerPrefs.SetInt("Now2DLife", playerData2D.lifes);
+        if (PlayerPrefs.GetInt("NowTopKill") < playerData2D.killCombo)
+            PlayerPrefs.SetInt("NowTopKill", playerData2D.killCombo);
+		
+		Application.LoadLevelAsync("Result"); //リザルトにとびます
     }
 
 }
