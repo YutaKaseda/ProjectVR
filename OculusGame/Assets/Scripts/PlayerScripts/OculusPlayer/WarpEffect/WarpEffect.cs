@@ -45,6 +45,7 @@ public class WarpEffect : MonoBehaviour {
 	}
 
 	public void FadeBlack(){
+		FadeInit ();
         if (!screenOver.enabled){
             screenOver.enabled = true;
             screenOver.overlayShader = Shader.Find("Hidden/BlendModesOverlay");

@@ -12,6 +12,7 @@
 // 2016/02/17 梅村 ui関連(lifes)の紐づけ
 // 2016/02/18 鈴木 bullet初期位置バグ修正
 // 2016/03/1 梅村 ui関連
+// 2016/03/4 梅村 missile追加
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
@@ -27,10 +28,14 @@ public class Player2D : MonoBehaviour {
 	[SerializeField]
 	GameObject bullet;		//resourceに追加するのは許可を得てからやるために
 	[SerializeField]
+	GameObject missile;
+	[SerializeField]
 	AllUI allUI;
 
 	[SerializeField]
 	GameObject zikki2D;
+	[SerializeField]
+	GameObject missilePod;
     bool vulcanPlaySound = false;
 
     [SerializeField]
@@ -83,11 +88,13 @@ public class Player2D : MonoBehaviour {
 	/***撃つ処理***/
 	public void BulletShot(){
 		playerData2D.shotWaitTime += Time.deltaTime;
+
 		if (Input.GetButton ("R1P2") && playerData2D.shotWaitTime > playerData2D.intervalTime) {
 
 			//ResourcesManagerの処理に置き換えます
 			GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
 			shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y);
+
             if (playerData2D.weaponLevel != 0)
             {
                 for (int i = 0; i < playerData2D.weaponLevel; i++)
@@ -125,6 +132,74 @@ public class Player2D : MonoBehaviour {
                 StartCoroutine(VulcanSoundInterval(0.2f));
             }
             playerData2D.shotWaitTime = 0;
+		}
+
+
+		playerData2D.missileWaitTime += Time.deltaTime;
+		if (Input.GetButton ("R1P2")) {
+
+			if(playerData2D.shotWaitTime > playerData2D.intervalTime){
+				//ResourcesManagerの処理に置き換えます
+				GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+				shotBullet.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,transform.position.y,"NormalBullet");
+
+	            if (!vulcanPlaySound)
+	            {
+	                vulcanPlaySound = true;
+	                SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
+	                StartCoroutine(VulcanSoundInterval(0.2f));
+	            }
+				playerData2D.shotWaitTime = 0;
+			}
+
+			if(playerData2D.missileWaitTime > playerData2D.missileIntervalTime){
+				//ResourcesManagerの処理に置き換えます
+				GameObject shotMissile = Instantiate(missile, missilePod.transform.position, transform.rotation) as GameObject;
+				shotMissile.GetComponent<Player2DBullet>().BulletInit('R',playerData2D.degree,missilePod.transform.position.y,"HomingMissile");
+				
+				if (!vulcanPlaySound)
+				{
+					vulcanPlaySound = true;
+					SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
+					StartCoroutine(VulcanSoundInterval(0.2f));
+				}
+				playerData2D.missileWaitTime = 0;
+			}
+		}
+		else if (Input.GetButton ("L1P2")) {
+			if(playerData2D.shotWaitTime > playerData2D.intervalTime){
+				//ResourcesManagerにー
+				GameObject shotBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+				shotBullet.GetComponent<Player2DBullet>().BulletInit('L', playerData2D.degree, transform.position.y,"NormalBullet");
+	            if (!vulcanPlaySound)
+	            {
+	                vulcanPlaySound = true;
+	                SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
+	                StartCoroutine(VulcanSoundInterval(0.2f));
+	            }
+	            playerData2D.shotWaitTime = 0;
+			}
+
+			if(playerData2D.missileWaitTime > playerData2D.missileIntervalTime){
+				//ResourcesManagerの処理に置き換えます
+				GameObject shotMissile = Instantiate(missile, missilePod.transform.position,transform.rotation) as GameObject;
+				shotMissile.GetComponent<Player2DBullet>().BulletInit('L',playerData2D.degree,missilePod.transform.position.y,"HomingMissile");
+				
+				if (!vulcanPlaySound)
+				{
+					vulcanPlaySound = true;
+					SoundPlayer.Instance.PlaySoundEffect("Balkan2", 0.5f);
+					StartCoroutine(VulcanSoundInterval(0.2f));
+				}
+				playerData2D.missileWaitTime = 0;
+			}
+		}
+
+		if (playerData2D.shotWaitTime > playerData2D.intervalTime) {
+			playerData2D.shotWaitTime = playerData2D.intervalTime;
+		}
+		if (playerData2D.missileWaitTime > playerData2D.missileIntervalTime) {
+			playerData2D.missileWaitTime = playerData2D.missileIntervalTime;
 		}
 	}
 	
