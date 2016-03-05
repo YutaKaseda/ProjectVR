@@ -1,6 +1,7 @@
 ﻿//<Summary>
 //YutaKaseda
 //16/2/19
+//16/3/6 リザルトへ飛ぶ
 //</Summary>
 using UnityEngine;
 using UnityEngine.VR;
@@ -124,7 +125,7 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
                 break;
 
             case E_ONLINE_STATE.GAME_CLEAR:
-
+				
                 break;
 
             default:
@@ -171,16 +172,11 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
         centerTowerUI.GetComponent<CountDownUI>().TextUpdate("CLEAR!");
         GameData.onlineState = E_ONLINE_STATE.GAME_CLEAR;
 
-        yield return new WaitForSeconds(7.0f);
-
-        PlayerPrefs.SetInt("HighScore", playerData.score);
-        if (PlayerPrefs.GetInt("TopKill") < playerData2D.killCombo)
-            PlayerPrefs.SetInt("TopKill", playerData2D.killCombo);
-
-        Application.LoadLevelAsync("network_offline"); 
-        
-        centerTowerUI.SetActive(false);
-
+		PlayerPrefs.SetInt("2DLife", playerData2D.lifes);
+		yield return new WaitForSeconds(7.0f);
+		PlayerPrefs.SetInt("HighScore", playerData.score);
+		
+		Application.LoadLevelAsync("Result"); //リザルトにとびます
     }
 
 }
