@@ -38,12 +38,11 @@ public class Player2DBullet : MonoBehaviour {
 		if(receiveVariable == 'R'){
 			shotBulletWay = 1;
 			bulletDegree = player2dDegree+degreeSpace;
+			Debug.Log("bulletDegree R : " + bulletDegree);
 		}else if(receiveVariable == 'L'){
 			shotBulletWay = -1;
 			bulletDegree = player2dDegree-degreeSpace;
-			Debug.Log("前"+transform.eulerAngles);
-			transform.Rotate(new Vector3(0,180,0));
-			Debug.Log("後"+transform.eulerAngles);
+			Debug.Log("bulletDegree L : " + bulletDegree);
 		}
 		bulletType = type;
 		
@@ -53,8 +52,8 @@ public class Player2DBullet : MonoBehaviour {
 			bulletLife = radius * 1.4f;
 			break;
 		case "HomingMissile":
-			bulletSpeed = 2;
-			Destroy (gameObject, 1.0f);
+			bulletSpeed = 1.5f;
+			Destroy (gameObject, 1.5f);
 			StartCoroutine(Search());
 			break;
 		}
@@ -93,7 +92,14 @@ public class Player2DBullet : MonoBehaviour {
 			if(homingTarget == null){
 				degreeWay (shotBulletWay);
 				transform.position = new Vector3 (radius * Mathf.Cos (PAI / 180 * bulletDegree), transform.position.y,radius * Mathf.Sin (PAI / 180 * bulletDegree));
-				transform.eulerAngles = new Vector3 (0, -bulletDegree, 0);
+				switch (shotBulletWay) {
+				case 1:
+					transform.eulerAngles = new Vector3 (0, -bulletDegree, 0);
+					break;
+				case -1:
+					transform.eulerAngles = new Vector3 (0, -bulletDegree + 180, 0);//弾反転
+					break;
+				}
 			}
 			else{
 				Homing();
@@ -109,11 +115,12 @@ public class Player2DBullet : MonoBehaviour {
 	}
 	
 	IEnumerator Search(){
-		Ray searchRay = new Ray(transform.position, transform.forward);
-		RaycastHit hit;
+
 		while(homingTarget == null){
-			if(Physics.SphereCast (searchRay, 30f, out hit, 30f)){
-				
+			Ray searchRay = new Ray(transform.position, transform.forward);
+			RaycastHit hit;
+			if(Physics.SphereCast (searchRay, 30f, out hit)){
+				Debug.DrawRay(searchRay.origin, searchRay.direction, Color.red, 3.0f);
 				if(hit.collider.tag == "Enemy" || hit.collider.tag == "Boss"){
 					homingTarget = hit.collider.transform;
 				}
@@ -121,14 +128,14 @@ public class Player2DBullet : MonoBehaviour {
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
-		bulletSpeed = 4;
+		bulletSpeed = 2f;
 	}
 	
 	void Homing(){
 		Vector3 vec = homingTarget.position - transform.position;
 		
 		// ターゲットの方向を向く
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(vec.x, vec.y, vec.z)), 1f);
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(vec.x, vec.y, vec.z)), 0.3f);
 		transform.Translate(Vector3.forward * bulletSpeed); // 正面方向に移動
 	}
 	
