@@ -20,8 +20,7 @@ public class Result : MonoBehaviour {
 
 	void Awake(){
 		plusNo = 0;
-		//StartCoroutine(ResultAnim (PlayerPrefs.GetInt("NowScore"), PlayerPrefs.GetInt("Now2DLife"), PlayerPrefs.GetInt("NowTopKill")));
-        StartCoroutine(ResultAnim (10000000,99,1004));
+		StartCoroutine(ResultAnim (PlayerPrefs.GetInt("NowScore"), PlayerPrefs.GetInt("Now2DLife"), PlayerPrefs.GetInt("NowTopKill")));
 	}
 
 	public IEnumerator ResultAnim(int score,int life,int combo){

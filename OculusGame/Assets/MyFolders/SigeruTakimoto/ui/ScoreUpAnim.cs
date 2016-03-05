@@ -26,8 +26,8 @@ public class ScoreUpAnim : MonoBehaviour {
 	public void ScoreUp(int bonusLevel){
 		bonusScore = 1000 * bonusLevel;
 		subScoreAnimation.SetBool("subScore", true );
-		scoreUpAnimText2D.text = "+"+bonusScore +"点"; 
-		scoreUpAnimText3D.text = "+"+bonusScore +"点"; 
+		scoreUpAnimText2D.text = "+"+bonusScore +"pt"; 
+		scoreUpAnimText3D.text = "+"+bonusScore +"pt"; 
 	}
 	
 	//アニメーション終わったら勝手に呼ばれる

@@ -9,13 +9,17 @@ public class DroneControll : MonoBehaviour {
     [SerializeField]
     float moveSpeed;
 
+    [SerializeField]
+    GameObject warpEffect;
     void Awake(){
         initDroneRotation = transform.rotation;
         moveSpeed = 0.2f;
+        
     }
 
     public void Init(){
         transform.rotation = initDroneRotation;
+        Release();
     }
 
     public void DroneMain(){
@@ -24,6 +28,16 @@ public class DroneControll : MonoBehaviour {
 
         transform.eulerAngles += moveRotation;
 
+    }
+
+    public void Warping()
+    {
+        warpEffect.SetActive(false);
+    }
+
+    public void Release()
+    {
+        warpEffect.SetActive(true);
     }
 	
 }

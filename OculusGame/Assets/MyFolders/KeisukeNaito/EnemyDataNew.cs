@@ -53,8 +53,6 @@ public class EnemyDataNew : MonoBehaviour {
 	public void EnemyDamage(string bullet){
 		switch (bullet) {
 		case "NormalBullet":
-            SoundPlayer.Instance.PlaySoundEffect("Bomb", 0.7f);
-            EffectFactory.Instance.Create("bom", transform.position, transform.rotation);
 			allUI.UiUpdate("ComboUp",0);
 			allUI.UiUpdate("ScoreUp",100);
 			allUI.UiUpdate("DeathBlowGaugeUp",0);
@@ -70,4 +68,9 @@ public class EnemyDataNew : MonoBehaviour {
         }
 
 	}
+    void OnDestroy()
+    {
+        SoundPlayer.Instance.PlaySoundEffect("Bomb", 0.7f);
+        EffectFactory.Instance.Create("bom", transform.position, transform.rotation);
+    }
 }

@@ -108,6 +108,7 @@ public class OculusPlayerMain : MonoBehaviour {
                 posCorrection = raycastHit.collider.transform.position;
                 transform.rotation = raycastHit.collider.transform.rotation;
                 droneControll = raycastHit.collider.GetComponent<DroneControll>();
+                droneControll.Warping();
                 transform.parent = raycastHit.collider.transform;
                 transform.localPosition += posRevision;
 				playerState = e_PLAYER_STATE.DEFAULT;
