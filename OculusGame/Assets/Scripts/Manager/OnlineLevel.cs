@@ -38,19 +38,22 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
     [SerializeField]
     PlayerData2D playerData2D;
 
+    [SerializeField]
+    AudioClip bossBGM;
+
     void Awake(){
 
         GameData.onlineState = E_ONLINE_STATE.NETWORK_CONNECT;
         ResourcesManager.Instance.ResourcesLoadScene("OnLine");
 
-        bossMain.Init();
+        //bossMain.Init();
 
     }
 
     public void VRDeviceEnabled(){
 
         VRSettings.enabled = true;
-        InputTracking.Recenter();
+        //InputTracking.Recenter();
 
     }
 
@@ -74,7 +77,7 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
             case E_ONLINE_STATE.GAME_PLAY:
                 OculusPlayerMainInterface.IMain();
                 SecondPlayerMainInterface.IMain();
-                bossMain.Main();
+                //bossMain.Main();
 
                 break;
 
@@ -129,6 +132,13 @@ public class OnlineLevel : SingletonMonobehaviour<OnlineLevel> {
                 break;
         }
 
+    }
+
+    public void ChangeBossBGM()
+    {
+        bgmAudioSource.Stop();
+        bgmAudioSource.clip = bossBGM;
+        bgmAudioSource.Play();
     }
 
     IEnumerator GameStartCountDown(){
