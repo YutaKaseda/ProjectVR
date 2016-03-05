@@ -34,6 +34,10 @@ public class WaveUpdate : MonoBehaviour {
 	[SerializeField] List<string> waveInfo = new List<string>();
 	public bool bossFlg = false;
 	[SerializeField] int enemyPositionSpace;
+    [SerializeField]
+    Transform bossAwakePosition;
+    [SerializeField]
+    GameObject bossObject;
 
 	class BaseEnemyData{
 		public string enemyName{ get; set; }			// 呼び出す敵の名前
@@ -143,6 +147,8 @@ public class WaveUpdate : MonoBehaviour {
 
 				if(waveData[arrayPosition].enemyName.Contains(WAVE_BOSS)){
 					bossFlg = true;
+                    bossObject = Instantiate(ResourcesManager.Instance.GetResourceScene("Boss"), bossAwakePosition.position, bossAwakePosition.rotation) as GameObject;
+                    bossObject.GetComponent<BossMk2>().Init();
 				}
 				arrayPosition++;
 			} else {
@@ -150,6 +156,8 @@ public class WaveUpdate : MonoBehaviour {
 			}
 
 		} else if(bossFlg == true) {
+
+            bossObject.GetComponent<BossMk2>().Main();
 
 		}else {
 
@@ -208,7 +216,6 @@ public class WaveUpdate : MonoBehaviour {
 				break;
 
                 default:
-                Debug.Log("なぞやで");
                 break;
 			}
 			positionSpace += enemyPositionSpace;

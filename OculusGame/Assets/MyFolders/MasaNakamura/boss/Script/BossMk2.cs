@@ -41,7 +41,6 @@ public class BossMk2 : MonoBehaviour {
 	public void Init(){
 		player2D = GameObject.FindWithTag ("Player2D");
 		player3D = GameObject.FindWithTag ("Player3D");
-		bossRailgun = GameObject.FindWithTag ("Railgun");
 		bossRailgun.SetActive (false);
 		targetPlayer2D = player2D.transform;
 		targetPlayer3D = player3D.transform;
@@ -52,7 +51,8 @@ public class BossMk2 : MonoBehaviour {
 		nextPositionNumber = 0;
 		attackPattern = 0;
 		attackTime = 0f;
-       
+        EffectFactory.Instance.Create("bosswarp", transform.position, transform.rotation);
+        OnlineLevel.Instance.ChangeBossBGM();
 	}
 
 
