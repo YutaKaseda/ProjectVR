@@ -38,6 +38,16 @@ public class SoundPlayer : SingletonMonobehaviour<SoundPlayer>{
         audioClips.Add("push", new AudioClipInfo("push"));
         audioClips.Add("Balkan2", new AudioClipInfo("Balkan2"));
         audioClips.Add("thunder2", new AudioClipInfo("thunder2"));
+        audioClips.Add("Click", new AudioClipInfo("Click"));
+        audioClips.Add("Enter", new AudioClipInfo("Enter"));
+        audioClips.Add("menu2", new AudioClipInfo("menu2"));
+        audioClips.Add("mate", new AudioClipInfo("mate"));
+        audioClips.Add("omedetou", new AudioClipInfo("omedetou"));
+        audioClips.Add("mataasobe", new AudioClipInfo("mataasobe"));
+        audioClips.Add("excellent", new AudioClipInfo("excellent"));
+        audioClips.Add("mave", new AudioClipInfo("mave"));
+
+
 
 
 
