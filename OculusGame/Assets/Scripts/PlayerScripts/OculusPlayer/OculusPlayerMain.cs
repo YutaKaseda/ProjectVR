@@ -6,6 +6,7 @@
 //enemyDataNew 追加
 //ShotBullet 処理追加
 //2016/03/2 梅村 ダメージエフェクト処理追加、アニメーターから実行してる
+//2016/03/5 梅村 ワープを黒に
 //</Summary>
 
 using UnityEngine;
@@ -142,7 +143,7 @@ public class OculusPlayerMain : MonoBehaviour {
 
 	void RayWarp(){
         if (CheckHitRayWithTag(ray, "Beacon", 3.0f)){
-			warpEffect.FadeWhite();
+			warpEffect.FadeBlack();
             SoundPlayer.Instance.PlaySoundEffect("warp", 1.0f);
 			playerState = e_PLAYER_STATE.WARP;
 		}
