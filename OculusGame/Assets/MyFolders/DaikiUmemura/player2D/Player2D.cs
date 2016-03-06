@@ -291,7 +291,7 @@ public class Player2D : MonoBehaviour {
 	
 	IEnumerator SpeedUp(){
 		playerData2D.speed = maxSpeed;
-		yield return new WaitForSeconds (10.0f);
+		yield return new WaitForSeconds (5.0f);
 		playerData2D.speed = minSpeed;
 	}
 	void OnTriggerEnter(Collider other){

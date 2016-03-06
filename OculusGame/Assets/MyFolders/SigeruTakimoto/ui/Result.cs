@@ -79,19 +79,19 @@ public class Result : MonoBehaviour {
 
 
 		//rank分岐
-		if(totalScore < 500000){//C
+		if(totalScore < 10000000){//C
             rank.text = "C";
 		}
-		else if(totalScore >= 500000 && totalScore < 2000000){//B
+		else if(totalScore >= 10000000 && totalScore < 20000000){//B
             rank.text = "B";
 		}
-		else if(totalScore >= 2000000 && totalScore < 7000000){//A
+		else if(totalScore >= 20000000 && totalScore < 30000000){//A
             rank.text = "A";
 		}
-		else if(totalScore >= 7000000 && totalScore < 10000000){//S
+		else if(totalScore >= 30000000 && totalScore < 50000000){//S
             rank.text = "S";
 		}
-		else if(totalScore >= 10000000){//SS
+		else if(totalScore >= 50000000){//SS
             rank.text = "SS";
 		}
 
