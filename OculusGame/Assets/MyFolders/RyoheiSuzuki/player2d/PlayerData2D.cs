@@ -3,6 +3,7 @@
 // 2016/02/18 鈴木
 // class内容変更
 // 2016/03/04 梅村　ミサイル関連追加
+/// // 2016/03/6 梅村 必殺技
 using UnityEngine;
 using System.Collections;
 
@@ -20,5 +21,6 @@ public class PlayerData2D : PlayerData {
 	public Vector3 position;
 	public int lifes{ get; set; }
 	public int weaponLevel { get; set;}
-
+	public bool specialArts{ get; set;}//必殺技が使える状態か
+	
 }
